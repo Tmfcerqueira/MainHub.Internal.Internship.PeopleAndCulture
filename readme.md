@@ -8,11 +8,11 @@ In the folder 'infra' there are three pipelines: (Deleted to protect the company
 - commit-ci-pipeline.yaml
 - daily-analisys-pipeline.yaml
 
- ## ci-pipeline.yaml (Deleted to protect the company)
+ ## ci-pipeline.yaml 
  This pipeline is to be configured to be used on merge by pr on "relevant" branches.
 
- ## commit-ci-pipeline.yaml (Deleted to protect the company)
+ ## commit-ci-pipeline.yaml 
  This pipeline is to be configured to be used as a "Build Validation" policy on the target branch. It will be executed on a PR dependency.
 
- ## daily-analisys-pipeline.yaml (Deleted to protect the company)
+ ## daily-analisys-pipeline.yaml 
  Runs every day at midnight. It will do Snyk, Withsource and Depency-Check analisys.
