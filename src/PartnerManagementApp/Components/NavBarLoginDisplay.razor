@@ -1,0 +1,60 @@
+﻿@using Microsoft.Graph;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@inject IJSRuntime JSRuntime
+<AuthorizeView Policy="Supervisor">
+    <Authorized>
+
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    @if (_photo != "")
+                    {
+                        <img src="data:image/jpeg;base64, @_photo" />
+                    }
+                    else
+                    {
+                        <i class="fas fa-solid fa-user" style="color: #ffffff;"></i>
+                    }
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li class="profile-drop-bar">
+                        <a href="/profile">
+                            @if (!string.IsNullOrEmpty(_photo))
+                            {
+                                <img src="data:image/jpeg;base64, @_photo" />
+                            }
+                            else
+                            {
+                                <img src="/MHAssets/Images/noProfilePicture.png" />
+                            }
+                        </a>
+                        <div class="profile-info">
+                            <a href="/profile">@context.User.FindFirst("name")?.Value @context.User.FindFirst("email")?.Value</a><br />
+                            <a href="/profile"> @context.User.Identity?.Name</a>
+                        </div>
+                    </li>
+                    <li><hr /></li>
+                    <li><a class="dropdown-item d-flex justify-content-center align-items-center" href="/Profile"><i class="fas fa-user"></i> &nbsp @Localization["Profile"]</a></li>
+                    <li><hr /></li>
+                    <form action="MicrosoftIdentity/ACcount/SignOut">
+                        <div class="d-grid mb-10">
+                            <button type="submit" id="let_sign_out_submit" class="btn-primary">
+                                <span class="indicator-label"> @Localization["Sign Out"] </span>
+                            </button>
+                        </div>
+                    </form>
+                </ul>
+            </li>
+        </ul>
+
+    </Authorized>
+</AuthorizeView>
+@code
+{
+    async Task ToggleDropDown()
+    {
+        await JSRuntime.InvokeVoidAsync("showDropdown");
+    }
+}

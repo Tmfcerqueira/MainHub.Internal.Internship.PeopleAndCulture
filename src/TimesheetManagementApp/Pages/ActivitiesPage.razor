@@ -1,0 +1,17 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Shared.Private;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Components.ActivityComponent;
+@using Microsoft.Graph;
+@using Radzen;
+@using Radzen.Blazor;
+@using Microsoft.EntityFrameworkCore;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> _localizer;
+
+@page "/activities/{TimesheetGuid:guid}/{PersonGuid:guid}"
+@attribute [Authorize(Roles = "SkillHub.User")]
+@layout PrivateMainLayout
+
+<PageTitle>@_localizer["Activities"]</PageTitle>
+
+<ActivitiesTable TimesheetId="@TimesheetGuid" PersonId="@PersonGuid" TimesheetModel="@Timesheet" />

@@ -1,0 +1,11 @@
+﻿@inherits LayoutComponentBase
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity;
+<AuthorizeView>
+    <Authorized>
+<PrivateLayout/>
+    </Authorized>
+    <NotAuthorized>
+        <IndexComponent/>
+    </NotAuthorized>
+</AuthorizeView>

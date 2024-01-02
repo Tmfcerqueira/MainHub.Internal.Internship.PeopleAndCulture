@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AbsentManagement.Api.Proxy.Client" Version="1.0.0-20230505.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbsentManagement.DataBase\AbsentManagement.DataBase.csproj" />
+    <ProjectReference Include="..\AbsentManagement.Repository.Models\AbsentManagement.Repository.Models.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\PeopleManagement.DataBase\PeopleManagement.DataBase.csproj" />
+  </ItemGroup>
+
+</Project>

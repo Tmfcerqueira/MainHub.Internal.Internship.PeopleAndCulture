@@ -1,0 +1,175 @@
+﻿@using MainHub.Internal.PeopleAndCulture.App.Models
+@using MainHub.Internal.PeopleAndCulture.Common;
+@using Radzen.Blazor
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+@inject NavigationManager NavigationManager
+
+
+@if (_isLoading)
+{
+    <RadzenTemplateForm TItem="AbsenceModel">
+        <div class="m-2" style="width: 400px;">
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="col-4 text-center">
+                    <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+                    <p class="loading-text">@localizer["Loading..."]</p>
+                </div>
+                <div class="col-6 text-center">
+                    <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+                </div>
+            </div>
+        </div>
+    </RadzenTemplateForm>
+}
+else
+{
+    <RadzenTemplateForm TItem="AbsenceModel">
+        <div class="m-3">
+            <h3>@Absence.AbsenceType</h3>
+            <hr>
+            <div class="row" style="min-width: 450px;">
+                <div class="col-md-4">
+                    <strong>@localizer["StartDate"]:</strong>
+                </div>
+                <div class="col-md-8">
+                    @Absence.AbsenceStart.ToString("yyyy/MM/dd")
+                </div>
+            </div>
+            <div class="row" style="min-width: 450px;">
+                <div class="col-md-4">
+                    <strong>@localizer["EndDate"]:</strong>
+                </div>
+                <div class="col-md-8">
+                    @Absence.AbsenceEnd.ToString("yyyy/MM/dd")
+                </div>
+            </div>
+            <div class="row" style="min-width: 450px;">
+                <div class="col-md-4">
+                    <strong>@localizer["Status"]:</strong>
+                </div>
+                <div class="col-md-8">
+                    @switch (Absence.ApprovalStatus)
+                    {
+                        case Common.ApprovalStatus.Draft:
+                            <span class="text-warning">@localizer["Draft"]</span>
+                            break;
+                        case Common.ApprovalStatus.Approved:
+                            <span class="text-success">@localizer["Approved"]</span>
+                            break;
+                        case Common.ApprovalStatus.Rejected:
+                            <span class="text-danger">@localizer["Rejected"]</span>
+                            break;
+                        default:
+                            @Absence.ApprovalStatus
+                            break;
+                    }
+                </div>
+            </div>
+            @if (NavigationManager.Uri.Split('/')[3] != "approval")
+            {
+                <div class="row" style="min-width: 450px;">
+                    <div class="col-md-4">
+                        <strong>@localizer["ApprovedBy"]:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        @Absence.ApprovedBy.ToString()
+                    </div>
+                </div>
+
+                <div class="row" style="min-width: 450px;">
+                    <div class="col-md-4">
+                        <strong>@localizer["ApprovalDate"]:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        @if (Absence.ApprovalDate == new DateTime(2999, 12, 31, 23, 59, 59))
+                        {
+                            <text>@localizer["NotApproved"]</text>
+                        }
+                        else
+                        {
+                            @Absence.ApprovalDate.ToString("yyyy/MM/dd")
+                        }
+                    </div>
+                </div>
+            }
+            
+           
+            <div class="row" style="min-width: 450px;">
+                <div class="col-md-4">
+                    <strong>@localizer["Submission"]:</strong>
+                </div>
+                <div class="col-md-8">
+                    @if (Absence.SubmissionDate == new DateTime(2999, 12, 31, 23, 59, 59))
+                    {
+                        <text>@localizer["NotSubmitted"]</text>
+                    }
+                    else
+                    {
+                        @Absence.SubmissionDate.ToString("yyyy/MM/dd")
+                    }
+                </div>
+            </div>
+            <div class="row" style="min-width: 450px;">
+                <div class="col-md-4">
+                    <strong>@localizer["Schedule"]:</strong>
+                </div>
+                <div class="col-md-8">
+                    @Absence.Schedule
+                </div>
+            </div>
+
+            <AuthorizeView Context="user" Roles="SkillHub.Supervisor">
+                <Authorized>
+
+                    @if (NavigationManager.Uri.Split('/')[3] != "absences" && NavigationManager.Uri.Split('/')[3] != "people")
+                        {
+                        <div class="row" style="min-width: 450px;">
+                            <div class="col-md-4">
+                                <strong>@localizer["Person"]:</strong>
+                            </div>
+                            <div class="col-md-8">
+                                @Absence.PersonName
+                            </div>
+                        </div>
+                           
+                        }
+                </Authorized>
+            </AuthorizeView>
+
+            <div class="row" style="min-width: 450px;">
+                <div class="col-md-4">
+                    <strong>@localizer["Description"]:</strong>
+                </div>
+                <div class="col-md-8">
+                    <RadzenTextArea ReadOnly="true" Style="resize: none;width: -webkit-fill-available;" MaxLength="300" Value="@Absence.Description" />
+                </div>
+            </div>
+
+           
+            <div class="row justify-content mt-3">
+                <div class="col-md-8 text-right">
+                    @if (NavigationManager.Uri.Split('/')[3] == "people" && Absence.ApprovalStatus == ApprovalStatus.Approved)
+                    {
+                        <RadzenButton MouseEnter="@(args => ShowCancelTooltip(args) )" Style="margin-right: 10px; margin-bottom: 10px;" Shade="Radzen.Shade.Lighter" Text="@localizer["Cancel"]" ButtonStyle="Radzen.ButtonStyle.Danger" Click="CancelItem" />
+                    }
+
+                    @if (NavigationManager.Uri.Split('/')[3] == "people" && Absence.ApprovalStatus == ApprovalStatus.Submitted)
+                    {
+                        <RadzenButton MouseEnter="@(args => ShowRejectTooltip(args) )"  Style="margin-right: 10px; margin-bottom: 10px" Shade="Radzen.Shade.Lighter" ButtonStyle="Radzen.ButtonStyle.Danger" Click="RejectItem">
+                            <div class="justify-content-center align-items-center">
+                                <i class="fas fa-times"></i>
+                            </div> 
+                              </RadzenButton>
+                    }
+
+                        <RadzenButton MouseEnter="@(args => ShowTooltip(args))" Shade="Radzen.Shade.Lighter" Text="🕝" ButtonStyle="Radzen.ButtonStyle.Info" Click="OpenHistoryDialog" />
+                </div>
+            </div>
+
+            
+
+        </div>
+    </RadzenTemplateForm>
+}

@@ -1,0 +1,14 @@
+﻿@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Shared.Private
+@using Microsoft.AspNetCore.Identity;
+
+@inherits LayoutComponentBase
+
+<PageTitle>SkillHub-Partners</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <LoginDisplay />
+    </Authorized>
+    <NotAuthorized>
+        <MainHub.Internal.PeopleAndCulture.PartnerManagement.Shared.Public.Index />
+    </NotAuthorized>
+</AuthorizeView>

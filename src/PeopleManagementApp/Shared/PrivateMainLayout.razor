@@ -1,0 +1,73 @@
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Components;
+@using System.Runtime.CompilerServices;
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@inherits LayoutComponentBase;
+<PageTitle> SkillHub - PeopleManagement </PageTitle>
+
+<AuthorizeView Policy="Supervisor">
+    <Authorized>
+        <nav class="sb-topnav navbar navbar-expand -navbar-dark bg-dark text-light">
+           <Header/>
+        </nav>
+        
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading fs-5" style="margin-top:-12%;">
+                                People+
+                            </div>
+                            <NavMenu />
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <article class="content px-4">
+                        @Body
+                    </article>
+                    <!--<NavBarToggle />-->
+                </main>
+                <!-- Sidebar Toggle-->
+                <Footer />
+            </div>
+        </div>
+        <RadzenDialog />
+        <RadzenTooltip />
+    </Authorized>
+    <NotAuthorized> 
+        <AccessDenied />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+    [Inject]
+    private ProtectedSessionStorage ProtectedSessionStorage { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        bool logged = false;
+
+        var storageValue = await ProtectedSessionStorage.GetAsync<bool>("logged");
+
+        if (storageValue.Value)
+        {
+            var setLogged = await ProtectedSessionStorage.GetAsync<bool>("logged");
+            logged = setLogged.Value;
+        }
+
+
+        if (firstRender && logged == false)
+        {
+            NavigationManager.NavigateTo("/Home");
+            await ProtectedSessionStorage.SetAsync("logged", true);
+        }
+    }
+}

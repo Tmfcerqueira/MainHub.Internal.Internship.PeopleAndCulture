@@ -1,0 +1,58 @@
+﻿@using System.Security.Claims;
+@inherits LayoutComponentBase
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Components;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Pages
+@using Microsoft.AspNetCore.Identity;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+<AuthorizeView Policy="Supervisor">
+    <Authorized>
+        <nav class="sb-topnav navbar navbar-expand -navbar-dark bg-dark text-light">
+            <NavBarBrand />
+            ﻿<div class="d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0" />
+            <NavBarLoginDisplay />
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading fs-5" style="margin-top:-12%;">
+                                @Localization["Partners"]+
+                            </div>
+                            <SideNavMenu />
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <article class="content px-4">
+                        @Body
+                        <div class="d-flex justify-content-center">
+                            <RadzenDialog />
+                            <RadzenTooltip />
+                        </div>
+                    </article>
+                </main>
+                <FooterArea />
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized> 
+        <OnDenying_Page />
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = null!;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            NavigationManager.NavigateTo("/ShowPartnerData");
+        }
+    }
+}

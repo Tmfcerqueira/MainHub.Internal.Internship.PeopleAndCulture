@@ -1,0 +1,223 @@
+﻿@page "/Collaborators/History/{PeopleGuid:guid}"
+@using global::App.Models;
+@using global::App.Repository;
+@using global::PeopleManagement.Api.Proxy.Client.Api;
+@inject PeopleAppRepository peopleAppRepository
+@inject ICollaboratorApi collaboratorProxy
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject GraphServiceClient _graphServiceClient
+@inject MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler
+@inject DialogService dialogService
+@inject IStringLocalizer<Resource> Loc
+@layout PrivateMainLayout
+@attribute [Authorize(Policy = "Supervisor")]
+
+<h3>@Loc["CollaboratorHistoryTitle"]</h3>
+
+<RadzenDataGrid AllowPaging="true"
+                LoadData="@LoadData"
+                AllowFiltering="true"
+                AllowColumnResize="true"
+                AllowAlternatingRows="false"
+                AllowSorting="true"
+                PagerHorizontalAlign="HorizontalAlign.Justify"
+                ShowPagingSummary="true"
+                Data="@peopleHistory"
+                TItem="PeopleHistory"
+                LogicalFilterOperator="LogicalFilterOperator.Or"
+                Count="@Count"
+                PageSize="@PageSize"
+                IsLoading="@isLoading"
+                ColumnWidth="200px">
+
+    <Columns>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["Name"]">
+            <Template Context="history">
+                <RadzenText Style="text-align:left; " TextStyle="TextStyle.Body1"><b>@(history.FirstName + " " + history.LastName) </b></RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["Email"]">
+            <Template Context="history">
+                <RadzenText Style="text-align:left; " TextStyle="TextStyle.Body1">@history.Email </RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["BirthDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.BirthDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["Adress"]" Width="400px">
+            <Template Context="history">
+                <RadzenText Style="text-align:left; " TextStyle="TextStyle.Body1">@adress</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["TaxNumber"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.TaxNumber</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+       <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["SSNumber"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.SSNumber</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["CCNumber"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.CCNumber</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["CCValid"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.CCVal.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["CivilState"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.CivilState</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["DependentNum"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.DependentNum</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["EntryDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.EntryDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["ExitDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.ExitDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["CreationDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.CreationDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["CreatedBy"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.CreatedBy</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["ChangeDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.ChangeDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["ChangedBy"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.ChangedBy</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["Status"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.Status</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["DeletedDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.DeletedDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["DeletedBy"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.DeletedBy</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["IsDeleted"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.IsDeleted</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["Action"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.Action</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["ActionDate"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.ActionDate.ToString("dd-MM-yyyy")</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="PeopleHistory" Title="@Loc["UserID"]" Width="160px">
+            <Template Context="history">
+                <RadzenText TextStyle="TextStyle.Body2">@history.UserID</RadzenText>
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+
+@code {
+    private List<PeopleHistory> peopleHistory;
+    private List<PeopleHistory> peopleHistoryCount;
+    private PeopleModel collaborator;
+    public string adress;
+    bool isLoading = false;
+    private int PageSize { get; set; } = 5;
+    private int Count { get; set; }
+    bool isEditMode = false;
+
+    [Parameter]
+    public Guid PeopleGuid { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            LoadDataArgs args = new LoadDataArgs()
+                {
+                    Filter = "",
+                    Skip = 0,
+                    OrderBy = "",
+                    Top = PageSize,
+                };
+            collaborator = await peopleAppRepository.GetOneCollaborator(PeopleGuid);
+            PeopleGuid = collaborator.PeopleGUID;
+            await LoadData(args);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+    async Task LoadData(LoadDataArgs args)
+    {
+        try
+        {
+            isLoading = true;
+            var skip = args.Skip ?? 0;
+            var page = (int)(skip / PageSize) + 1;
+            var filter = args.Filter;
+
+            peopleHistory = await peopleAppRepository.GetCollaboratorHistory(PeopleGuid, page, PageSize);
+            if (peopleHistory == null)
+            {
+                isLoading = false;
+                await dialogService.Alert($"{collaborator.FirstName} {Loc["NoHistory"]}", $"{Loc["NoHistoryTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                NavigationManager.NavigateTo($"Collabrators/{collaborator.PeopleGUID}");
+            }
+            else
+            {
+                peopleHistoryCount = await peopleAppRepository.GetCollaboratorHistory(PeopleGuid, 1, 500);
+                Count = peopleHistoryCount.Count;
+                adress = string.Join(", ", new List<string> { collaborator.Adress, collaborator.Postal, collaborator.Locality, collaborator.Country }.Where(value => !string.IsNullOrEmpty(value)));
+                isLoading = false;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            isLoading = false;
+            await dialogService.Alert($"{collaborator.FirstName} {Loc["NoHistory"]}", $"{Loc["NoHistoryTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            NavigationManager.NavigateTo($"Collaborators/{collaborator.PeopleGUID}");
+            Console.WriteLine(ex);
+        }
+
+    }
+
+}

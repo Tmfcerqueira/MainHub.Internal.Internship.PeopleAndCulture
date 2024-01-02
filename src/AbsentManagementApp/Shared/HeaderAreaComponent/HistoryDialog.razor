@@ -1,0 +1,40 @@
+﻿@using MainHub.Internal.PeopleAndCulture.App.Models;
+@attribute [Authorize]
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+
+<div class="container">
+    <ul class="list-group">
+        @if (_absenceHistory.absenceHistory != null && _absenceHistory.absenceHistory.Any())
+        {
+            <RadzenDataGrid
+                        AllowPaging="true"
+                        LoadData="@LoadHistoryData"
+                        AllowColumnResize="true"
+                        AllowAlternatingRows="false"
+                        AllowSorting="true"
+                        PagerHorizontalAlign="HorizontalAlign.Justify"
+                        ShowPagingSummary="true"
+                        Data="@_absenceHistory.absenceHistory"
+                        TItem="AbsenceHistoryModel"
+                        Count=@Count
+                        ColumnWidth="300px"
+                        PageSize=@PageSize
+                        IsLoading="@_tableIsLoading">
+                <Columns>
+                    <RadzenDataGridColumn TItem="AbsenceHistoryModel" Property="ActionText" Title="@localizer["Action"]" Width="50px" Frozen="true" Filterable="false" />
+                    <RadzenDataGridColumn TItem="AbsenceHistoryModel" Property="AbsenceType" Title="@localizer["AbsenceType"]" Width="50px" Filterable="false" />
+                    <RadzenDataGridColumn TItem="AbsenceHistoryModel" Property="ActionDate" FormatString="{0:yyyy-MM-dd}" Title="@localizer["ActionDate"]" Width="50px" Filterable="false" />
+                    <RadzenDataGridColumn TItem="AbsenceHistoryModel" Property="ActionBy" Title="@localizer["ActionBy"]" Width="50px" Filterable="false" />
+                    <RadzenDataGridColumn TItem="AbsenceHistoryModel" Property="PersonName" Title="@localizer["AbsenceOf"]" Width="50px" Filterable="false" />
+                    <RadzenDataGridColumn TItem="AbsenceHistoryModel" Property="ApprovalStatus" FormatString="{0:d}" Title="@localizer["Status"]" Width="50px" Filterable="false" />
+                </Columns>
+            </RadzenDataGrid>
+        }
+        else
+        {
+            <li style="list-style-type: none;" class="list-group-item text-center">@localizer["NoRecentActions"]</li>
+        }
+    </ul>
+</div>

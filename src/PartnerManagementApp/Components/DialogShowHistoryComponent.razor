@@ -1,0 +1,83 @@
+﻿@using global::PartnerManagement.App.Models;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@attribute [Authorize(Policy = "Supervisor")]
+
+
+<div class="container">
+    <ul class="list-group">
+
+        @if (Picker == 0)
+        {
+            @if (_partnerHistoryModel_Data.partners != null && _partnerHistoryModel_Data.partners.Any())
+            {
+                <RadzenDataGrid AllowPaging="true"
+                        LoadData="@LoadData"
+                        AllowColumnResize="true"
+                        AllowAlternatingRows="false"
+                        AllowSorting="false"
+                        PagerHorizontalAlign="HorizontalAlign.Justify"
+                        ShowPagingSummary="true"
+                        Data="@_partnerHistoryModel_Data.partners"
+                        TItem="PartnerHistoryModel"
+                        Count=@Count
+                        ColumnWidth="300px"
+                        PageSize=@_partnerApiPagination.PageSize
+                        IsLoading="@IsLoading"
+                        RowRender="@RenderRows">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="Name" Title="@Localization["PartnersListName"]" Width="100px" Frozen="true" Filterable="false" />
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="TaxNumber" Title="@Localization["TaxNumber"]" Width="100px" Frozen="true" Filterable="false" />
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="Address" Title="@Localization["Address"]" Width="100px" Filterable="false" />
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="Country" Title="@Localization["Country"]" Width="100px" Filterable="false" />
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="ServiceDescription" Title="@Localization["PartnersListServiceDescription"]" Width="200px" Filterable="false" />
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="Action" Title="@Localization["Action"]" Width="100px" Filterable="false" />
+                        <RadzenDataGridColumn TItem="PartnerHistoryModel" Property="ActionDate" FormatString="{0:d}" Title="@Localization["ActionDate"]" Width="100px" Filterable="false" />
+                    </Columns>
+                </RadzenDataGrid>
+            }
+            else
+            {
+                <li style="list-style-type: none;" class="list-group-item text-center">@Localization["NoData"]</li>
+            }
+        }
+        else
+        {
+            @if (_contactHistoryModel_Data.contacts != null && _contactHistoryModel_Data.contacts.Any())
+            {
+                <RadzenDataGrid 
+                    AllowPaging="true"
+                        LoadData="@LoadData"
+                        AllowColumnResize="true"
+                        AllowAlternatingRows="false"
+                        AllowSorting="false"
+                        PagerHorizontalAlign="HorizontalAlign.Justify"
+                        ShowPagingSummary="true"
+                        Data="@_contactHistoryModel_Data.contacts"
+                        TItem="ContactHistoryModel"
+                        Count=@Count
+                        ColumnWidth="300px"
+                        PageSize=@_partnerApiPagination.PageSize
+                        IsLoading="@IsLoading"
+                        RowRender="@RenderRows">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="Name" Title="@Localization["PartnersListName"]" Width="120px" Frozen="true" />
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="Email" Title="@Localization["Email"]" Width="160px" Frozen="true" />
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="Role" Title="@Localization["Role"]" Width="90px" />
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="PhoneNumber" Title="@Localization["PhoneNumber"]" Width="100px" />
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="Department" Title="@Localization["Department"]" Width="110px" />
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="Action" Title="@Localization["Action"]" Width="100px" Filterable="true" />
+                        <RadzenDataGridColumn TItem="ContactHistoryModel" Property="ActionDate" FormatString="{0:d}" Title="@Localization["ActionDate"]" Width="100px" Filterable="true" />
+                    </Columns>
+                </RadzenDataGrid>
+            }
+            else
+            {
+                <li style="list-style-type: none;" class="list-group-item text-center">@Localization["NoData"]</li>
+            }
+        }
+        
+    </ul>
+</div>
+

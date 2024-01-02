@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Acesso Negado</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Acção</value>
+  </data>
+  <data name="ActionDate" xml:space="preserve">
+    <value>Data de acções</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>Acção falhou</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Morada</value>
+  </data>
+  <data name="AddressInformation" xml:space="preserve">
+    <value>Informações sobre a Morada</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Alerta</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>e</value>
+  </data>
+  <data name="ApproveDeleteContact" xml:space="preserve">
+    <value>Contacto deletado com sucesso!</value>
+  </data>
+  <data name="BackTtp" xml:space="preserve">
+    <value>Redireciona para pagina anterior</value>
+  </data>
+  <data name="ButtonSubmit" xml:space="preserve">
+    <value>Submeter</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="CancelSearch" xml:space="preserve">
+    <value>Cancelar a procura de nomes</value>
+  </data>
+  <data name="ChangeAccount" xml:space="preserve">
+    <value>Mudar de Conta</value>
+  </data>
+  <data name="ChangedDate" xml:space="preserve">
+    <value>Data de Alteração</value>
+  </data>
+  <data name="CloseTtp" xml:space="preserve">
+    <value>Fecha a página</value>
+  </data>
+  <data name="ContactApproved" xml:space="preserve">
+    <value>Contacto editado com sucesso!</value>
+  </data>
+  <data name="ContactCreation" xml:space="preserve">
+    <value>Criação do Contacto</value>
+  </data>
+  <data name="ContactDecide" xml:space="preserve">
+    <value>Deseja prosseguir?</value>
+  </data>
+  <data name="ContactDelete" xml:space="preserve">
+    <value>Fará com que o contacto pertencente ao parceiro do contexto atual seja apagado!</value>
+  </data>
+  <data name="ContactDetail" xml:space="preserve">
+    <value>Detalhes do Contacto</value>
+  </data>
+  <data name="ContactError" xml:space="preserve">
+    <value>Um problema ocorrreu enquanto o contacto era criado!</value>
+  </data>
+  <data name="ContactHistory" xml:space="preserve">
+    <value>Histórico do Contacto</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Informações do Contacto</value>
+  </data>
+  <data name="ContactListSearch" xml:space="preserve">
+    <value>Pesquise pelo nome do Contacto</value>
+  </data>
+  <data name="ContactMenu" xml:space="preserve">
+    <value>Menu do Contacto</value>
+  </data>
+  <data name="ContactNotApproved" xml:space="preserve">
+    <value>Ocorreu um problema ao editar o contacto</value>
+  </data>
+  <data name="ContactRedirectTtp" xml:space="preserve">
+    <value>Redireciona para o formulário de criação de contacto</value>
+  </data>
+  <data name="ContactRequest" xml:space="preserve">
+    <value>Contacto criado com sucesso!</value>
+  </data>
+  <data name="ContactsList" xml:space="preserve">
+    <value>Lista de Contactos</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="CreateContact" xml:space="preserve">
+    <value>Criar Contacto</value>
+  </data>
+  <data name="CreatePartner" xml:space="preserve">
+    <value>Criar Parceiro</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Data de Criação</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Deletar</value>
+  </data>
+  <data name="DeleteTtp" xml:space="preserve">
+    <value>Apaga todo o conteúdo pertencente ao parceiro e ele mesmo </value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Departamento</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="EditTtp" xml:space="preserve">
+    <value>Altera para o modo de edição</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EnterAddress" xml:space="preserve">
+    <value>Porfavor insire uma morada</value>
+  </data>
+  <data name="EnterCountry" xml:space="preserve">
+    <value>Porfavor insire um país</value>
+  </data>
+  <data name="EnterDepartment" xml:space="preserve">
+    <value>Porfavor insire um departamento</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Porfavor insire um email</value>
+  </data>
+  <data name="EnterLocality" xml:space="preserve">
+    <value>Porfavor insire uma localidade</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Porfavor insire um Nome.</value>
+  </data>
+  <data name="EnterObservation" xml:space="preserve">
+    <value>Porfavor insire uma observação</value>
+  </data>
+  <data name="EnterObservationn" xml:space="preserve">
+    <value>Porfavor insire uma observação</value>
+  </data>
+  <data name="EnterPhoneNum" xml:space="preserve">
+    <value>Porfavor insire um numero de telemovel</value>
+  </data>
+  <data name="EnterPhoneNumber" xml:space="preserve">
+    <value>Porfavor insire um numero de telemovel</value>
+  </data>
+  <data name="EnterPostalCode" xml:space="preserve">
+    <value>Porfavor insire um codigo postal</value>
+  </data>
+  <data name="EnterRole" xml:space="preserve">
+    <value>Porfavor insire uma role</value>
+  </data>
+  <data name="EnterService" xml:space="preserve">
+    <value>Porfavor insire uma descrição do serviço</value>
+  </data>
+  <data name="EnterTaxNumber" xml:space="preserve">
+    <value>Porfavor insire um Numero de Contribuinte</value>
+  </data>
+  <data name="EraseAllDataPartner" xml:space="preserve">
+    <value>Isto fará com que toda a data pertencida ao Parceiro escolhido seja eliminada, Deseja prosseguir?</value>
+  </data>
+  <data name="ErasePartner" xml:space="preserve">
+    <value>Isto fará com que o Parceiro escolhido seja eliminado, Deseja prosseguir?</value>
+  </data>
+  <data name="ErrorDeleteContact" xml:space="preserve">
+    <value>Não foi possivel deletar este contacto!</value>
+  </data>
+  <data name="HelpTtp" xml:space="preserve">
+    <value>Botão do relógio permite mostrar o histórico! </value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Histórico</value>
+  </data>
+  <data name="HistoryTtp" xml:space="preserve">
+    <value>Permite ver o historico</value>
+  </data>
+  <data name="InsertContact" xml:space="preserve">
+    <value>Insira informação, para assim o contacto poder ser editado!</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Email inválido</value>
+  </data>
+  <data name="InvalidPhoneNumber" xml:space="preserve">
+    <value>Numero de telemovel inválido</value>
+  </data>
+  <data name="InvalidTaxNumber" xml:space="preserve">
+    <value>Numero de contribuinte inválido</value>
+  </data>
+  <data name="LoadingContactInfo" xml:space="preserve">
+    <value>A carregar Contactos</value>
+  </data>
+  <data name="LoadingPartner" xml:space="preserve">
+    <value>A carregar Parceiro</value>
+  </data>
+  <data name="LoadingPartnerInfo" xml:space="preserve">
+    <value>A carregar Informações do Parceiro</value>
+  </data>
+  <data name="LoadingProfile" xml:space="preserve">
+    <value>A carregar dados do Parceiro</value>
+  </data>
+  <data name="Locality" xml:space="preserve">
+    <value>Localidade</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>estão a faltar,</value>
+  </data>
+  <data name="NoAccess" xml:space="preserve">
+    <value>Não tem acesso a este conteúdo</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Não existe acções recentes</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>Não existe qualquer tipo de registos</value>
+  </data>
+  <data name="NoInfo" xml:space="preserve">
+    <value>Não há informação</value>
+  </data>
+  <data name="NoPartnerInfo" xml:space="preserve">
+    <value>Não existe qualquer informação sobre este parceiro</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>User não autenticado</value>
+  </data>
+  <data name="Observation" xml:space="preserve">
+    <value>Observações</value>
+  </data>
+  <data name="Partner" xml:space="preserve">
+    <value>Parceiro</value>
+  </data>
+  <data name="PartnerCreation" xml:space="preserve">
+    <value>Criação de Parceiro</value>
+  </data>
+  <data name="PartnerDates" xml:space="preserve">
+    <value>Datas do Parceiro</value>
+  </data>
+  <data name="PartnerEditted" xml:space="preserve">
+    <value>Parceiro editado com sucesso</value>
+  </data>
+  <data name="PartnerError" xml:space="preserve">
+    <value>Um problema ocorreu enquanto o parceiro era criado!</value>
+  </data>
+  <data name="PartnerHistory" xml:space="preserve">
+    <value>Histórico do Parceiro</value>
+  </data>
+  <data name="PartnerInformation" xml:space="preserve">
+    <value>Informação do Parceiro</value>
+  </data>
+  <data name="PartnerMenu" xml:space="preserve">
+    <value>Menu Parceiro</value>
+  </data>
+  <data name="PartnerRequest" xml:space="preserve">
+    <value>Parceiro criado com sucesso!</value>
+  </data>
+  <data name="Partners" xml:space="preserve">
+    <value>Parceiros</value>
+  </data>
+  <data name="PartnersDescription" xml:space="preserve">
+    <value>Descrições do Parceiro</value>
+  </data>
+  <data name="PartnersList" xml:space="preserve">
+    <value>Lista de Parceiros</value>
+  </data>
+  <data name="PartnersListAddress" xml:space="preserve">
+    <value>Morada</value>
+  </data>
+  <data name="PartnersListCountry" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="PartnersListName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="PartnersListSearch" xml:space="preserve">
+    <value>Procure por um nome de parceiro</value>
+  </data>
+  <data name="PartnersListServiceDescription" xml:space="preserve">
+    <value>Descrição de Serviço</value>
+  </data>
+  <data name="PartnerSuccess" xml:space="preserve">
+    <value>Parceiro criado com sucesso</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Número de Telefone</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>Porfavor insire data.</value>
+  </data>
+  <data name="PleaseInsert" xml:space="preserve">
+    <value>Porfavor insire informação para editar o parceiro!</value>
+  </data>
+  <data name="PleaseInsertRequestContact" xml:space="preserve">
+    <value>Porfavor, insire dados para o contacto ser criado!</value>
+  </data>
+  <data name="PleaseInsertRequestPartner" xml:space="preserve">
+    <value>Porfavor, insire dados para o parceiro ser criado!</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Código Postal</value>
+  </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>Mantido por Mainhub</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="ProfileInformation" xml:space="preserve">
+    <value>Informação do Perfil</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="SaveTtp" xml:space="preserve">
+    <value>Guarda todo o conteúdo </value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Procurar</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Iniciar Sessão</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Terminar Sessão</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Morada</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submeter</value>
+  </data>
+  <data name="Surname" xml:space="preserve">
+    <value>Apelido</value>
+  </data>
+  <data name="TaxNumber" xml:space="preserve">
+    <value>NIF</value>
+  </data>
+  <data name="ToolTipPartnerList" xml:space="preserve">
+    <value>Clique duas vezes para visualizar as informações do Parceiro</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Porfavor tente mais tarde</value>
+  </data>
+  <data name="TtpContactList" xml:space="preserve">
+    <value>Clique duas vezes para visualizar as informações do Contacto</value>
+  </data>
+  <data name="UserGuid" xml:space="preserve">
+    <value>Guid do Utilizador</value>
+  </data>
+  <data name="UserPrincipalName" xml:space="preserve">
+    <value>Primeiro Nome</value>
+  </data>
+  <data name="UserProfile" xml:space="preserve">
+    <value>Perfil do Utilizador</value>
+  </data>
+  <data name="ViewContacts" xml:space="preserve">
+    <value>Ver Contactos</value>
+  </data>
+  <data name="ViewContactTtp" xml:space="preserve">
+    <value>Permite ver todos os contactos deste parceiro</value>
+  </data>
+</root>

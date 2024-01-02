@@ -1,0 +1,10 @@
+﻿@inherits LayoutComponentBase
+
+<AuthorizeView>
+    <Authorized>
+        <PrivateMainLayout></PrivateMainLayout>
+    </Authorized>
+    <NotAuthorized>
+        <PublicMainLayout></PublicMainLayout>
+    </NotAuthorized>
+</AuthorizeView>

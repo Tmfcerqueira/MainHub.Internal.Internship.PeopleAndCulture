@@ -1,0 +1,42 @@
+﻿@page "/adminusercalendar"
+@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using PeopleAndCulture.App.Repository
+@using Common;
+@using System.Globalization
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+
+@attribute [Authorize(Roles = "SkillHub.Supervisor")]
+<PageTitle>@localizer["Calendar"]</PageTitle>
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">@localizer["Loading..."]</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+    <RadzenScheduler @ref=@_scheduler SlotRender=@OnSlotRender Style="height: calc(100vh - 200px);z-index:0;position: relative" TItem="AbsenceModel"
+                 Data=@_absences.absences StartProperty="AbsenceStart" EndProperty="AbsenceEnd"
+                 TextProperty="AbsenceType" SelectedIndex="3" LoadData="@LoadData"
+                 AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender Culture=@_culture>
+                 
+        <RadzenWeekView />
+        <RadzenMonthView />
+        <RadzenYearTimelineView />
+        <RadzenYearPlannerView />
+        <div class="d-flex justify-content-end">
+            <span> 🟢@localizer["Approved"] </span>
+            <span> 🔴@localizer["Rejected"] </span>
+            <span> 🔵@localizer["Submitted"] </span>
+        </div>
+    </RadzenScheduler>
+}

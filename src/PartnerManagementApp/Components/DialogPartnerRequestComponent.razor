@@ -1,0 +1,71 @@
+﻿@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Shared.Private;
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop;
+@using global::PartnerManagement.App.Models;
+@using global::PartnerManagement.App.Repository;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@attribute [Authorize(Policy = "Supervisor")]
+
+<RadzenCard Class="rz-my-5 rz-mx-auto" Style="max-height: 620px !important; overflow:hidden; height:485px; margin-top:-1% !important;">
+    <RadzenStack JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-p-2">
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light" id="sumething" Style="margin-top:0.6%;margin-bottom:-1%;">@Localization["PartnerInformation"]</RadzenText>
+            </RadzenColumn>
+            <RadzenColumn>
+                <RadzenText TextStyle="TextStyle.H6" Style="margin-bottom:-1%;" class="rz-color-primary-light" id="sumething">@Localization["AddressInformation"]</RadzenText>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PartnersListName"]</RadzenText>
+                <RadzenTextBox Style="width:260px;" Placeholder="Ex: John Doe" @bind-Value="_partnerModelItem.Name" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["TaxNumber"]</RadzenText>
+                <RadzenTextBox Style="width:260px;" Placeholder="Ex: 251291634" @bind-Value="_partnerModelItem.TaxNumber" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Address"]</RadzenText>
+                <RadzenTextBox Style="width:556px;" Placeholder="Ex: Avenue Real Estate" @bind-Value="_partnerModelItem.Address" />
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PhoneNumber"]</RadzenText>
+                <RadzenTextBox Style="width:260px;" Placeholder="Ex: +351-923-123-123" @bind-Value="_partnerModelItem.PhoneNumber" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PostalCode"]</RadzenText>
+                <RadzenTextBox Style="width:260px;" Placeholder="Ex: 1600-251" @bind-Value="_partnerModelItem.PostalCode" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Locality"]</RadzenText>
+                <RadzenTextBox Style="width:260px;" Placeholder="Ex: Lisbon" @bind-Value="_partnerModelItem.Locality" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Country"]</RadzenText>
+                <RadzenTextBox Style="width:260px;" Placeholder="Ex: Portugal" @bind-Value="_partnerModelItem.Country" />
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PartnersListServiceDescription"]</RadzenText>
+                <RadzenTextArea Style="width:556px;height:170px;" Placeholder="Ex: We are a technology consulting firm specializing in software development" @bind-Value="_partnerModelItem.ServiceDescription" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Observation"]</RadzenText>
+                <RadzenTextArea Style="width:556px;height:170px;" Placeholder="Ex: Very Good" @bind-Value="_partnerModelItem.Observation" />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+    <RadzenRow JustifyContent="JustifyContent.End" Gap="0">
+                <RadzenButton Variant="Variant.Text" Text="@Localization["Cancel"]" Click="() => Cancel()" />
+        <RadzenButton Variant="Variant.Text" Text="@Localization["Submit"]" Click="() => HandleValidSubmit()" />
+    </RadzenRow>
+</RadzenCard>
+
+
+

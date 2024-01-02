@@ -1,0 +1,67 @@
+﻿@page "/DialogCardPage/{PGuid:guid}"
+@using Radzen;
+@using Radzen.Blazor;
+@using Radzen.Blazor.Rendering;
+@using PartnerManagement.Shared.Private;
+@using global::PartnerManagement.App.Models;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@layout PrivateLayout
+@attribute [Authorize(Policy = "Supervisor")]
+
+@if (IsLoading)
+{
+    <p>@Localization["LoadingContactInfo"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <h8>
+        <a href="ShowPartnerData" style="font-size:14px" @onclick="RedirectToPartners">@Localization["PartnersList"]</a>
+        »
+        <a href="ShowPartnerData" style="font-size:14px" @onclick="RedirectToPartnerMenu">@Partner.Name</a>
+        »
+        <a href="ShowPartnerData" style="color:#6e40d2;font-size:14px" @onclick="RedirectToContacts">@Localization["ContactsList"]</a>
+    </h8>
+    <RadzenRow Style="margin-top:3%; margin-left:2%;">
+        <RadzenIcon Icon="help_outline" Style="padding-top:1%;" MouseEnter="@(args => ShowTooltip(args) )" />
+        <RadzenTextBox Style="width:350px;" Placeholder="@Localization["ContactListSearch"]" @bind-Value="FilterSearch" class="w-35" />
+        @if (IsSearching)
+        {
+            <RadzenButton Variant="Variant.Text" Text="❌" class="rz-text-secondary-color" Click="ClearSearch"></RadzenButton>
+        }
+        else
+        {
+            <RadzenButton Variant="Variant.Text" Text="🔍" class="rz-text-secondary-color" Click="OnChangeSearch"></RadzenButton>
+        }
+        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Style="padding-top:1%;" Click="@(args => RedirectContactRequest())"><i class="fa-solid fa-user-plus"></i></RadzenButton>
+    </RadzenRow>
+    <RadzenDataGrid @ref="Grid"
+    IsLoading="@IsLoading"
+    Count="@Count"
+    PageSize="_partnerApiPagination.PageSize"
+    Data="@_contactModel_Data.contacts"
+    AllowColumnResize="true"
+    LoadData="@LoadData"
+    AllowSorting="false"
+    AllowFiltering="false"
+    AllowPaging="true"
+    ShowPagingSummary="true"
+    PagerHorizontalAlign="HorizontalAlign.Center"
+    TItem="ContactModel"
+    ColumnWidth="auto"
+    Style="max-width: 95%;margin-top:1.5%;margin-left:2%;"
+    RowDoubleClick="(args) => OnDoubleClick(args)">
+        <Columns>
+            <RadzenDataGridColumn TItem="ContactModel" Property="Name" Title="@Localization["PartnersListName"]" Width="100px" Frozen="true" />
+            <RadzenDataGridColumn TItem="ContactModel" Property="Email" Title="@Localization["Email"]" Width="160px" Frozen="true" />
+            <RadzenDataGridColumn TItem="ContactModel" Property="PhoneNumber" Title="@Localization["PhoneNumber"]" Width="100px" Frozen="true" />
+            <RadzenDataGridColumn TItem="ContactModel" Property="Department" Title="@Localization["Department"]" Width="110px" Frozen="true" />
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

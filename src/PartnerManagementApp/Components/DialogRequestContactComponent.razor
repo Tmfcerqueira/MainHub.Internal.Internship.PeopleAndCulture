@@ -1,0 +1,61 @@
+﻿@using global::PartnerManagement.App.Models;
+@using global::PartnerManagement.App.Repository;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@attribute [Authorize(Policy = "Supervisor")]
+
+<RadzenCard Class="rz-my-5 rz-mx-auto" Style="max-height: 290px !important; overflow:hidden; height:320pxx !important;margin-top:-0.7% !important;">
+    <RadzenStack JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-p-2">
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light" id="sumething" Style="margin-top:-1%;margin-bottom:-5%;">@Localization["ContactInformation"]</RadzenText>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PartnersListName"]</RadzenText>
+                <RadzenTextBox Placeholder="Ex: John Doe" @bind-Value="ContactModel.Name" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Email"]</RadzenText>
+                <RadzenTextBox Placeholder="example@hotmail.com" @bind-Value="ContactModel.Email" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PhoneNumber"]</RadzenText>
+                <RadzenTextBox MaxLength="30" Placeholder="Ex: +351-923-123-123" @bind-Value="ContactModel.PhoneNumber" />
+            </RadzenColumn>
+        </RadzenRow>
+         <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light" id="sumething" Style="margin-top:-1%;margin-bottom:-4%;">@Localization["ContactDetail"]</RadzenText>
+            </RadzenColumn>
+            </RadzenRow>
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="12">
+                <RadzenRow RowGap="0">
+                    <RadzenColumn SizeSM="3">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Department"]</RadzenText>
+                        <RadzenTextBox Placeholder="Ex: Financial" @bind-Value="ContactModel.Department" />
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="3">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Role"]</RadzenText>
+                        <RadzenTextBox Placeholder="Ex: Internship" @bind-Value="ContactModel.Role" />
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="3">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Observation"]</RadzenText>
+                        <RadzenTextArea Style="width:556px;height:70px;" Placeholder="Ex: Very Good" @bind-Value="ContactModel.Observation" /> 
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0">
+        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Text="@Localization["Cancel"]" Click="() => Cancel()" />
+        <RadzenButton ButtonType="ButtonType.Submit" Variant="Variant.Text" Text="@Localization["Submit"]" Click="() => HandleValidSubmit()" />
+    </RadzenStack>
+</RadzenCard>
+
+@code {
+
+}

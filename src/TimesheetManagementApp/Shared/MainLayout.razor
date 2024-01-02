@@ -1,0 +1,13 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Pages
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Shared.Private
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Shared.Public
+@inherits LayoutComponentBase
+
+<AuthorizeView>
+    <Authorized>
+        <PrivateMainLayout/>
+    </Authorized>
+    <NotAuthorized>
+        <Index/>
+    </NotAuthorized>
+</AuthorizeView>

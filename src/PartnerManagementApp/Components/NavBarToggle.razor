@@ -1,0 +1,15 @@
+﻿@inject IJSRuntime JSRuntime
+@attribute [Authorize(Policy = "Supervisor")]
+
+<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" @onclick="ToggleSidebarAsync" style="margin-top:15%; color:black;">
+    <i id="sidebarToggleIcon" class="fas fa-arrow-left text-light text-white"></i>
+</button>
+  
+@code {
+    async Task ToggleSidebarAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("toggleSideBar");
+    }
+}
+
+

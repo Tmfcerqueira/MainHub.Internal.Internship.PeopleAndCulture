@@ -1,0 +1,55 @@
+﻿@using Microsoft.Extensions.Localization;
+@using Microsoft.Graph;
+@inject IJSRuntime JSRuntime
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+<AuthorizeView>
+    <Authorized>
+        <div class="me-2">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                @{
+                    if (!string.IsNullOrEmpty(_photo))
+                    {
+                        <img class="img-profile4 me-2 rounded-circle" src="data:image/jpeg;base64, @_photo" width="40" height="45" />
+                    }
+                    else
+                    {
+                        <img class="img-profile4 me-2 rounded-circle" src="/assets/img/undraw_profile.svg" width="40" height="45" />
+                    }
+                }
+            
+            </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li class="profile-drop-bar">
+                @{
+                    if (!string.IsNullOrEmpty(_photo))
+                    {
+                            <img class="img-profile4 me-2 rounded-circle" src="data:image/jpeg;base64, @_photo" width="40" height="45" />
+                    }
+                    else
+                    {
+                            <img class="img-profile4 me-2 rounded-circle" src="/assets/img/undraw_profile.svg" width="40" height="45" />
+                    }
+                }
+
+                <div class="profile-info">
+                    <a href="/profile">@context.User.FindFirst("name")?.Value @context.User.FindFirst("email")?.Value</a><br />
+                    <a href="/profile"> @context.User.Identity?.Name</a>
+                </div>
+            </li>
+            <li><hr /></li>
+                <li><a class="dropdown-item d-flex justify-content-center align-items-center" href="/profile"><i class="fas fa-user"></i> &nbsp @localizer["Profile"]</a></li>
+            <li><hr /></li>
+            <form action="MicrosoftIdentity/Account/SignOut">
+                    <div class="d-grid mb-10" style="padding: 0.25rem 1rem;">
+                    <button type="submit" id="let_sign_out_submit" @onclick="() => SignOut()" class="btn-primary">
+                            <span class="indicator-label">@localizer["SignOut"]</span>
+                    </button>
+                </div>
+            </form>
+        </ul>
+        </div>
+
+    </Authorized>
+</AuthorizeView>

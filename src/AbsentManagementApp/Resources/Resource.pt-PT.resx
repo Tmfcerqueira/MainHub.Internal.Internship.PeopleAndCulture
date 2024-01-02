@@ -1,0 +1,534 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Absence Start" xml:space="preserve">
+    <value>Início de Ausência</value>
+  </data>
+  <data name="AbsenceApproved" xml:space="preserve">
+    <value>Ausência aprovada!</value>
+  </data>
+  <data name="AbsenceCanceleted" xml:space="preserve">
+    <value>Ausência cancelada para rascunho</value>
+  </data>
+  <data name="AbsenceDeleted" xml:space="preserve">
+    <value>Ausência eliminada!</value>
+  </data>
+  <data name="AbsenceDetails" xml:space="preserve">
+    <value>Detalhes da Ausência</value>
+  </data>
+  <data name="AbsenceEnd" xml:space="preserve">
+    <value>Fim de Ausência</value>
+  </data>
+  <data name="AbsenceOf" xml:space="preserve">
+    <value>Ausência de</value>
+  </data>
+  <data name="AbsenceRejected" xml:space="preserve">
+    <value>Ausência rejeitada!</value>
+  </data>
+  <data name="AbsenceSaved" xml:space="preserve">
+    <value>Ausência salva!</value>
+  </data>
+  <data name="AbsencesList" xml:space="preserve">
+    <value>Lista de Ausências</value>
+  </data>
+  <data name="AbsenceStart" xml:space="preserve">
+    <value>Início de Ausência</value>
+  </data>
+  <data name="AbsenceSubmitted" xml:space="preserve">
+    <value>Ausência submetida!</value>
+  </data>
+  <data name="AbsenceType" xml:space="preserve">
+    <value>Tipo de Ausência</value>
+  </data>
+  <data name="AbsenceUpdated" xml:space="preserve">
+    <value>Ausência atualizada!</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Acesso Restrito</value>
+  </data>
+  <data name="AccessDeniedDetailed" xml:space="preserve">
+    <value>Não tem acesso a este conteúdo.</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Ação</value>
+  </data>
+  <data name="ActionBy" xml:space="preserve">
+    <value>Ação por</value>
+  </data>
+  <data name="ActionDate" xml:space="preserve">
+    <value>Data da ação</value>
+  </data>
+  <data name="ActionHistory" xml:space="preserve">
+    <value>Histórico de ações</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="AdminBoard" xml:space="preserve">
+    <value>Painel Admin</value>
+  </data>
+  <data name="AdminDashboard" xml:space="preserve">
+    <value>Painel Admin</value>
+  </data>
+  <data name="AdminMenu" xml:space="preserve">
+    <value>Painel Admin</value>
+  </data>
+  <data name="AllDraftsSubmitted" xml:space="preserve">
+    <value>Todos os rascunhos submetidos</value>
+  </data>
+  <data name="Alltime" xml:space="preserve">
+    <value>De sempre</value>
+  </data>
+  <data name="AllUserCalendarHelp" xml:space="preserve">
+    <value>Clique numa ausência para ver mais informações</value>
+  </data>
+  <data name="AllUsersCalendar" xml:space="preserve">
+    <value>Calendário Geral</value>
+  </data>
+  <data name="AlreadyAnAbsence" xml:space="preserve">
+    <value>Já existe uma ausência nesse período.</value>
+  </data>
+  <data name="Approval" xml:space="preserve">
+    <value>Aprovação</value>
+  </data>
+  <data name="ApprovalDate" xml:space="preserve">
+    <value>Data de aprovação</value>
+  </data>
+  <data name="ApprovalStatus" xml:space="preserve">
+    <value>Estado de aprovação</value>
+  </data>
+  <data name="ApprovalWithEmojii" xml:space="preserve">
+    <value>Aprovação ✅</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Aprovar</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Aprovadas</value>
+  </data>
+  <data name="ApprovedBy" xml:space="preserve">
+    <value>Aprovado por</value>
+  </data>
+  <data name="Areyousure" xml:space="preserve">
+    <value>Tem a certeza?</value>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Calendário</value>
+  </data>
+  <data name="CalendarCapsOff" xml:space="preserve">
+    <value>calendário</value>
+  </data>
+  <data name="CalendarHelp" xml:space="preserve">
+    <value>Salvar rascunho ou submeter ausência =&gt; Clique num bloco vazio</value>
+  </data>
+  <data name="CalendarView" xml:space="preserve">
+    <value>Vista de calendário 🗓</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="CancelAbsenceToDraft" xml:space="preserve">
+    <value>Cancealr ausência (para rascunho)</value>
+  </data>
+  <data name="ChangeAccount" xml:space="preserve">
+    <value>Alterar conta</value>
+  </data>
+  <data name="ClickDetails" xml:space="preserve">
+    <value>Clique para mais info</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Escuro</value>
+  </data>
+  <data name="DashBoard" xml:space="preserve">
+    <value>Painel</value>
+  </data>
+  <data name="DateMustBeInFuture" xml:space="preserve">
+    <value>A data da ausência tem que ser no futuro.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DeleteAbsence" xml:space="preserve">
+    <value>Eliminar ausência</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="DoubleClickDetails" xml:space="preserve">
+    <value>Duplo clique no item para mais Info</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Rascunho</value>
+  </data>
+  <data name="DraftCapsOff" xml:space="preserve">
+    <value>rascunho</value>
+  </data>
+  <data name="Drafts" xml:space="preserve">
+    <value>Rascunhos</value>
+  </data>
+  <data name="EditAbsence" xml:space="preserve">
+    <value>Editar Ausência</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Fim</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Data de Fim</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="ErrorApproving" xml:space="preserve">
+    <value>Erro ao aprovarausência</value>
+  </data>
+  <data name="ErrorCanceling" xml:space="preserve">
+    <value>Erro ao cancelar ausência</value>
+  </data>
+  <data name="ErrorDeleting" xml:space="preserve">
+    <value>Erro ao eliminar</value>
+  </data>
+  <data name="ErrorProcessing" xml:space="preserve">
+    <value>Aconteceu um erro ao processar o seu pedido. Por favor tente mais tarde.</value>
+  </data>
+  <data name="ErrorRejecting" xml:space="preserve">
+    <value>Erro ao rejeitar ausência</value>
+  </data>
+  <data name="ErrorUpdating" xml:space="preserve">
+    <value>Erro ao atualizar</value>
+  </data>
+  <data name="GlobalCalendar" xml:space="preserve">
+    <value>Calendário Global</value>
+  </data>
+  <data name="GlobalCalendarWithEmojii" xml:space="preserve">
+    <value>Calendário Global 🗓</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Claro</value>
+  </data>
+  <data name="ListView" xml:space="preserve">
+    <value>Vista de Lista📋</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>A carregar...</value>
+  </data>
+  <data name="MyAbsences" xml:space="preserve">
+    <value>As minhas ausências</value>
+  </data>
+  <data name="MyAbsencesList" xml:space="preserve">
+    <value>Lista de Ausências</value>
+  </data>
+  <data name="MyCalendar" xml:space="preserve">
+    <value>Calendário</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Name:" xml:space="preserve">
+    <value>Nome:</value>
+  </data>
+  <data name="NextWeek" xml:space="preserve">
+    <value>Ausências aprovadas na próxima semana</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NoAbsenceData" xml:space="preserve">
+    <value>Sem dados de ausências</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>Dados não encontrados</value>
+  </data>
+  <data name="NoInfo" xml:space="preserve">
+    <value>Sem informação</value>
+  </data>
+  <data name="NoInformation" xml:space="preserve">
+    <value>Sem informação</value>
+  </data>
+  <data name="NoRecentActions" xml:space="preserve">
+    <value>Sem ações recentes</value>
+  </data>
+  <data name="NotApproved" xml:space="preserve">
+    <value>Não aprovado</value>
+  </data>
+  <data name="NotSubmitted" xml:space="preserve">
+    <value>Não submetido</value>
+  </data>
+  <data name="NoUserInfo" xml:space="preserve">
+    <value>Não existe informação sobre o utilizador.</value>
+  </data>
+  <data name="OnlyAcceptedFromThisYear" xml:space="preserve">
+    <value>Só pode adicionar ausência do ano atual</value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>Colaboradores</value>
+  </data>
+  <data name="PeopleWithEmojii" xml:space="preserve">
+    <value>Colaboradores 👨</value>
+  </data>
+  <data name="Person" xml:space="preserve">
+    <value>Colaborador</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telemóvel</value>
+  </data>
+  <data name="PleaseSelectType" xml:space="preserve">
+    <value>Por favor selecione um tipo</value>
+  </data>
+  <data name="PossiblyThereAreNoDrafts" xml:space="preserve">
+    <value>Possivelmente não existem rascunhos. Tente adicionar.</value>
+  </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>Apoiado por</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="ProfileInformation" xml:space="preserve">
+    <value>Informações de Perfil</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Rejeitar</value>
+  </data>
+  <data name="RejectAbsence" xml:space="preserve">
+    <value>Rejeitar ausência</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejeitadas</value>
+  </data>
+  <data name="Request" xml:space="preserve">
+    <value>Solicitar</value>
+  </data>
+  <data name="RequestAbsence" xml:space="preserve">
+    <value>Solicitar Ausência</value>
+  </data>
+  <data name="Restricted" xml:space="preserve">
+    <value>Restrito</value>
+  </data>
+  <data name="SaveAbsence" xml:space="preserve">
+    <value>Salvar Ausência</value>
+  </data>
+  <data name="SaveDraft" xml:space="preserve">
+    <value>Salvar Rascunho</value>
+  </data>
+  <data name="SaveDraftDetails" xml:space="preserve">
+    <value>Se quiser salvar rascunhos, por favor utilize o</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Período</value>
+  </data>
+  <data name="Searchcollaborator" xml:space="preserve">
+    <value>Pesquisar colaborador</value>
+  </data>
+  <data name="SeeActive" xml:space="preserve">
+    <value>Ver ativos</value>
+  </data>
+  <data name="SeeAll" xml:space="preserve">
+    <value>Ver todos</value>
+  </data>
+  <data name="SeeInactive" xml:space="preserve">
+    <value>Ver inativos</value>
+  </data>
+  <data name="ServerError" xml:space="preserve">
+    <value>Erro de servidor</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Terminar Sessão</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Início</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Data de Início</value>
+  </data>
+  <data name="StartDateMust" xml:space="preserve">
+    <value>A data de início tem que ser antes da data de fim.</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Status:" xml:space="preserve">
+    <value>Estado:</value>
+  </data>
+  <data name="Submission" xml:space="preserve">
+    <value>Sumbissão</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submeter</value>
+  </data>
+  <data name="SubmitAbsence" xml:space="preserve">
+    <value>Submeter Ausência</value>
+  </data>
+  <data name="SubmitAllDrafts" xml:space="preserve">
+    <value>Submeter Rascunhos</value>
+  </data>
+  <data name="SubmitDetails" xml:space="preserve">
+    <value>Nesta página pode submeter ausências.</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Submetidas</value>
+  </data>
+  <data name="Surname:" xml:space="preserve">
+    <value>Apelido:</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema 🎨</value>
+  </data>
+  <data name="TheRequestWasInvalid" xml:space="preserve">
+    <value>O pedido foi inválido</value>
+  </data>
+  <data name="ThisWillSaveYourAbsenceAs" xml:space="preserve">
+    <value>Isto irá salvar a sua ausência como</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Erro desconhecido</value>
+  </data>
+  <data name="UserGuid" xml:space="preserve">
+    <value>Guid de utilizador</value>
+  </data>
+  <data name="UserMenu" xml:space="preserve">
+    <value>Painel de utilizador</value>
+  </data>
+  <data name="UserPrincipalName:" xml:space="preserve">
+    <value>Principal Name de utilizador:</value>
+  </data>
+  <data name="ViewAbsence" xml:space="preserve">
+    <value>Ver Ausência</value>
+  </data>
+  <data name="ViewHistory" xml:space="preserve">
+    <value>Ver histórico</value>
+  </data>
+  <data name="WrongAbsenceInterval" xml:space="preserve">
+    <value>O intervalo de ausência tem que ter no mínimo 1 hora.</value>
+  </data>
+  <data name="WrongHoursForAfternoon" xml:space="preserve">
+    <value>Horas inválidas para um ausência da tarde.</value>
+  </data>
+  <data name="WrongHoursForFullDay" xml:space="preserve">
+    <value>Horas inválidas para uma ausência do dia todo.</value>
+  </data>
+  <data name="WrongHoursForMorning" xml:space="preserve">
+    <value>Horas inválidas para uma ausência da manhã.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="YouAreNotAuthorized" xml:space="preserve">
+    <value>Não está autorizado para aceder a este recurso</value>
+  </data>
+</root>

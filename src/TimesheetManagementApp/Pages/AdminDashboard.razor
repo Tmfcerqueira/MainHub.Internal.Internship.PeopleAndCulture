@@ -1,0 +1,63 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Shared.Private
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> _localizer;
+@attribute [Authorize(Roles = "SkillHub.Supervisor")]
+@page "/admindashboard"
+@layout PrivateMainLayout
+
+<PageTitle>@_localizer["AdminDashboard"]</PageTitle>
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">Loading...</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" alt="Loading..." class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+    <h1 class="text-center my-5">@_localizer["AdminDashboard"]</h1>
+
+    <div class="col">
+        <div class="d-flex justify-content-center">
+
+            <div class="card text-white bg-success mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@_localizer["AllTimesheets"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center"><a href="/approved" style="color: white;">@_localizer["Approved"]</a></h5>
+                    <p class="card-text h3 text-center">@Approved</p>
+                </div>
+            </div>
+
+            <div class="card text-dark bg-warning mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@_localizer["AllTimesheets"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">@_localizer["Drafts"]</h5>
+                    <p class="card-text h3 text-center">@Draft</p>
+                </div>
+            </div>
+
+            <div class="card text-dark bg-light mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@_localizer["AllTimesheets"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center"><a href="/approval" style="color: black;">@_localizer["Submitted"]</a></h5>
+                    <p class="card-text h3 text-center">@Submitted</p>
+                </div>
+            </div>
+
+            <div class="card text-white bg-danger mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@_localizer["AllTimesheets"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">@_localizer["Rejected"]</h5>
+                    <p class="card-text h3 text-center">@Rejected</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

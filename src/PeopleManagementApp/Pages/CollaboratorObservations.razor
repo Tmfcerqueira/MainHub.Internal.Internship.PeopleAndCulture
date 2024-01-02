@@ -1,0 +1,99 @@
+﻿@page "/Collaborators/Observations/{PeopleGuid:guid}"
+
+@using global::App.Models;
+@using global::App.Repository;
+@inject PeopleAppRepository peopleAppRepository
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject GraphServiceClient _graphServiceClient
+@inject MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler
+@inject DialogService dialogService
+@inject TooltipService tooltipService
+@inject IStringLocalizer<Resource> Loc
+@layout PrivateMainLayout
+@attribute [Authorize(Policy = "Supervisor")]
+
+
+
+@if (collaborator == null)
+{
+    <p>@Loc["Loading"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <RadzenRow>
+        <RadzenColumn>
+            @if (IsEditMode == false)
+            {
+                
+                <RadzenText> @collaborator.Observations</RadzenText>
+                <RadzenButton Text="@Loc["AddObservationButton"]" TextStyle="TextStyle.H6" Click=" () => ToggleEditMode()"></RadzenButton>
+                <RadzenButton Text="@Loc["DeleteObservationButton"]" TextStyle="TextStyle.H6" Click=" () => DeleteObservation()"></RadzenButton>
+
+            }
+            else
+            {
+                <RadzenTextArea Style="width:400px; height:100px" @bind-Value="@collaborator.Observations" />
+                <RadzenRow>
+                    <RadzenButton Text="@Loc["SaveObservationButton"]" TextStyle="TextStyle.H6" Click=" () => SaveObservation()"></RadzenButton>
+                    <RadzenButton Text="@Loc["CancelButton"]" TextStyle="TextStyle.H6" Click=" () => ToggleEditMode()"></RadzenButton>
+                </RadzenRow>
+            }
+        </RadzenColumn>
+    </RadzenRow>
+    
+}
+
+@code {
+    private PeopleModel collaborator;
+    private bool IsEditMode = false;
+    User _user;
+
+    [Parameter]
+    public Guid PeopleGuid { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            collaborator = await peopleAppRepository.GetOneCollaborator(PeopleGuid);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            NavigationManager.NavigateTo("Collaborators/");
+        }
+    }
+
+    public void ToggleEditMode()
+    { 
+        if (IsEditMode == false)
+        {
+            IsEditMode = true;
+        }
+        else
+        {
+            IsEditMode = false;
+        }
+    }
+
+    public async void DeleteObservation()
+    {
+        collaborator.Observations = string.Empty;
+        await peopleAppRepository.UpdateCollaboratorAsync(PeopleGuid, collaborator);
+        IsEditMode = false;
+        await dialogService.Alert($" {Loc["ObservationDeleted"]}", $"{Loc["Deleted"]}", new AlertOptions() { OkButtonText = "Ok" });
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+    }
+
+    public async Task SaveObservation()
+    {
+        await peopleAppRepository.UpdateCollaboratorAsync(PeopleGuid, collaborator);
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        await dialogService.Alert($" {Loc["CreatedSuccess"]}", $"{Loc["Created"]}", new AlertOptions() { OkButtonText = "Ok" });
+        IsEditMode = false;
+    }
+}

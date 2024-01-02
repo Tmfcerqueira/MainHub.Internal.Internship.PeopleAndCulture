@@ -1,0 +1,583 @@
+﻿@page "/Collaborators/{PeopleGuid:guid}"
+@page "/Collaborators/{PeopleGuid:guid}/{isEditMode:bool}"
+@using global::App.Models;
+@using global::App.Repository;
+@inject PeopleAppRepository peopleAppRepository
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject GraphServiceClient _graphServiceClient
+@inject MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler
+@inject DialogService dialogService;
+@inject TooltipService tooltipService
+@inject IStringLocalizer<Resource> Loc
+@layout PrivateMainLayout
+
+
+@attribute [Authorize(Policy = "Supervisor")]
+
+<AuthorizeView>
+    <Authorized>
+        @if (collaborator == null)
+        {
+            <p>@Loc["Loading"]</p>
+            <div class="rz-m-12">
+                <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            </div>
+        }
+        else
+        {
+            <div class="rz-m-3" style="justify-content: left;">
+            <RadzenBreadCrumb>
+                <RadzenBreadCrumbItem Path="/Home" Text="@Loc["Home"]" />
+                <RadzenBreadCrumbItem Path="/Collaborators" Text="@Loc["CollaboratorsList"]" />
+                <RadzenBreadCrumbItem>
+                    <RadzenLink Path="@link" Text="@Loc["Collaborator"]">
+                    </RadzenLink>
+                </RadzenBreadCrumbItem>
+            </RadzenBreadCrumb>
+             </div>
+             @if (IsEditMode == true)
+             {
+                 <div class="container">
+                <RadzenCard Class="rz-my-auto rz-mx-auto" Style="max-height: 650px !important;">
+                    <RadzenRow Gap="0" >
+                        <RadzenColumn Style="display:grid; justify-content:start;">
+                            <RadzenRow Gap="0">
+                            <RadzenButton Variant="Variant.Text" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left" style="justify-content:start; display:grid;"></i> </RadzenButton>
+                            <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" style="justify-content:end; display:grid;" MouseEnter="@(args => ShowTooltip4(args, new TooltipOptions(){ Position = TooltipPosition.Top, Duration = 1000 }))" Click="() => ShowHistory(collaborator.PeopleGUID)"><i class="fas fa-solid fa-clock"></i></RadzenButton>
+                        </RadzenRow>
+                        </RadzenColumn>
+                       
+                        <RadzenColumn Style="display:grid; justify-content:end;">
+                            @if (collaborator.Observations == null || collaborator.Observations == string.Empty)
+                            {
+                                <RadzenButton Text="@Loc["AddObservation"]" TextStyle="TextStyle.H6" Click=" () => ShowObservations(PeopleGuid)"></RadzenButton>
+                            }
+                            else
+                            {
+                                <RadzenButton Text="@Loc["ObservationsButton"]" TextStyle="TextStyle.H6" ButtonStyle="ButtonStyle.Success" Click=" () => ShowObservations(PeopleGuid)"></RadzenButton>
+                            }
+                            
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Class="rz-p-2">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["EmployeeTitle"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                                <RadzenColumn SizeSM="3">
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["F_Name"]</RadzenText>
+                                    <RadzenTextBox Style="width:87%" @bind-Value="collaborator.FirstName" />
+                                </RadzenColumn>
+                                 <RadzenColumn SizeSM="3">
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["L_Name"]</RadzenText>
+                                    <RadzenTextBox Style="width:87%" @bind-Value="collaborator.LastName" />
+                                </RadzenColumn>
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Email"]</RadzenText>                                
+                                    <RadzenTextBox Style="width:90%" @bind-Value="collaborator.Email" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["BirthDate"]</RadzenText>
+                                    <RadzenDatePicker Style="width:80%" DateFormat="yyyy/MM/dd" ShowTime="false" @bind-Value="collaborator.BirthDate" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow RowGap="0">
+                            
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["DependentNum"]</RadzenText>
+                                    <RadzenNumeric Style="width:80%" @bind-Value="collaborator.DependentNum" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["ContractType"]</RadzenText>
+                                    <RadzenDropDown Style="width:80%" @bind-Value="ContractTypeSelected" Data="@contractType"/>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["CivilStatus"]</RadzenText>
+                                    <RadzenDropDown Style="width:80%" @bind-Value="collaborator.CivilState" Data="@civilStatus" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["Status"]</RadzenText>
+                                    <RadzenDropDown Style="width:80%" @bind-Value="collaborator.Status" Data="@status" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["Contact"]</RadzenText>
+                                    <RadzenTextBox Style="width:80%" @bind-Value="collaborator.Contact" Placeholder="+351 912345678"/>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["EContact"]</RadzenText>
+                                    <RadzenTextBox Style="width:80%" @bind-Value="collaborator.EmergencyContact" Placeholder="+351 912345678" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Class="rz-p-2">
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn>
+                                    <RadzenRow RowGap="0">
+                                        <RadzenColumn SizeSM="6">
+                                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Street"]</RadzenText>
+                                            <RadzenTextBox Style="width: 93%" @bind-Value="collaborator.Adress"/>
+                                        </RadzenColumn>
+                                        <RadzenColumn SizeSM="2">
+                                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["PostalCode"]</RadzenText>
+                                            <RadzenTextBox Style="width: 80%" @bind-Value="collaborator.Postal" />
+                                        </RadzenColumn>
+                                        <RadzenColumn  SizeSM="2">
+                                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Locality"]</RadzenText>
+                                            <RadzenTextBox Style="width: 80%" @bind-Value="collaborator.Locality" />
+                                        </RadzenColumn SizeSM="2">
+                                        <RadzenColumn>
+                                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Country"]</RadzenText>
+                                            <RadzenTextBox Style="width: 80%" @bind-Value="collaborator.Country" />
+                                        </RadzenColumn>
+                                    </RadzenRow>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Class="rz-p-2">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["FiscalInformation"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">IBAN</RadzenText>
+                                <RadzenTextBox Style="width: 91%" @bind-Value="collaborator.Iban" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["TaxNumber"]</RadzenText>
+                                <RadzenNumeric Style="width: 80%" @bind-Value="collaborator.TaxNumber" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["SSNumber"]</RadzenText>
+                                <RadzenNumeric Style="width: 80%"@bind-Value="collaborator.SSNumber" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CCNumber"]</RadzenText>
+                                <RadzenNumeric Style="width: 80%"@bind-Value="collaborator.CCNumber" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CCValid"]</RadzenText>
+                                <RadzenDatePicker Style="width:80%" DateFormat="yyyy/MM/dd" ShowTime="false" @bind-Value="collaborator.CCVal" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenStack JustifyContent="JustifyContent.Center  " Gap="0" Class="rz-p-2">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["EmployeeDates"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["EntryDate"]</RadzenText>
+                                    <RadzenDatePicker DateFormat="yyyy/MM/dd" ShowTime="false" @bind-Value="collaborator.EntryDate" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ExitDate"]</RadzenText>
+                                    <RadzenDatePicker DateFormat="yyyy/MM/dd" ShowTime="false" @bind-Value="collaborator.ExitDate" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="4">
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0"> ID </RadzenText>
+                                <RadzenNumeric Style="width:80%" @bind-Value="collaborator.Employee_Id" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenRow JustifyContent="JustifyContent.End" Gap="0">
+                        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Text="@Loc["DeleteButton"]" Click="() => DeleteUser(PeopleGuid)" />
+                        <RadzenButton Variant="Variant.Text" Text="@Loc["SaveButton"]" Click="() => SaveChanges()" />
+                        <RadzenButton Variant="Variant.Text" Text="@Loc["CancelButton"]" Click="() => ToggleEditMode()" />
+                    </RadzenRow>
+                </RadzenCard>
+                </div>
+            }
+            else
+            {
+                <div class="container">
+                <RadzenCard Class="rz-my-auto rz-mx-auto" Style="max-height: 800px !important;">
+                    <RadzenRow Gap="0">
+                        <RadzenRow Gap="0">
+                            <RadzenColumn>
+                                <RadzenButton Variant="Variant.Text" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left" style="justify-content:start; display:grid;"></i> </RadzenButton>
+                            </RadzenColumn>
+                            <RadzenColumn>
+                                <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" style="justify-content:end; display:grid;" MouseEnter="@(args => ShowTooltip4(args, new TooltipOptions(){ Position = TooltipPosition.Top, Duration = 1000 }))" Click="() => ShowHistory(collaborator.PeopleGUID)"><i class="fas fa-solid fa-clock"></i></RadzenButton>
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenColumn Style="display:grid; justify-content:end;">
+                            @if (collaborator.Observations == null || collaborator.Observations == string.Empty)
+                            {
+                                <RadzenButton Text="@Loc["AddObservation"]" TextStyle="TextStyle.H6" Click=" () => ShowObservations(PeopleGuid)"></RadzenButton>
+                            }
+                            else
+                            {
+                                <RadzenButton Text="@Loc["ObservationsButton"]" TextStyle="TextStyle.H6" ButtonStyle="ButtonStyle.Success" Click=" () => ShowObservations(PeopleGuid)"></RadzenButton>
+                            }
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["EmployeeTitle"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Name"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator.FirstName + " " + collaborator.LastName)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["Email"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.Email</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Loc["BirthDate"]</RadzenText>
+                                @if (collaborator.BirthDate.ToString("yyyy-MM-dd") == "2999-12-31" || collaborator.BirthDate.ToString("yyyy-MM-dd") == "1900-01-01")
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" Text="@Loc["NoDate"]"></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.BirthDate.ToString("yyyy-MM-dd")</RadzenText>
+                                }
+                            </RadzenColumn>
+                             <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">ID</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1"> @collaborator.Employee_Id</RadzenText>
+
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="3" >
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["DependentNum"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.DependentNum)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CivilStatus"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.CivilState</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ContractType"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator.ContractType)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Status"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.Status)</RadzenText>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Style="padding-bottom:0.5rem;">
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="6">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Adress"]</RadzenText>
+                                @if (!string.IsNullOrEmpty(adress))
+                                {
+                                <RadzenText TextStyle="TextStyle.Body1">@adress</RadzenText>
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Contact"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.Contact)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["EContact"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.EmergencyContact)</RadzenText>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Style="padding-bottom:0.5rem;">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["FiscalInformation"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">Iban</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.Iban)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["TaxNumber"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.TaxNumber)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["SSNumber"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.SSNumber)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CCNumber"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.CCNumber)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CCValid"]</RadzenText>                                
+                                    @if (collaborator.CCVal.ToString("yyyy-MM-dd") == "2999-12-31" || collaborator.CCVal.ToString("yyyy-MM-dd") == "1900-01-01")
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" Text="@Loc["NoDate"]"></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.CCVal.ToString("yyyy-MM-dd")</RadzenText>
+                                }
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenStack JustifyContent="JustifyContent.Center  " Gap="0" Style="padding-bottom:0.5rem;">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["EmployeeDates"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">Entry Date</RadzenText>
+                                    @if (collaborator.EntryDate.ToString("yyyy-MM-dd") == "2999-12-31" || collaborator.EntryDate.ToString("yyyy-MM-dd") == "1900-01-01")
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" Text="@Loc["NoDate"]"></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.EntryDate.ToString("yyyy-MM-dd")</RadzenText>
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ExitDate"]</RadzenText>
+                                    @if (collaborator.ExitDate.ToString("yyyy-MM-dd") == "2999-12-31" || collaborator.ExitDate.ToString("yyyy-MM-dd") == "1900-01-01")
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" Text="@Loc["NoDate"]"></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.ExitDate.ToString("yyyy-MM-dd")</RadzenText>
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CreationDate"]</RadzenText>
+                                @if (collaborator.CreationDate.ToString("yyyy-MM-dd") == "2999-12-31" || collaborator.CreationDate.ToString("yyyy-MM-dd") == "1900-01-01")
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" Text="@Loc["NoDate"]"></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.CreationDate.ToString("yyyy-MM-dd")</RadzenText>
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CreatedBy"]</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.CreatedBy)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ChangeDate"]</RadzenText>
+                                @if (collaborator.ChangeDate.ToString("yyyy-MM-dd") == "2999-12-31" || collaborator.ChangeDate.ToString("yyyy-MM-dd") == "1900-01-01")
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" Text="@Loc["NoDate"]"></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">@collaborator.ChangeDate.ToString("yyyy-MM-dd")</RadzenText>
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="2">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ChangedBy"]</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1">@(collaborator?.ChangedBy)</RadzenText>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                    <RadzenRow JustifyContent="JustifyContent.End" Gap="0">
+                        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Text="@Loc["DeleteButton"]" Click="() => DeleteUser(PeopleGuid)" />
+                            <RadzenButton Variant="Variant.Text" Text="@Loc["EditButton"]" Click="() => ToggleEditMode()" />
+                    </RadzenRow>
+                </RadzenCard>
+                </div>
+            }
+
+        }
+    </Authorized>
+</AuthorizeView>
+
+
+@code{
+    private PeopleModel collaborator;
+    private List<PeopleHistory> peopleHistory;
+    User? _user;
+    private bool birthday = false;
+    string link;
+    public string adress;
+    string ContractTypeSelected;
+
+
+    private List<string> contractType = new List<string>
+{
+    "Certain Term",
+    "Uncertain  Term",
+    "No Term",
+    "Short Term",
+    "Partial Term"
+};
+
+    private List<string> civilStatus = new List<string>
+{
+    "Single",
+    "Married",
+    "Divorced",
+    "Widowed"
+};
+    private List<string> status = new List<string>
+{
+    "Active",
+    "Inactive",
+};
+
+    [Parameter]
+    public Guid PeopleGuid { get; set; }
+
+    [Parameter]
+    public bool IsEditMode { get; set; }
+
+    protected override async void OnParametersSet()
+    {
+        try
+        {
+            collaborator = await peopleAppRepository.GetOneCollaborator(PeopleGuid);
+            if (collaborator == null)
+            {
+                await dialogService.Alert($" {Loc["NoInfo"]}", $"{Loc["NoInfoTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                NavigationManager.NavigateTo("Collaborators/");
+            }
+        }
+        catch (Exception ex)
+        {
+            await dialogService.Alert($"{Loc["NoInfo"]}", $"{Loc["NoInfoTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            Console.WriteLine(ex);
+            NavigationManager.NavigateTo("Collaborators/");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            collaborator = await peopleAppRepository.GetOneCollaborator(PeopleGuid);
+            PeopleGuid = collaborator.PeopleGUID;
+            ContractTypeSelected = collaborator.ContractType.ToString();
+            adress = string.Join(", ", new List<string> { collaborator.Adress, collaborator.Postal, collaborator.Locality, collaborator.Country }.Where(value => !string.IsNullOrEmpty(value)));
+        }
+        catch(Exception ex)
+        {
+            await dialogService.Alert($"{Loc["NoInfo"]}", $"{Loc["NoInfoTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            Console.WriteLine(ex);
+            NavigationManager.NavigateTo("Collaborators/");
+        }
+        link = $"/collaborators/{PeopleGuid}";
+        if (collaborator.BirthDate.Day == DateTime.Now.Day & collaborator.BirthDate.Month == DateTime.Now.Month)
+        {
+            birthday = true;
+        };
+    }
+    public async Task ShowHistory(Guid peopleGuid)
+    {
+        await dialogService.OpenAsync<CollaboratorHistory>(
+            $"{collaborator.FirstName + " " + collaborator.LastName} {Loc["History"]}",
+            new Dictionary<string, object>() { { "PeopleGuid", peopleGuid } },
+            new DialogOptions() { Width = "60%", Height = "60%", Resizable = false, Draggable = false });
+    }
+
+    void ShowTooltip4(ElementReference elementReference, TooltipOptions options = null) => tooltipService.Open(elementReference, $"{Loc["History"]}", options);
+
+    public async Task DeleteUser(Guid personId)
+    {
+
+        try
+        {
+            var collaborator = await peopleAppRepository.GetOneCollaborator(personId);
+            bool? confirm = await dialogService.Confirm($"{Loc["DeleteConfirm"]} {collaborator.FirstName}?", $"{Loc["DeleteTitle"]}", new ConfirmOptions() { OkButtonText = $"{Loc["Yes"]}", CancelButtonText = $"{Loc["No"]}" });
+            if (confirm == true)
+            {
+                await peopleAppRepository.DeleteCollaboratorAsync(collaborator.PeopleGUID);
+                await dialogService.Alert($"{collaborator.FirstName} deleted successfully", $"{Loc["DeleteTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                NavigationManager.NavigateTo("Collaborators/");
+            }
+        }
+        catch(Exception ex)
+        {
+            await dialogService.Alert($"Failed to delete {Loc["DeleteFail"]}", $"{Loc["DeleteTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+        }
+
+    }
+
+    private void ToggleEditMode()
+    {
+        birthday = false;
+        if(IsEditMode == true)
+        {
+            IsEditMode = false;
+        }
+        else if (IsEditMode == false)
+        {
+            IsEditMode = true;
+        }
+        else
+        {
+            dialogService.Alert($"{Loc["TryAgain"]}", $"{Loc["FailedAction"]}", new AlertOptions() { OkButtonText = "Ok" });
+        }
+    }
+
+    private async void ShowObservations(Guid peopleGuid)
+    {
+        if (collaborator.Observations == null || collaborator.Observations == "")
+        {
+            bool? confirm = await dialogService.Confirm($"{Loc["NoObservation"]}", $"{Loc["NoObservationTitle"]}", new ConfirmOptions() { OkButtonText = $"{Loc["Yes"]}", CancelButtonText = $"{Loc["No"]}" });
+            if (confirm == true)
+            {
+                 await dialogService.OpenAsync<CollaboratorObservations>(
+            $"{collaborator.FirstName} {Loc["ObservationsButton"]}",
+           new Dictionary<string, object>() { { "PeopleGuid", peopleGuid } },
+            new DialogOptions() { Width = "500px", Height = "300px", Resizable = true, Draggable = true });
+            }
+        }
+        else
+        {
+            await dialogService.OpenAsync<CollaboratorObservations>(
+            $"{collaborator.FirstName} {Loc["ObservationsButton"]}",
+           new Dictionary<string, object>() { { "PeopleGuid", peopleGuid } },
+            new DialogOptions() { Width = "500px", Height = "300px", Resizable = true, Draggable = true });
+        }
+    }
+
+    public async Task SaveChanges()
+    {
+        birthday = false;
+        try
+        {
+            switch(ContractTypeSelected) 
+            {
+                case "Certain Term":
+                    collaborator.ContractType = PeopleModel.Contract.Certo;
+                    break;
+                case "Uncertain Term":
+                    collaborator.ContractType = PeopleModel.Contract.Incerto;
+                    break;
+                case "No Term":
+                    collaborator.ContractType = PeopleModel.Contract.NoTerm;
+                    break;
+                case "Short Term":
+                    collaborator.ContractType = PeopleModel.Contract.Curta;
+                    break;
+                case "Partial Term":
+                    collaborator.ContractType = PeopleModel.Contract.Parcial;
+                    break;
+
+            }
+
+            _user = await _graphServiceClient.Me.Request().GetAsync();
+            collaborator.ChangedBy = _user.DisplayName;
+            var userId = _user.Id;
+            if (collaborator.Iban == null)
+            {
+                collaborator.Iban = string.Empty;
+            }
+            if (collaborator.Observations == null)
+            {
+                collaborator.Observations = string.Empty;
+            }
+            await peopleAppRepository.UpdateCollaboratorAsync(PeopleGuid, collaborator);
+            IsEditMode = false;
+            await dialogService.Alert($"{collaborator.FirstName} {Loc["UpdateSuccess"]}", $"{Loc["UpdateTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            NavigationManager.NavigateTo($"Collaborators/{collaborator.PeopleGUID}");
+            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        }
+        catch(Exception ex)
+        {
+
+            await dialogService.Alert($"{collaborator.FirstName} {Loc["UpdateFail"]}", $"{Loc["UpdateTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            await JsRuntime.InvokeVoidAsync("alert", "Error code: " + ex.Message);
+            ConsentHandler?.HandleException(ex);
+        }
+    }
+
+    private async void GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
+    }
+
+}

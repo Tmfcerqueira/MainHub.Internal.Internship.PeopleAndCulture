@@ -1,0 +1,76 @@
+﻿@using MainHub.Internal.PeopleAndCulture.AbsentManagement.AppRepository.Models;
+@using MainHub.Internal.PeopleAndCulture.AbsentManagement.Shared.Private;
+@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+@attribute [Authorize(Roles = "SkillHub.Supervisor")]
+
+@page "/admindashboard"
+@layout PrivateMainLayout
+
+
+<PageTitle>@localizer["AdminDashboard"]</PageTitle>
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">Loading...</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" alt="Loading..." class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+    <h1 class="text-center my-5">@localizer["AdminDashboard"]</h1>
+
+    <div class="d-flex justify-content-center mb-4">
+        <RadzenButton Text="@localizer["GlobalCalendarWithEmojii"]" class="m-2 mb-0 btn-sm" ButtonStyle="ButtonStyle.Light" Click="@(() => RedirectToCalendar())"></RadzenButton>
+        <RadzenButton Text="@localizer["PeopleWithEmojii"]" class="m-2 mb-0 btn-sm" ButtonStyle="ButtonStyle.Light" Click="@(() => RedirectToPeople())"></RadzenButton>
+        <RadzenButton Text="@localizer["ApprovalWithEmojii"]" class="m-2 mb-0 btn-sm" ButtonStyle="ButtonStyle.Light" Click="@(() => RedirectToApproval())"></RadzenButton>
+    </div>
+
+    <div class="col">
+        <div class="d-flex justify-content-center">
+
+            <div class="card text-white bg-success mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@localizer["Alltime"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">@localizer["Approved"]</h5>
+                    <p class="card-text h3 text-center">@Approved</p>
+                </div>
+            </div>
+
+            <div class="card text-dark bg-warning mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@localizer["Alltime"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">@localizer["Drafts"]</h5>
+                    <p class="card-text h3 text-center">@Draft</p>
+                </div>
+            </div>
+
+            <div class="card text-dark bg-light mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@localizer["Alltime"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="color:black"><a href="/approval"> @localizer["Submitted"]</a></h5>
+                    <p class="card-text h3 text-center">@Submitted</p>
+                </div>
+            </div>
+
+            <div class="card text-white bg-danger mb-3 m-4" style="width: 15rem;">
+                <div class="card-header text-center">@localizer["Alltime"]</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">@localizer["Rejected"]</h5>
+                    <p class="card-text h3 text-center">@Rejected</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+}
+

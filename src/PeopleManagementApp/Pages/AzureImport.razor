@@ -1,0 +1,320 @@
+﻿@page "/AzureImports"
+@using global::App.Models;
+@using global::App.Repository;
+@using filterMode = Radzen.FilterMode;
+@using global::PeopleManagement.Api.Proxy.Client.Api;
+@inject ICollaboratorApi collaboratorProxy
+@inject PeopleAppRepository peopleAppRepository
+@inject NavigationManager NavigationManager
+@inject DialogService dialogService
+@inject IJSRuntime JsRuntime
+@inject TooltipService tooltipService
+@inject GraphServiceClient graphServiceClient
+@inject IStringLocalizer<Resource> Loc
+@layout PrivateMainLayout
+@attribute [Authorize(Policy = "Supervisor")]
+
+@if (_azureCollaborators.azureCollaborator == null)
+{
+    <p>@Loc["LoadingAD"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <div class="breadcrumb" style="justify-content: left;">
+        <RadzenBreadCrumb>
+            <RadzenBreadCrumbItem Path="/Home" Text="@Loc["Home"]" />
+            <RadzenBreadCrumbItem Path="/AzureImports" Text="@Loc["AzureList"]" />
+        </RadzenBreadCrumb>
+    </div>
+    <div class="container">
+    <RadzenRow Style="padding-bottom: 0px">
+        <RadzenColumn Style="display:grid; justify-content:start;">
+            <RadzenButton Variant="Variant.Text" style="justify-content:left; display:grid;" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left"></i> </RadzenButton>
+        </RadzenColumn>
+        <RadzenColumn Style="display:grid; justify-content:center;">
+            <RadzenText TextStyle="TextStyle.H5" style="justify-content:center;">Azure AD</RadzenText>
+        </RadzenColumn>
+        <RadzenColumn Style="display:grid; justify-content:end;">
+            <RadzenButton Variant="Variant.Text" style="justify-content:right;" Click=" ()=> GoForward()"><i class="fas fa-solid fa-arrow-right"></i> </RadzenButton>
+        </RadzenColumn>
+    </RadzenRow>
+        <RadzenRow>
+            <RadzenColumn Style="justify-content:left; display:grid;">
+                <RadzenRow>
+                    <RadzenTextBox Placeholder="@Loc["SearchPlaceHolder"]" @bind-Value="filter" style="justify-content:left; display:grid;"></RadzenTextBox>
+                    @if (IsFiltered == false)
+                    {
+                        <RadzenButton Variant="Variant.Text" Text="🔍" style="justify-content:left; display:grid;" class="rz-text-secondary-color" Click="() => Search(filter)"></RadzenButton>
+                    }
+                    else if (IsFiltered == true)
+                    {
+                        <RadzenButton Variant="Variant.Text" Text="❌" style="justify-content:left; display:grid;" class="rz-text-secondary-color" Click="() => Search(filter)"></RadzenButton>
+                    }
+                </RadzenRow>
+            </RadzenColumn>
+            <RadzenColumn>
+                <div style="display: grid; justify-content:right;">
+                    <RadzenRow>
+                        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Click="() => AzureImportSelected()">@Loc["AzureImportSButton"] <i class="fas fa-solid fa-download"></i></RadzenButton>
+                        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Click="() => ImportAzureAd()">@Loc["AzureImportAButton"] <i class="fas fa-solid fa-download"></i></RadzenButton>
+                    </RadzenRow>
+                    </div>
+            </RadzenColumn>
+        </RadzenRow>
+    <RadzenDataGrid AllowPaging="true"
+                LoadData="@LoadData"
+                AllowFiltering="false"
+                AllowColumnResize="true"
+                AllowAlternatingRows="false"
+                AllowSorting="false"
+                PagerHorizontalAlign="HorizontalAlign.Justify"
+                ShowPagingSummary="true"
+                Data="@_azureCollaborators.azureCollaborator"
+                TItem="AllPeopleModel"
+                LogicalFilterOperator="LogicalFilterOperator.Or"
+                Count="@Count"
+                PageSize="@PageSize"
+                IsLoading="@isLoading">
+                
+        <Columns>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["Select"]" Frozen="true" Width="90px">
+                <Template Context="azureCollaborator">
+                    <div class="form-check d-flex align-items-center justify-content-center">
+                        <input class="form-check-input" type="checkbox" checked="@azureCollaborator.Selected" @onchange="@(args => azureCollaborator.Selected = args.Value.ToString().ToLowerInvariant() == "true")" />
+                    </div>
+
+                </Template>
+            </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["F_Name"]" Frozen="true">
+                <Template Context="azureCollaborator">
+                    <RadzenText Style="text-align:left; " TextStyle="TextStyle.Body1"><b>@(azureCollaborator.FirstName) </b></RadzenText>
+                </Template>
+            </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["L_Name"]">
+                <Template Context="azureCollaborator">
+                    <RadzenText TextStyle="TextStyle.Body2">@azureCollaborator.LastName</RadzenText>
+                </Template>
+            </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["Email"]">
+                <Template Context="azureCollaborator">
+                    <RadzenText TextStyle="TextStyle.Body2">@azureCollaborator.Email</RadzenText>
+                </Template>
+            </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["ImportCollaborator"]" Frozen="true" Width="160px">
+                <Template Context="azureCollaborator">
+                    <div class="d-flex align-items-center justify-content-center">
+                    <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Click="() => AzureImportOne(azureCollaborator.PeopleGUID)">
+                        <i class="fas fa-solid fa-download"></i>
+                    </RadzenButton>
+                        </div>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+    </div>
+}
+
+@code {
+    RadzenDataGrid<AllPeopleModel> grid;
+    private (List<AllPeopleModel> azureCollaborator, int count) _azureCollaborators;
+    User? _user;
+    bool isLoading = false;
+    private bool birthday = false;
+    private int PageSize { get; set; } = 9;
+    private int Count { get; set; }
+    public Guid personGuid { get; set; }
+    bool isEditMode = false;
+    private string filter { get; set; } = null!;
+    bool IsFiltered = false;
+    bool check;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            LoadDataArgs args = new LoadDataArgs()
+                {
+                    Filter = "",
+                    Skip = 0,
+                    OrderBy = "",
+                    Top = PageSize,
+                };
+
+            await LoadData(args);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+    async Task LoadData(LoadDataArgs args)
+    {
+        try
+        {
+            isLoading = true;
+            var skip = args.Skip ?? 0;
+            var page = (int)(skip / PageSize) + 1;
+            var filter = args.Filter;
+
+            _azureCollaborators = await peopleAppRepository.GetAzure(page, PageSize, null!);
+
+            Count = _azureCollaborators.count;
+            isLoading = false;
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+    }
+    public async Task Search(string filter)
+    {
+        var page = 1;
+        PageSize = 10;
+        if (IsFiltered == false)
+        {
+            isLoading = true;
+            _azureCollaborators = await peopleAppRepository.GetAzure(page, PageSize, filter);
+            Count = _azureCollaborators.count;
+            isLoading = false;
+            IsFiltered = true;
+        }
+        else if (IsFiltered == true)
+        {
+            isLoading = true;
+            _azureCollaborators = await peopleAppRepository.GetAzure(page, PageSize, null!);
+            Count = _azureCollaborators.count;
+            isLoading = false;
+            IsFiltered = false;
+        }
+    }
+
+    private async Task ImportAzureAd()
+    {
+        _user = await graphServiceClient.Me.Request().GetAsync();
+        var userId = _user.Id;
+        try
+        {
+            bool? confirm = await dialogService.Confirm($"{Loc["AzureAlertAll"]}", $"{Loc["AzureTitle"]}", new ConfirmOptions() { OkButtonText = $"{Loc["Yes"]}", CancelButtonText = $"{Loc["No"]}" });
+            if (confirm == true)
+            {
+                foreach (var item in _azureCollaborators.azureCollaborator)
+                {
+                    if (item.Email != null)
+                    {
+                        item.CreatedBy = _user.DisplayName;
+                        item.CreatedDate = DateTime.Now;
+                        await peopleAppRepository.ImportAzure(Guid.Parse(userId), item);
+                    }
+                    else
+                    {
+                        await dialogService.Alert($"{Loc["AzureFail"]} {item.FirstName + " " + item.LastName}. {Loc["AzureValidation"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                    }
+                }
+                await dialogService.Alert($"{Loc["AzureImportSuccessfull"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                NavigationManager.NavigateTo($"Collaborators");
+            }
+            else
+            {
+                await dialogService.Alert($"{Loc["AzureCancelImport"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Data);
+            await JsRuntime.InvokeVoidAsync("alert", $"Error: {ex}"); // Alert
+        }
+    }
+
+    private async void AzureImportSelected()
+    {
+        _user = await graphServiceClient.Me.Request().GetAsync();
+        var userId = _user.Id;
+        try
+        {
+            bool? confirm = await dialogService.Confirm($"{Loc["AzureImportSelected"]}", $"{Loc["AzureTitle"]}", new ConfirmOptions() { OkButtonText = $"{Loc["Yes"]}", CancelButtonText = $"{Loc["No"]}" });
+            if (confirm == true)
+            {
+                foreach (var item in _azureCollaborators.azureCollaborator)
+                {
+                    if (item.Selected)
+                    {
+                        if (item.Email != null)
+                        {
+                            item.CreatedBy = _user.DisplayName;
+                            item.CreatedDate = DateTime.Now;
+                            await peopleAppRepository.ImportAzure(Guid.Parse(userId), item);
+                        }
+                        else
+                        {
+                            await dialogService.Alert($"{Loc["AzureFail"]} {item.FirstName + " " + item.LastName}. {Loc["AzureValidation"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                        }
+                    }
+                }
+                await dialogService.Alert($"{Loc["AzureImportSuccessfull"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                NavigationManager.NavigateTo($"Collaborators");
+            }
+            else
+            {
+                await dialogService.Alert($"{Loc["AzureCancelImport"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Data);
+            await JsRuntime.InvokeVoidAsync("alert", $"Error: {ex}"); // Alert
+        }
+    }
+
+    private async void AzureImportOne(Guid azureGuid)
+    {
+        _user = await graphServiceClient.Me.Request().GetAsync();
+        var userId = _user.Id;
+
+        try
+        {
+            AllPeopleModel model = _azureCollaborators.azureCollaborator.FirstOrDefault(c => c.PeopleGUID == azureGuid);
+            bool? confirm = await dialogService.Confirm($"{Loc["AzureImporting"]} {model.FirstName + " " + model.LastName}. {Loc["AzureSure"]}", $"{Loc["AzureTitle"]}", new ConfirmOptions() { OkButtonText = $"{Loc["Yes"]}", CancelButtonText = $"{Loc["No"]}" });
+            if (confirm == true)
+            {
+                model.PeopleGUID = azureGuid;
+                model.CreatedBy = _user.DisplayName;
+                var response = await peopleAppRepository.ImportAzure(Guid.Parse(userId), model);
+                if (response != null)
+                {
+                    await dialogService.Alert($"{Loc["AzureImportSuccessfull"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                    NavigationManager.NavigateTo($"Collaborators/{model.PeopleGUID}");
+                }
+                else
+                {
+                    await dialogService.Alert($"{Loc["AzureFail"]}. {Loc["AzureValidation"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                }
+            }
+            else
+            {
+                await dialogService.Alert($"{Loc["AzureCancelImport"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Data);
+            await dialogService.Alert($"{Loc["AzureFail"]}", $"{Loc["AzureTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+        }
+    }
+
+
+    private async void GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
+    }
+    private async void GoForward()
+    {
+        await JsRuntime.InvokeVoidAsync("history.forward");
+    }
+}

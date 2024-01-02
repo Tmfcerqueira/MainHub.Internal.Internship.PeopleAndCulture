@@ -1,0 +1,75 @@
+﻿@page "/approval"
+@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using MainHub.Internal.PeopleAndCulture.Common;
+@attribute [Authorize(Roles = "SkillHub.Supervisor")]
+<PageTitle>@localizer["Approval"]</PageTitle>
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+
+@if (_pageLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">@localizer["Loading..."]</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+<div class="container">
+    <h2 class="text-center">Submitted Absences</h2>
+        <RadzenRow style="display: flex; align-items: center;">
+            <RadzenBreadCrumb>
+                <RadzenBreadCrumbItem Path="/admindashboard" Text="@localizer["AdminDashboard"]" />
+                <RadzenBreadCrumbItem Path="/approval" Text="@localizer["Approval"]" />
+            </RadzenBreadCrumb>
+            <div style="flex-grow: 1; text-align: right;">
+                <span class="info-text">@localizer["DoubleClickDetails"]</span>
+            </div>
+        </RadzenRow>
+
+    <RadzenDataGrid
+                    AllowPaging="true"
+                    LoadData="@LoadData"
+                    AllowFiltering="true"
+                    AllowColumnResize="true"
+                    AllowAlternatingRows="false"
+                    FilterMode="FilterMode.Simple"
+                    AllowSorting="true"
+                    PagerHorizontalAlign="HorizontalAlign.Justify"
+                    ShowPagingSummary="true"
+                    Data="@_absences.absences"
+                    TItem="AbsenceModel"
+                    ColumnWidth="300px"
+                    Count=@Count
+                    PageSize=@PageSize
+                    IsLoading="@_isLoading"
+                    RowDoubleClick="(args) => ShowAbsence(args.Data.AbsenceGuid)">
+        <Columns>
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceType" Title="@localizer["AbsenceType"]" Width="160px" Frozen="true" Filterable="false" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="PersonName" Title="@localizer["Person"]" Width="160px" Frozen="true" Filterable="false" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceStart" FormatString="{0:yyyy-MM-dd}" Title="@localizer["Start"]" Width="150px" Filterable="false" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceEnd" FormatString="{0:yyyy-MM-dd}" Title="@localizer["End"]" Width="150px" Filterable="false" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="Schedule" Title="@localizer["Schedule"]" Filterable="false" Width="160px" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Title="@localizer["Action"]" Width="160px" Filterable="false" Sortable="false">
+                <Template Context="absence">
+                        <div class="d-flex justify-content-center">
+                        <RadzenButton MouseEnter="@(args => ShowApproveTooltip(args) )" class="btn btn-sm m-2 justify-content-center d-flex align-items-center" Click="()=>ApproveItem(absence.AbsenceGuid)" ButtonStyle="ButtonStyle.Success">
+                                <i class="fas fa-check"></i>
+                            </RadzenButton>
+                        <RadzenButton MouseEnter="@(args => ShowRejectTooltip(args) )"class="btn btn-sm m-2 justify-content-center d-flex align-items-center" Click="()=>RejectItem(absence.AbsenceGuid)" ButtonStyle="ButtonStyle.Danger">
+                                <i class="fas fa-times"></i>
+                            </RadzenButton>
+                        </div>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+</div>
+}

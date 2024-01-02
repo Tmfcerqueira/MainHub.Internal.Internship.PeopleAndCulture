@@ -1,0 +1,18 @@
+﻿body {
+    background-image: url('https://media.istockphoto.com/id/919850588/pt/foto/blue-gradient-soft-background.jpg?s=170667a&w=0&k=20&c=0cmd-08ZFFPApdzGprdWH5-pC5uJlVL_A2XUeSWAc1o=');
+    overflow: hidden;
+    background-size: cover;
+}
+.card bg-dark text-white {
+    border-radius: 1rem;
+
+}
+/*
+#madeby {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin-right: 2%;
+        font-size: x-small;
+        margin-bottom: 2%;
+}*/

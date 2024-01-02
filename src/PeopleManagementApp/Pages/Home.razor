@@ -1,0 +1,218 @@
+﻿@page "/home"
+@using global::App.Models;
+@using global::App.Repository;
+@using global::PeopleManagement.Api.Proxy.Client.Api;
+@attribute [Authorize(Policy = "Supervisor")]
+@inject PeopleAppRepository peopleAppRepository
+@inject ICollaboratorApi collaboratorProxy
+@inject NavigationManager NavigationManager
+@inject DialogService dialogService
+@inject IJSRuntime JsRuntime
+@inject TooltipService tooltipService
+@inject IStringLocalizer<Resource> Loc
+
+@layout PrivateMainLayout
+
+
+@if (IsLoading == true)
+{
+    <p>@Loc["Loading"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <h1 class="text-center my-2">@Loc["AppName"] </h1>
+
+    <div class="col mt-5">
+        <div class="d-flex justify-content-center">
+            <div class="card text-dark bg-warning mb-3 m-4" style="width: 18rem;">
+                <div class="card-header text-center">@Loc["AzurePending"]</div>
+                <div class="card-body">
+                    <p class="card-text h3 text-center">@CountImports</p>
+                    <div class="d-flex justify-content-center">
+                        <RadzenButton class="m-1" ButtonStyle="ButtonStyle.Light" Click="@(() => RedirectToAzure())"> @Loc["AzureHomeButton"]  <i class="fas fa-solid fa-download"></i> </RadzenButton>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-white bg-success mb-3 m-4" style="width: 18rem;">
+                <div class="card-header text-center">@Loc["CollaboratorsName"]</div>
+                <div class="card-body">
+                    <p class="card-text h3 text-center">@Count</p>
+                    <div class="d-flex justify-content-center">
+                        <RadzenButton class="m-1" ButtonStyle="ButtonStyle.Success" Click="@(() => RedirectToAddCollaborators())"> @Loc["CollaboratorAddButtonHome"] <i class="fas fa-solid fa-plus"> </i></RadzenButton>
+                        <RadzenButton class="m-1" ButtonStyle="ButtonStyle.Success" Click="@(() => RedirectToCollaborators())"> @Loc["CollaboratorViewButtonHome"] <i class="fas fa-solid fa-users"> </i> </RadzenButton>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light mb-3 m-4" style="width: 18rem;">
+                <div class="card-header text-center">@Loc["BirthdaysTitle"] </div>
+                <div class="card-body">
+                    <p class="card-text h3 text-center">@CountBirthdays</p>
+                    <div class="d-flex justify-content-center">
+                        <RadzenButton class="m-1" ButtonStyle="ButtonStyle.Info" Click="@(() => SeeBirthdays())"> @Loc["BirthdaysHomeButton"] <i class="fas fa-solid fa-gift"> </i> </RadzenButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <RadzenRow Style="margin-top:1rem">
+            <RadzenColumn Style="display:grid; justify-content:start;">
+                <RadzenIcon Icon="help_outline" MouseEnter="@(args => ShowTooltip(args) )" />
+            </RadzenColumn>
+            <RadzenColumn Style="display:grid; justify-content:center;">
+                <RadzenText TextStyle="TextStyle.H5" style="justify-content:center;">@Loc["BirthdaysTitle"]</RadzenText>
+            </RadzenColumn>
+            <RadzenColumn Style="display:grid; justify-content:right;">
+                
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenDataGrid AllowPaging="true"
+                    LoadData="@LoadData"
+                    AllowFiltering="false"
+                    AllowColumnResize="true"
+                    AllowAlternatingRows="false"
+                    AllowSorting="false"
+                    PagerHorizontalAlign="HorizontalAlign.Justify"
+                    ShowPagingSummary="true"
+                    Data="@birthdays"
+                    TItem="AllPeopleModel"
+                    Count="@CountBirthdays"
+                    PageSize="@PageSize"
+                    IsLoading="@isLoading"
+                    RowDoubleClick="(args) => ShowCollaborator(args.Data.PeopleGUID)"
+                        class="custom-datagrid">
+
+            <Columns>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["Name"]" Frozen="true">
+                    <Template Context="birthdays">
+                        <RadzenText Style="text-align:left; " TextStyle="TextStyle.Body1"><b>@(birthdays.FirstName + " " + birthdays.LastName)</b></RadzenText>
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["BirthDate"]">
+                    <Template Context="birthdays">
+                        @if (birthdays.BirthDate.ToString("dd-MM-yyyy") == "01-01-0001" || birthdays.BirthDate.ToString("dd-MM-yyyy") == "31-12-2999" || birthdays.BirthDate.ToString("dd-MM-yyyy") == "01-01-1900")
+                        {
+                            <RadzenText TextStyle="TextStyle.Body2">@Loc["NoDate"]</RadzenText>
+                        }
+                        else
+                        {
+                            <RadzenText TextStyle="TextStyle.Body2">@birthdays.BirthDate.ToString("dd-MM-yyyy")</RadzenText>
+                        }
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AllPeopleModel" Title="@Loc["TableDaysUntil"]">
+                    <Template Context="birthdays">
+                        @if (birthdays.BirthDate.Day - DateTime.Now.Day == 0)
+                        {
+                            <RadzenText TextStyle="TextStyle.Body2">@Loc["TableDays"]</RadzenText>
+                        }
+                        else
+                        {
+                            <RadzenText TextStyle="TextStyle.Body2">@(birthdays.BirthDate.Day - DateTime.Now.Day)</RadzenText>
+                        }
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+}
+
+
+
+@code{
+    private (List<AllPeopleModel> collaborators, int count) _collaborators;
+    private (List<AllPeopleModel> azureCollaborator, int count) _azureCollaborators;
+    List<AllPeopleModel> birthdays { get; set; }
+    private int Count { get; set; }
+    private int CountImports { get; set; }
+    private int CountBirthdays { get; set; }
+    private bool IsLoading { get; set; } = true;
+    private int PageSize { get; set; } = 5;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            LoadDataArgs args = new LoadDataArgs()
+                {
+                    Filter = "",
+                    Skip = 0,
+                    OrderBy = "",
+                    Top = PageSize,
+                };
+
+            await LoadData(args);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+    async Task LoadData(LoadDataArgs args)
+    {
+        try
+        {
+            _collaborators = await peopleAppRepository.GetAllCollaborators(1, 500, null!, State.Active);
+            Count = _collaborators.count;
+            _azureCollaborators = await peopleAppRepository.GetAzure(1, 500, null!);
+            CountImports = _azureCollaborators.count;
+            birthdays = await peopleAppRepository.GetBirthdays();
+            CountBirthdays = birthdays.Count();
+            IsLoading = false;
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+    }
+    public void ShowCollaborator(Guid Id)
+    {
+        try
+        {
+            NavigationManager.NavigateTo($"Collaborators/{Id}");
+        }
+        catch (Exception ex)
+        {
+            dialogService.Alert($"{Loc["NoInfo"]}", $"{Loc["NoInfoTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+            Console.WriteLine(ex);
+            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+        }
+    }
+    public void RedirectToAzure()
+    {
+        NavigationManager.NavigateTo($"AzureImports");
+    }
+    public void RedirectToCollaborators()
+    {
+        NavigationManager.NavigateTo($"Collaborators");
+    }
+    public async Task SeeBirthdays()
+    {
+        try
+        {
+            await dialogService.OpenAsync<BirthdaysPage>(
+            "Next 7 days Birthdays",
+            new Dictionary<string, object>(),
+            new DialogOptions() { Width = "60%", Height = "60%", Resizable = false, Draggable = false });
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+    }
+    public void RedirectToAddCollaborators()
+    {
+        NavigationManager.NavigateTo($"Collaborators/Add");
+    }
+
+    void ShowTooltip(ElementReference elementReference, TooltipOptions options = null) => tooltipService.Open(elementReference, $"{Loc["Tooltip"]}", options);
+}

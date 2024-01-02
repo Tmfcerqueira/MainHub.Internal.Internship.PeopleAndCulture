@@ -1,0 +1,108 @@
+﻿@page "/dashboard"
+@layout PrivateMainLayout
+
+@using MainHub.Internal.PeopleAndCulture.AbsentManagement.AppRepository.Models;
+@using MainHub.Internal.PeopleAndCulture.AbsentManagement.Shared.Private;
+@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+@attribute [Authorize(Roles = "SkillHub.User")]
+
+<PageTitle>@localizer["Dashboard"]</PageTitle>
+
+
+        @if (_isLoading)
+        {
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="col-4 text-center">
+                    <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+                    <p class="loading-text">@localizer["Loading..."]</p>
+                </div>
+                <div class="col-6 text-center">
+                    <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <h3 class="text-center">@localizer["Dashboard"]</h3>
+
+            <div class="d-flex justify-content-center">
+                <RadzenButton Text="@localizer["CalendarView"]" class="m-2 mb-0 btn-sm" ButtonStyle="ButtonStyle.Light" Click="@(() => RedirectToCalendar())"></RadzenButton>
+                <RadzenButton Text="@localizer["RequestAbsence"]" class="m-2 mb-0 btn-sm" ButtonStyle="ButtonStyle.Success" Click="@(() => RedirectToRequest())"></RadzenButton>
+                <RadzenButton Text="@localizer["ListView"]" class="m-2 mb-0 btn-sm" ButtonStyle="ButtonStyle.Info" Click="@(() => RedirectToListView())"></RadzenButton>
+            </div>
+
+            <div class="col">
+                <div class="d-flex justify-content-center">
+
+                    <div class="card text-white bg-success mb-3 m-4" style="width: 15rem;">
+                        <div class="card-header text-center">Next 7 days</div>
+                        <div class="card-body" style="font-size: 1.2rem;">
+                            <h5 class="card-title text-center" style="font-size: 1rem;">@localizer["Approved"]</h5>
+                            <p class="card-text h3 text-center" style="font-size: 1rem;">@Approved</p>
+                        </div>
+                    </div>
+
+                    <div class="card text-dark bg-warning mb-3 m-4" style="width: 15rem;">
+                        <div class="card-header text-center">Next 7 days</div>
+                        <div class="card-body" style="font-size: 1.2rem;">
+                            <h5 class="card-title text-center" style="font-size: 1rem;">@localizer["Drafts"]</h5>
+                            <p class="card-text h3 text-center" style="font-size: 1rem;">@Draft</p>
+                        </div>
+                    </div>
+
+                    <div class="card text-dark bg-light mb-3 m-4" style="width: 15rem;">
+                        <div class="card-header text-center">Next 7 days</div>
+                        <div class="card-body" style="font-size: 1.2rem;">
+                            <h5 class="card-title text-center" style="font-size: 1rem;">@localizer["Submitted"]</h5>
+                            <p class="card-text h3 text-center" style="font-size: 1rem;">@Submitted</p>
+                        </div>
+                    </div>
+
+                    <div class="card text-white bg-danger mb-3 m-4" style="width: 15rem;">
+                        <div class="card-header text-center">Next 7 days</div>
+                        <div class="card-body" style="font-size: 1.2rem;">
+                            <h5 class="card-title text-center" style="font-size: 1rem;">@localizer["Rejected"]</h5>
+                            <p class="card-text h3 text-center" style="font-size: 1rem;">@Rejected</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h5 class="text-center mb-2 text-success">@localizer["NextWeek"]</h5>
+
+                <div class="d-flex justify-content-center">
+                    <RadzenDataGrid Style="max-width:40rem;"
+                                AllowPaging="true"
+                                LoadData="@LoadApprovedData"
+                                AllowColumnResize="true"
+                                AllowAlternatingRows="false"
+                                FilterMode="FilterMode.Simple"
+                                AllowSorting="false"
+                                PagerHorizontalAlign="HorizontalAlign.Justify"
+                                ShowPagingSummary="true"
+                                Data="@_approvedAbsences.absences"
+                                TItem="AbsenceModel"
+                                ColumnWidth="300px"
+                                Count=@Count
+                                PageSize=@PageSize
+                                IsLoading="@_tableIsLoading"
+                                RowDoubleClick="(args) => ShowAbsence(args.Data.AbsenceGuid)">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceType" Title="@localizer["AbsenceType"]" Width="160px" Frozen="true" Filterable="false" />
+                            <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceStart" FormatString="{0:yyyy-MM-dd}" Title="@localizer["Start"]" Width="150px" Filterable="false" />
+                            <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceEnd" FormatString="{0:yyyy-MM-dd}" Title="@localizer["End"]" Width="150px" Filterable="false" />
+                        </Columns>
+                    </RadzenDataGrid>
+                </div>
+
+                @if (Count > 0)
+                {
+                    <div class="d-flex justify-content-center m-2">
+                        @localizer["DoubleClickDetails"]
+                    </div>
+                }
+
+            </div>
+        }

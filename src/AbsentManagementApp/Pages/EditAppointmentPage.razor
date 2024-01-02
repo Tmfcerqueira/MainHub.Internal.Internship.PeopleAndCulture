@@ -1,0 +1,176 @@
+﻿@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using MainHub.Internal.PeopleAndCulture.Common;
+@using PeopleAndCulture.App.Repository;
+@using Radzen;
+@using Radzen.Blazor;
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+
+@if (_isLoading)
+{
+    <RadzenTemplateForm TItem="AbsenceModel">
+        <div class="m-2" style="width: 400px;">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">@localizer["Loading..."]</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+        </div>
+    </RadzenTemplateForm>
+}
+else
+{
+<RadzenTemplateForm TItem="AbsenceModel" Data="@_model" Submit=@OnSubmit>
+    <div class="m-2" style="width: 400px;">
+        @if(NavigationManager.Uri.Split('/')[3] == "alluserscalendar")
+            {
+                <div class="mb-2">
+                    <label for="PersonName" class="form-label" style="color: #666;">Person</label>
+                    <div>
+                            <RadzenLabel class="text-info" Text="@_model.PersonName"/>
+                        
+                    </div>
+                </div>
+            }
+        <div class="mb-2">
+            <label for="absenceType" class="form-label" style="color: #666;">@localizer["AbsenceType"]</label>
+            <div>
+                    @if (_model.ApprovalStatus == ApprovalStatus.Draft || _model.ApprovalStatus == ApprovalStatus.Rejected)
+                    {
+                        <RadzenDropDown Name="Type" @bind-Value=_model.AbsenceTypeGuid AllowVirtualization="true" AllowFiltering="true" Data=@_types TextProperty="Type" ValueProperty="TypeGuid" Style="width: 100%;" />
+                        <RadzenRequiredValidator Text="Type is required" Component="Type" Style="position: absolute" />
+                    }
+                    else
+                    {
+                        <RadzenLabel Text="@_model.AbsenceType" />
+                    }
+            </div>
+        </div>
+        <div class="mb-2">
+            <label for="schedule" class="form-label" style="color: #666;">@localizer["Schedule"]</label>
+            <div>
+                    @if (_model.ApprovalStatus == ApprovalStatus.Draft || _model.ApprovalStatus == ApprovalStatus.Rejected)
+                    {
+                         <RadzenDropDown Name="Schedule" @bind-Value=@_model.Schedule Data=@_scheduleListTextFieldList Style="width: 100%;" />
+                         <RadzenRequiredValidator Text="Schedule is required" Component="Schedule" />
+                    }
+                    else
+                    {
+                        <RadzenLabel Text="@_model.Schedule" />
+                    }
+                </div>
+        </div>
+            @if (NavigationManager.Uri.Split('/')[3] == "alluserscalendar")
+            {
+                <div class="mb-2">
+                <label for="aprovedBy" class="form-label" style="color: #666;">@localizer["ApprovedBy"]</label>
+                <div>
+                        <RadzenLabel Text="@_model.ApprovedBy.ToString()" />
+                </div>
+                </div>
+            }
+        <div class="mb-2">
+            <label for="approvalStatus" class="form-label" style="color: #666;">@localizer["ApprovalStatus"]</label>
+            <div>
+                    @if (_model.ApprovalStatus == ApprovalStatus.Approved)
+                    {
+                        <RadzenLabel Text="@_model.ApprovalStatus.ToString()" class="text-success" />
+                    }
+                    else
+                    {
+                        if (_model.ApprovalStatus == ApprovalStatus.Rejected)
+                        {
+                        <RadzenLabel Text="@_model.ApprovalStatus.ToString()" class="text-danger" />
+                        }
+                        else
+                        {
+                        <RadzenLabel Text="@_model.ApprovalStatus.ToString()"/>
+                        }
+                    }
+                </div>
+        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-2">
+                        <label for="absenceStart" class="form-label" style="color: #666;">@localizer["AbsenceStart"]</label>
+                        <div>
+                            @if (_model.ApprovalStatus != ApprovalStatus.Draft || _model.ApprovalStatus == ApprovalStatus.Rejected)
+                            {
+                                <RadzenLabel Text="@_model.AbsenceStart.ToString("yyyy/MM/dd")" />
+                            }
+                            else
+                            {
+                                <RadzenDatePicker Name="Start" @bind-Value=@_model.AbsenceStart ShowTime="true" DateFormat="yyyy/MM/dd" Min="new DateTime(DateTime.Now.Year, 1, 1)" Max="new DateTime(DateTime.Now.Year, 12, 31)" />
+                                <RadzenRequiredValidator Text="Start Date is required" Component="Start" />
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                        <label for="absenceEnd" class="form-label" style="color: #666;">@localizer["AbsenceEnd"]</label>
+                        <div>
+                        @if (_model.ApprovalStatus != ApprovalStatus.Draft || _model.ApprovalStatus == ApprovalStatus.Rejected)
+                            {
+                                <RadzenLabel Text="@_model.AbsenceEnd.ToString("yyyy/MM/dd")" />
+                            }
+                            else
+                            {
+                                <RadzenDatePicker Name="End" @bind-Value=@_model.AbsenceEnd ShowTime="true" DateFormat="yyyy/MM/dd" Min="new DateTime(DateTime.Now.Year, 1, 1)" Max="new DateTime(DateTime.Now.Year, 12, 31)" />
+                                <RadzenRequiredValidator Text="End Date is required" Component="End" />
+                            }
+                        </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label for="description" class="form-label" style="color: #666;">@localizer["Description"]</label>
+                        <div>
+                    @if (_model.ApprovalStatus != ApprovalStatus.Draft && _model.ApprovalStatus != ApprovalStatus.Rejected)
+                            {
+                            <RadzenTextArea Style="resize: none;width: -webkit-fill-available;" ReadOnly="true" MaxLength="300" @bind-Value=_model.Description />
+                            }
+                            else
+                            {
+                            <RadzenTextArea Style="resize: none;width: -webkit-fill-available;" MaxLength="300" @bind-Value=_model.Description />
+                            }
+                           
+                        </div>
+                </div>
+
+               
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            @if (_model.ApprovalStatus == ApprovalStatus.Draft || _model.ApprovalStatus == ApprovalStatus.Rejected)
+                {
+                    <RadzenButton Shade="Shade.Lighter" ButtonType="ButtonType.Submit" Text="Save Absence" ButtonStyle="ButtonStyle.Primary" />
+                }
+        </div>
+    </RadzenTemplateForm>
+    <div style="position: absolute; left: 0; bottom: 0;">
+        @if (_model.ApprovalStatus == ApprovalStatus.Draft || _model.ApprovalStatus == ApprovalStatus.Rejected)
+        {
+            <RadzenButton MouseEnter="@(args => ShowSubmitTooltip(args) )" Style="margin-left: 10px; margin-bottom: 10px; display: flex; justify-content: center; align-items: center;" Shade="Radzen.Shade.Lighter" ButtonStyle="Radzen.ButtonStyle.Success" Click="SubmitItem">
+                <i class="fas fa-check"></i>
+            </RadzenButton>
+        }
+    </div>
+    <div style="position: absolute; right: 0; bottom: 0;">
+        @if (_model.ApprovalStatus == ApprovalStatus.Rejected || _model.ApprovalStatus == ApprovalStatus.Draft)
+        {
+            <RadzenButton MouseEnter="@(args => ShowDeleteTooltip(args))" Style="margin-right: 10px; margin-bottom: 10px; justify-content: center; align-items: center;" Shade="Radzen.Shade.Lighter" ButtonStyle="Radzen.ButtonStyle.Danger" Click="DeleteItem">
+                <i class="fa fa-trash"></i>
+            </RadzenButton>
+
+        }
+
+        <RadzenButton MouseEnter="@(args => ShowHistoryTooltip(args) )" Style="margin-right: 10px; margin-bottom: 10px;" Shade="Radzen.Shade.Lighter" Text="🕝" ButtonStyle="Radzen.ButtonStyle.Info" Click="OpenHistoryDialog" />
+    </div>
+       
+}

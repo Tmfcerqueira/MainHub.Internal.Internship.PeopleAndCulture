@@ -1,0 +1,131 @@
+﻿@page "/ViewContactInfo/{PGuid:guid}/{CGuid:guid}"
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Shared.Private;
+@using Radzen.Blazor
+@using Radzen;
+@using Radzen.Blazor.Rendering;
+@using global::PartnerManagement.App.Models;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@layout PrivateLayout
+@attribute [Authorize(Policy = "Supervisor")]
+
+@if (_contactModel == null)
+{
+    <p>@Localization["LoadingContactInfo"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <h8>
+        <a href="ShowPartnerData" style="font-size:14px" @onclick="RedirectToPartners">@Localization["PartnersList"]</a>
+        »
+        <a href="ShowPartnerData" style="font-size:14px" @onclick="RedirectToPartnerMenu">@_partnerModel.Name</a>
+        »
+        <a href="ShowPartnerData" style="font-size:14px" @onclick="RedirectToContacts">@Localization["ContactsList"]</a>
+        »
+        <a href="ShowPartnerData" style="color:#6e40d2;font-size:14px" @onclick="RedirectToContactMenu"> @_contactModel.Name</a>
+    </h8>
+    <RadzenText TextStyle="TextStyle.H5" class="rz-color-primary-light" Style="margin-left:40%;" id="Ola"><strong>@Localization["ContactMenu"]</strong></RadzenText>
+
+    @if (IsEditMode == true)
+    {
+        <RadzenCard Class="rz-my-5 rz-mx-auto" Style="max-height: 650px !important; overflow:hidden;">
+            <RadzenRow Gap="0">
+                <RadzenButton Variant="Variant.Text" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left" style="justify-content:start; display:grid;"></i> </RadzenButton>
+            </RadzenRow>
+            <RadzenStack JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-p-2">
+                <RadzenText TextStyle="TextStyle.H6" Style="margin-bottom:-2%;" class="rz-color-primary-light" id="Ola"><strong>@Localization["ContactInformation"]</strong></RadzenText>
+                <RadzenRow RowGap="0">
+                    <RadzenColumn SizeSM="4">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PartnersListName"]</RadzenText>
+                        <RadzenTextBox Style="width:300px;" @bind-Value="_contactModel.Name" />
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="4">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Email"]</RadzenText>
+                        <RadzenTextBox Style="width:300px;" @bind-Value="_contactModel.Email"  />
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="4">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PhoneNumber"]</RadzenText>
+                        <RadzenTextBox Style="width:300px;" @bind-Value="_contactModel.PhoneNumber" />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow RowGap="0">
+                    <RadzenColumn SizeSM="12">
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light" id="somethin" Style="margin-top:-0.8%;margin-bottom:-1%"><strong>@Localization["ContactDetail"]</strong></RadzenText>
+                        <RadzenRow RowGap="0">
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Department"]</RadzenText>
+                                <RadzenTextBox Style="width:300px;" @bind-Value="_contactModel.Department" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Role"]</RadzenText>
+                                <RadzenTextBox Style="width:300px;" @bind-Value="_contactModel.Role" />
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Observation"]</RadzenText>
+                                <RadzenTextArea Style="font-size:14px;height:110px;width:300px;resize: none;" @bind-Value="_contactModel.Observation" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenStack>
+            <RadzenRow JustifyContent="JustifyContent.End" Gap="0">
+                <RadzenButton can Variant="Variant.Text" oncancel="@CancelEdit" Text="@Localization["Cancel"]" Click="() => ToggleEditMode()" />
+                <RadzenButton Variant="Variant.Text" Text="@Localization["Save"]" Click="() => SaveChanges()" />
+            </RadzenRow>
+        </RadzenCard>
+    }
+    else
+    {
+        <RadzenCard Class="rz-my-5 rz-mx-auto" Style="max-height: 800px !important; overflow:hidden;">
+            <RadzenRow Gap="0">
+                <RadzenButton Variant="Variant.Text" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left" Style="justify-content:start; display:grid;"></i> </RadzenButton>
+                <RadzenIcon Icon="help_outline" Style="padding-top:1%;margin-left:1.5%" MouseEnter="@(args => ShowTooltip1(args, new TooltipOptions(){ Position = TooltipPosition.Bottom, Duration = 3000 }))" />
+                <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Style="justify-content:end; display:grid;margin-left:1.5%;padding-top:1%;" MouseEnter="@(args => ShowTooltip4(args, new TooltipOptions(){ Position = TooltipPosition.Bottom, Duration = 1000 }))" Click="@(args => ShowDataHistory(Picker = 1, PGuid))"><i class="fas fa-solid fa-clock"></i></RadzenButton>
+                <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Style="margin-left:1.5%;padding-top:1%;" MouseEnter="@(args => ShowTooltip(args, new TooltipOptions(){ Position = TooltipPosition.Bottom, Duration = 1000 }))" Click="@(args => RedirectRequest())"><i class="fa-solid fa-phone"></i></RadzenButton>
+            </RadzenRow>
+            <RadzenStack JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-p-4">
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light" id="somethin" Style="margin-bottom:-1%;"><strong>@Localization["ContactInformation"]</strong></RadzenText>
+                <RadzenRow RowGap="0">
+                    <RadzenColumn SizeSM="4">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PartnersListName"]</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>@(_contactModel.Name)</b></RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="4">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Email"]</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>@_contactModel.Email</b></RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="4">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["PhoneNumber"]</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>@_contactModel.PhoneNumber</b></RadzenText>
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light" id="somethin" Style="margin-top:-0.8%;margin-bottom:-1%;"><strong>@Localization["ContactDetail"]</strong></RadzenText>
+                <RadzenRow RowGap="0">
+                    <RadzenColumn SizeSM="2">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Role"]</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>@(_contactModel?.Role)</b></RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn SizeSM="2">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Department"]</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>@(_contactModel?.Department)</b></RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">@Localization["Observation"]</RadzenText>
+                        <textarea class="rz-textarea" style="width:540px; overflow:hidden;height:125px;resize: none;" readonly>@(_contactModel.Observation)</textarea>
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenStack>
+            <RadzenRow JustifyContent="JustifyContent.End" Gap="0">
+                <RadzenButton Variant="Variant.Text" id="deleteelement" Style="color:#94085a;" Text="@Localization["Delete"]" Click="() => DeleteContact()" />
+                <RadzenButton Variant="Variant.Text" Text="@Localization["Edit"]" Click="() => ToggleEditMode()" />
+            </RadzenRow>
+        </RadzenCard>
+    }
+}
+@code {
+
+}

@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="ActionDate" xml:space="preserve">
+    <value>Action Date</value>
+  </data>
+  <data name="ActionFailed" xml:space="preserve">
+    <value>Failed Action</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AddressInformation" xml:space="preserve">
+    <value>Address Information</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Alert</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="ApproveDeleteContact" xml:space="preserve">
+    <value>Contact Deleted with success</value>
+  </data>
+  <data name="BackTtp" xml:space="preserve">
+    <value>Redirects to the previous page</value>
+  </data>
+  <data name="ButtonSubmit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CancelSearch" xml:space="preserve">
+    <value>Cancel Search</value>
+  </data>
+  <data name="ChangeAccount" xml:space="preserve">
+    <value>Change Account</value>
+  </data>
+  <data name="ChangedDate" xml:space="preserve">
+    <value>Changed Date</value>
+  </data>
+  <data name="CloseTtp" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ContactApproved" xml:space="preserve">
+    <value>Contact successfully edited!</value>
+  </data>
+  <data name="ContactCreation" xml:space="preserve">
+    <value>Contact Creation</value>
+  </data>
+  <data name="ContactDecide" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="ContactDelete" xml:space="preserve">
+    <value>It will cause the contact belonging to the partner of the current context to be deleted!</value>
+  </data>
+  <data name="ContactDetail" xml:space="preserve">
+    <value>Contact Detail</value>
+  </data>
+  <data name="ContactHistory" xml:space="preserve">
+    <value>Contact History</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Contact Information</value>
+  </data>
+  <data name="ContactListSearch" xml:space="preserve">
+    <value>Search contact name</value>
+  </data>
+  <data name="ContactMenu" xml:space="preserve">
+    <value>Contact Menu</value>
+  </data>
+  <data name="ContactNotApproved" xml:space="preserve">
+    <value>There was a problem editing the contact</value>
+  </data>
+  <data name="ContactRedirectTtp" xml:space="preserve">
+    <value>Redirects to the contact creation form</value>
+  </data>
+  <data name="ContactsList" xml:space="preserve">
+    <value>Contacts List</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="CreateContact" xml:space="preserve">
+    <value>Create Contact</value>
+  </data>
+  <data name="CreatePartner" xml:space="preserve">
+    <value>Create Partner</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteTtp" xml:space="preserve">
+    <value>Erases all data belonged to the current Partner and himself</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditTtp" xml:space="preserve">
+    <value>Toggles the edit mode</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EnterAddress" xml:space="preserve">
+    <value>Please enter an Address.</value>
+  </data>
+  <data name="EnterCountry" xml:space="preserve">
+    <value>Please enter a Country.</value>
+  </data>
+  <data name="EnterDepartment" xml:space="preserve">
+    <value>Please enter a department</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Please enter an email</value>
+  </data>
+  <data name="EnterLocality" xml:space="preserve">
+    <value>Please enter a Locality.</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Please enter a Name.</value>
+  </data>
+  <data name="EnterObservation" xml:space="preserve">
+    <value>Please enter an Observation.</value>
+  </data>
+  <data name="EnterObservationn" xml:space="preserve">
+    <value>Please enter a observation</value>
+  </data>
+  <data name="EnterPhoneNum" xml:space="preserve">
+    <value>Please enter a phone number</value>
+  </data>
+  <data name="EnterPhoneNumber" xml:space="preserve">
+    <value>Please enter a Phone Number.</value>
+  </data>
+  <data name="EnterPostalCode" xml:space="preserve">
+    <value>Please enter a Postal code.</value>
+  </data>
+  <data name="EnterRole" xml:space="preserve">
+    <value>Please enter a role</value>
+  </data>
+  <data name="EnterService" xml:space="preserve">
+    <value>Please enter a Service Description.</value>
+  </data>
+  <data name="EnterTaxNumber" xml:space="preserve">
+    <value>Please enter a Tax Number.</value>
+  </data>
+  <data name="EraseAllDataPartner" xml:space="preserve">
+    <value>This will erase all Partner Data associated! You want to proceed?</value>
+  </data>
+  <data name="ErasePartner" xml:space="preserve">
+    <value>This will erase the current Partner! You want to proceed?</value>
+  </data>
+  <data name="ErrorDeleteContact" xml:space="preserve">
+    <value>Couldn't delete the Contact</value>
+  </data>
+  <data name="HelpTtp" xml:space="preserve">
+    <value>Clock button lets you show the history! </value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="HistoryTtp" xml:space="preserve">
+    <value>View history</value>
+  </data>
+  <data name="InsertContact" xml:space="preserve">
+    <value>Insert information, so that the contact can be edited!</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Invalid email format</value>
+  </data>
+  <data name="InvalidPhoneNumber" xml:space="preserve">
+    <value>Invalid phone number format.</value>
+  </data>
+  <data name="InvalidTaxNumber" xml:space="preserve">
+    <value>Invalid tax number format.</value>
+  </data>
+  <data name="LoadingContactInfo" xml:space="preserve">
+    <value>Loading Contact Info...</value>
+  </data>
+  <data name="LoadingPartner" xml:space="preserve">
+    <value>Loading Partner...</value>
+  </data>
+  <data name="LoadingPartnerInfo" xml:space="preserve">
+    <value>Loading Partner Information..</value>
+  </data>
+  <data name="LoadingProfile" xml:space="preserve">
+    <value>Loading Profile</value>
+  </data>
+  <data name="Locality" xml:space="preserve">
+    <value>Locality</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>are missing,</value>
+  </data>
+  <data name="NoAccess" xml:space="preserve">
+    <value>You do not have access to this content.</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No Recent Actions</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>Couldn't find any data</value>
+  </data>
+  <data name="NoInfo" xml:space="preserve">
+    <value>No information</value>
+  </data>
+  <data name="NoPartnerInfo" xml:space="preserve">
+    <value>There is no information about this Partner</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>Not Authorized</value>
+  </data>
+  <data name="Observation" xml:space="preserve">
+    <value>Observation</value>
+  </data>
+  <data name="Partner" xml:space="preserve">
+    <value>Partner</value>
+  </data>
+  <data name="PartnerCreation" xml:space="preserve">
+    <value>Partner Creation</value>
+  </data>
+  <data name="PartnerDates" xml:space="preserve">
+    <value>Partner Dates</value>
+  </data>
+  <data name="PartnerEditted" xml:space="preserve">
+    <value>Partner editted with success</value>
+  </data>
+  <data name="PartnerError" xml:space="preserve">
+    <value>A problem occurred while creating the partner</value>
+  </data>
+  <data name="PartnerHistory" xml:space="preserve">
+    <value>Partner History</value>
+  </data>
+  <data name="PartnerInformation" xml:space="preserve">
+    <value>Partner Information</value>
+  </data>
+  <data name="PartnerMenu" xml:space="preserve">
+    <value>Partner Menu</value>
+  </data>
+  <data name="Partners" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="PartnersDescription" xml:space="preserve">
+    <value>Partners Description</value>
+  </data>
+  <data name="PartnersList" xml:space="preserve">
+    <value>Partners List</value>
+  </data>
+  <data name="PartnersListAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="PartnersListCountry" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="PartnersListName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="PartnersListSearch" xml:space="preserve">
+    <value>Search partner name</value>
+  </data>
+  <data name="PartnersListServiceDescription" xml:space="preserve">
+    <value>Service Description</value>
+  </data>
+  <data name="PartnerSuccess" xml:space="preserve">
+    <value>Partner created successfuly!</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>please insert data</value>
+  </data>
+  <data name="PleaseInsert" xml:space="preserve">
+    <value>Please insert data to edit the partner!</value>
+  </data>
+  <data name="PleaseInsertRequestContact" xml:space="preserve">
+    <value>Please insert data, so the contact can be created!</value>
+  </data>
+  <data name="PleaseInsertRequestPartner" xml:space="preserve">
+    <value>Please insert data, so the partner can be created!</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>Powered By Mainhub</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ProfileInformation" xml:space="preserve">
+    <value>Profile Information</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveTtp" xml:space="preserve">
+    <value>Saves the data</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Surname" xml:space="preserve">
+    <value>Surname</value>
+  </data>
+  <data name="TaxNumber" xml:space="preserve">
+    <value>Tax Number</value>
+  </data>
+  <data name="ToolTipPartnerList" xml:space="preserve">
+    <value>Double Click to view Partner information!</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Please try again later</value>
+  </data>
+  <data name="TtpContactList" xml:space="preserve">
+    <value>Double Click to view Contact information!</value>
+  </data>
+  <data name="UserGuid" xml:space="preserve">
+    <value>User Guid</value>
+  </data>
+  <data name="UserPrincipalName" xml:space="preserve">
+    <value>User Principal Name</value>
+  </data>
+  <data name="UserProfile" xml:space="preserve">
+    <value>User Profile</value>
+  </data>
+  <data name="ViewContacts" xml:space="preserve">
+    <value>View Contacts</value>
+  </data>
+  <data name="ViewContactTtp" xml:space="preserve">
+    <value>Allows you to see all contacts of this partner</value>
+  </data>
+</root>

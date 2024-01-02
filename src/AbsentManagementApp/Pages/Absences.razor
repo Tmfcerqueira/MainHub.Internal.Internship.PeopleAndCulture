@@ -1,0 +1,104 @@
+﻿@page "/absences"
+@using MainHub.Internal.PeopleAndCulture.App.Models
+@using MainHub.Internal.PeopleAndCulture.Common;
+@using Microsoft.AspNetCore.Components
+@using Radzen
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+@attribute [Authorize(Roles = "SkillHub.User")]
+
+<PageTitle>@localizer["AbsencesList"]</PageTitle>
+
+@if (_pageLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">@localizer["Loading..."]</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+<div class="container">
+        <RadzenRow style="display: flex; align-items: center;">
+            <RadzenBreadCrumb>
+                <RadzenBreadCrumbItem Path="/dashboard" Text="@localizer["DashBoard"]" />
+                <RadzenBreadCrumbItem Path="/absences" Text="@localizer["AbsencesList"]" />
+            </RadzenBreadCrumb>
+        </RadzenRow>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="text-center">@localizer["MyAbsences"]</h1>
+            <span class="info-text" style="display: flex; align-items: center;">@localizer["DoubleClickDetails"]</span>
+            <div class="d-flex align-items-center">
+                <RadzenButton Text="@localizer["RequestAbsence"]" class="m-2" ButtonStyle="ButtonStyle.Success" Click="@(() => RedirectToRequest())"></RadzenButton>
+                <RadzenButton Text="@localizer["SubmitAllDrafts"]" class="m-2" ButtonStyle="ButtonStyle.Info" Click="SubmitAllDraft" />
+            </div>
+        </div>
+
+    <RadzenDataGrid
+       AllowPaging="true"
+       LoadData="@LoadData"
+       AllowFiltering="true" 
+       AllowColumnResize="true" 
+       AllowAlternatingRows="false" 
+       FilterMode="FilterMode.SimpleWithMenu" 
+       AllowSorting="false" 
+       PagerHorizontalAlign="HorizontalAlign.Justify" 
+       ShowPagingSummary="true"
+       Data="@_absences.absences"
+       TItem="AbsenceModel"
+       ColumnWidth="300px"
+       LogicalFilterOperator="LogicalFilterOperator.Or"
+       Count=@Count
+       PageSize=@PageSize
+       IsLoading="@_isLoading"
+       RowDoubleClick="(args) => ShowAbsence(args.Data.AbsenceGuid)"
+       RowRender="@RowRender"
+       >
+    <Columns>
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceType" Title="@localizer["AbsenceType"]" Width="160px" Frozen="true" Filterable="false" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceStart" FormatString="{0:yyyy-MM-dd}" Title="@localizer["Start"]" Width="150px" Filterable="false" />
+            <RadzenDataGridColumn TItem="AbsenceModel" Property="AbsenceEnd" FormatString="{0:yyyy-MM-dd}" Title="@localizer["End"]" Width="150px" Filterable="false" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="ApprovalStatus" Title="@localizer["Status"]" FormatString="{0:d}" Width="175px">
+                    <Template Context="absence">
+                    @switch(absence.ApprovalStatus)
+                    {
+                        case ApprovalStatus.Approved:
+                            <span class="text-success">@absence.ApprovalStatus</span>break;
+                        case ApprovalStatus.Rejected:
+                            <span class="text-danger">@absence.ApprovalStatus</span>break;
+                        case ApprovalStatus.Submitted:
+                            <span>@absence.ApprovalStatus</span>break;
+                        case ApprovalStatus.Draft:
+                            <span class="text-warning">@absence.ApprovalStatus</span>break;
+                    }
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="AbsenceModel" Property="Schedule" Title="@localizer["Schedule"]" Filterable="false" Width="160px" />
+                <RadzenDataGridColumn TItem="AbsenceModel" Title="@localizer["Actions"]" Width="160px" Filterable="false" Sortable="false">
+                    <Template Context="absence">
+                        @if (absence.ApprovalStatus == ApprovalStatus.Draft || absence.ApprovalStatus == ApprovalStatus.Rejected)
+                        {
+                            <div class="d-flex justify-content-center">
+                            <RadzenButton class="btn btn-sm me-2" MouseEnter="@(args => ShowEditTooltip(args) )" Click="()=>EditItem(absence.AbsenceGuid)" ButtonStyle="ButtonStyle.Info"><span>✏️</span></RadzenButton>
+                            </div>
+                        }
+                        else
+                        {
+                                <div class="d-flex justify-content-center">
+                                    <span>@localizer["Restricted"]</span>
+                                </div>
+                        }
+                    </Template>
+                    
+                </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+   
+</div>
+}

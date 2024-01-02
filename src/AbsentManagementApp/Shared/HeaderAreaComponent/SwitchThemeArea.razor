@@ -1,0 +1,13 @@
+﻿@using Microsoft.Extensions.Localization;
+@using Resources;
+@inject IStringLocalizer<Resource> localizer
+
+<div class="dropdown m-3">
+    <RadzenButton class="dropdown-toggle" type="button" id="themeDropdown" data-bs-toggle="dropdown" aria-expanded="false" Shade="Radzen.Shade.Lighter" Text="@localizer["Theme"]" ButtonStyle="Radzen.ButtonStyle.Light" />
+    <ul class="dropdown-menu bg-dark" aria-labelledby="themeDropdown">
+        <li><a class="dropdown-item text-light" @onclick='() => SetTheme("dark")'>@localizer["Dark"] ⚫</a></li>
+        <li><a class="dropdown-item text-light" @onclick='() => SetTheme("light")'>@localizer["Light"] ⚪</a></li>
+    </ul>
+</div>
+
+

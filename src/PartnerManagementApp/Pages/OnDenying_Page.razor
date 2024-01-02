@@ -1,0 +1,14 @@
+﻿@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="text-center">
+        <h3>@Localization["AccessDenied"]</h3>
+        <p>@Localization["NoAccess"]</p>
+        <form action="MicrosoftIdentity/Account/SignOut">
+            <div class="mb-3">
+                <button type="submit" id="let_sign_out_submit" class="btn btn-primary">@Localization["ChangeAccount"]</button>
+            </div>
+        </form>
+    </div>
+</div>

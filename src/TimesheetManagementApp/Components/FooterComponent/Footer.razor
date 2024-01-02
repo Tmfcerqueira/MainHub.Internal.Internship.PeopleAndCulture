@@ -1,0 +1,15 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> _localizer;
+
+<footer class="bg-light mt-auto">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; Skill Hub @DateTime.Now.Year</div>
+            <img class="img-fluid mb-1" src="assets/img/mainhub__logo_yellow_grey_trans.png" style="height: 40px;" />
+            <div>
+                @_localizer["PoweredBy"] <a href="https://www.mainhub.pt/">MainHub</a>
+            </div>
+        </div>
+    </div>
+</footer>

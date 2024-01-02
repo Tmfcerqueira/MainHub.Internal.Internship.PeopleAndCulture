@@ -1,0 +1,69 @@
+﻿@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using MainHub.Internal.PeopleAndCulture.Common;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+@attribute [Authorize]
+
+@if (_isLoading)
+{
+    <RadzenTemplateForm TItem="AbsenceModel">
+        <div class="m-2" style="width: 400px;">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+                    <p class="loading-text">@localizer["Loading..."]</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+        </div>
+    </RadzenTemplateForm>
+}
+else
+{
+    <RadzenTemplateForm TItem="AbsenceModel" Data="@_model" Submit=@OnSubmit Style="margin-right: 25%;">
+            <div class="m-2" style="width: 400px;">
+        <div class="mb-3">
+                <label for="absenceType" class="form-label" style="color: #666;">@localizer["AbsenceType"]</label>
+            <div>
+                <RadzenDropDown Name="Type" @bind-Value=_model.AbsenceTypeGuid AllowVirtualization="true" Data=@_types TextProperty="Type" ValueProperty="TypeGuid" Style="width: 100%;" />
+            </div>
+        </div>
+        <div class="mb-3">
+                <label for="schedule" class="form-label" style="color: #666;">@localizer["Schedule"]</label>
+            <div>
+                <RadzenDropDown Name="Schedule" @bind-Value=@_model.Schedule Data=@_scheduleListTextFieldList Style="width: 100%;" />
+            </div>
+        </div>
+            <div class="mb-3">
+                <label for="schedule" class="form-label" style="color: #666;">@localizer["Description"]</label>
+                <div>
+                    <RadzenTextArea Style="resize: none;width: -webkit-fill-available;" MaxLength="300" @bind-Value=_model.Description/>
+                </div>
+            </div>
+           
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                        <label for="absenceStart" class="form-label" style="color: #666;">@localizer["AbsenceStart"]</label>
+                    <RadzenDatePicker Name="Start" @bind-Value=@_model.AbsenceStart ShowTime="true" DateFormat="yyyy/MM/dd" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                        <label for="absenceEnd" class="form-label" style="color: #666;">@localizer["AbsenceEnd"]</label>
+                    <RadzenDatePicker Name="End" @bind-Value=@_model.AbsenceEnd ShowTime="true" DateFormat="yyyy/MM/dd" />
+                </div>
+            </div>
+        </div>
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <div style="text-align: center;">
+                    <RadzenButton Shade="Shade.Lighter" ButtonType="ButtonType.Submit" Text="@localizer["SaveAbsence"]" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton class="ms-2" Shade="Radzen.Shade.Lighter" Text="@localizer["SaveDraft"]" ButtonStyle="Radzen.ButtonStyle.Warning" Click="@(async () => await SaveDraft(_model))" />
+                </div>
+            </div>
+        </div>
+</RadzenTemplateForm>
+}

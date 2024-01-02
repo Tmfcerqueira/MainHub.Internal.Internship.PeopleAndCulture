@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ProjectManagement.Api.Proxy.Client" Version="1.0.0-20230630.2" />
+    <PackageReference Include="TimesheetManagement.Api.Proxy.Client" Version="1.0.0-20230630.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\TimesheetApp.Models\TimesheetApp.Models.csproj" />
+  </ItemGroup>
+
+</Project>

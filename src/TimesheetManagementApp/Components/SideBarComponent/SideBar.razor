@@ -1,0 +1,43 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> _localizer;
+@inherits LayoutComponentBase
+
+<div style="height:100%" id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <a class="nav-link collapsed mt-4" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    &nbsp @_localizer["Timesheet"] &nbsp
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <AuthorizeView Roles="SkillHub.Supervisor">
+                            <Authorized>
+                                <div class="nav-item px-3">
+                                    <h6>@_localizer["AdminMenu"]</h6>
+                                </div>
+                                <NavLink class="nav-link" href="/admindashboard">
+                                    <i class="fas fa-tachometer-alt" style="margin-right: 5px;"></i>@_localizer["AdminDashboard"]
+                                </NavLink>
+                            </Authorized>
+                        </AuthorizeView>
+                        
+                        <AuthorizeView Roles="SkillHub.User">
+                            <Authorized>
+                                <div class="nav-item px-3 mt-1">
+                                    <h6>@_localizer["UserMenu"]</h6>
+                                </div>
+                                <NavLink class="nav-link" href="/dashboard">
+                                    <i class="fas fa-tachometer-alt" style="margin-right: 5px;"></i>@_localizer["Dashboard"]
+                                </NavLink>
+                            </Authorized>
+                        </AuthorizeView>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

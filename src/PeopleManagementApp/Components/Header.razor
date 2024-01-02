@@ -1,0 +1,125 @@
+﻿@using Radzen.Blazor
+@using Radzen;
+@inject MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler
+@inject IHttpClientFactory HttpClientFactory
+@inject Microsoft.Identity.Web.ITokenAcquisition TokenAcquisitionService
+@inject GraphServiceClient _graphServiceClient
+@inject IStringLocalizer<Resource> Loc
+@inject IJSRuntime JSRuntime
+
+
+<AuthorizeView>
+    <Authorized>
+        <body class="sb-nav-fixed">
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                <!-- Navbar Brand-->
+                <a class="navbar-brand ps-3" href="/Home">
+                    <h3>SkillHub💡</h3>
+                </a>
+                <div>
+                    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" @onclick="() => ToggleSidebarAsync()" style="margin-top:15%; color:black;">
+                        <i id="sidebarToggleIcon" class="fas fa-arrow-left text-light text-white"></i>
+                    </button>
+                </div>
+                
+                <!-- Navbar Search-->
+                <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                    </div>
+                </form>
+                <!-- Navbar-->
+                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @if (_photo != "")
+                            {
+                                <img src="data:image/jpeg;base64, @_photo" />
+                            }
+                            else
+                            {
+                                <i class="fas fa-solid fa-user" style="color: #ffffff;"></i>
+                            }
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li class="profile-drop-bar">
+                                <a href="/profile">
+                                    @if (_photo != "")
+                                    {
+                                        <img src="data:image/jpeg;base64, @_photo" />
+                                    }
+                                    else
+                                    {
+                                        <img src="/assets/img/user.png" />
+                                    }
+                                </a>
+                                <div class="profile-info">
+                                    <a href="/profile">@context.User.FindFirst("name")?.Value @context.User.FindFirst("email")?.Value</a><br/>
+                                    <a href="/profile"> @context.User.Identity?.Name</a>
+                                </div>
+                                </li>
+                            <li><hr /></li>
+                            <li><a class="dropdown-item" href="/profile/details"><i class="fas fa-user"></i> &nbsp @Loc["Profile"]</a></li>
+                            <li><hr /></li>
+                            <form action="MicrosoftIdentity/ACcount/SignOut">
+                                <div class="d-grid mb-10">
+                                    <button type="submit" id="let_sign_out_submit" class="btn-primary">
+                                        <span class="indicator-label"> @Loc["SignOutButton"] </span>
+                                    </button>
+                                </div>
+                            </form>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </body>
+    </Authorized>
+</AuthorizeView>
+
+
+
+
+
+@code {
+    User? _user;
+    string? _photo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            _user = await _graphServiceClient.Me.Request().GetAsync();
+            _photo = await GetPhoto();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            ConsentHandler?.HandleException(ex);
+        }
+    }
+    protected async Task<string> GetPhoto()
+    {
+        string photo = string.Empty;
+
+        try
+        {
+            using (var photoStream = await _graphServiceClient.Me.Photo.Content.Request().GetAsync())
+            {
+                byte[] photoByte = ((System.IO.MemoryStream)photoStream).ToArray();
+                photo = Convert.ToBase64String(photoByte);
+                this.StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            photo = string.Empty;
+        }
+        return photo;
+    }
+    async Task ToggleSidebarAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("toggleSideBar");
+    }
+}

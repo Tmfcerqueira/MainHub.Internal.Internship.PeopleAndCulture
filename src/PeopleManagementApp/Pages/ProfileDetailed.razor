@@ -1,0 +1,175 @@
+﻿@page "/profile/{PeopleGuid:guid}"
+@page "/profile/details"
+@using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.Graph;
+@using Microsoft.Identity.Web;
+@using global::App.Models;
+@using global::App.Repository;
+@attribute [Authorize(Policy = "Supervisor")]
+@inject IJSRuntime JsRuntime
+@inject GraphServiceClient graphServiceClient
+@inject PeopleAppRepository peopleAppRepository
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<Resource> Loc
+
+@layout PrivateMainLayout
+
+
+@if (collaborator == null)
+{
+    <p>@Loc["Loading"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <RadzenRow Gap="0">
+        <RadzenButton Variant="Variant.Text" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left" style="justify-content:start; display:grid;"></i> </RadzenButton>
+    </RadzenRow>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        @if (_photo != "")
+                        {
+                            <img class="img-profile img-fluid mb-3" src="data:image/jpeg;base64, @_photo" />
+                        }
+                        else
+                        {
+                            <img class="img-profile img-fluid mb-3" src="/assets/img/user.png" />
+                        }
+                        <h5 class="card-title">@(collaborator.FirstName + collaborator.LastName)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@collaborator.FirstName</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@Loc["ProfileInformation"]</h5>
+                        <hr />
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">@Loc["Name"]:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @if (!string.IsNullOrEmpty(collaborator.FirstName))
+                                {
+                                    @collaborator.FirstName
+                                }
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">@Loc["L_Name"]:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @if (!string.IsNullOrEmpty(collaborator.LastName))
+                                {
+                                    @collaborator.LastName
+                                }
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">@Loc["Email"]:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @collaborator.Email
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">@Loc["BirthDate"]:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @collaborator.BirthDate.ToShortDateString()
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">@Loc["Adress"]:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @(collaborator.Adress + ", " + collaborator.Postal + ", " + collaborator.Locality + ", " + collaborator.Country)
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">@Loc["MyID"]:</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @collaborator.Employee_Id
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Click="() => EditMode(collaborator.PeopleGUID)"><i class="fas fa-solid fa-pen"></i></RadzenButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@code {
+
+    User? _user;
+    string _photo = string.Empty;
+    bool isEditMode = false;
+
+    [Parameter]
+    public Guid PeopleGuid { get; set; }
+
+    private PeopleModel collaborator;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await graphServiceClient.Me.Request().GetAsync();
+        if (PeopleGuid == Guid.Empty)
+        {
+            PeopleGuid = Guid.Parse(_user.Id);
+        }
+        _photo = await GetPhoto();
+        collaborator = await peopleAppRepository.GetOneCollaborator(PeopleGuid);
+    }
+
+    private async void GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
+    }
+
+    protected async Task<string> GetPhoto()
+    {
+        string photo = string.Empty;
+
+        try
+        {
+            using (var photoStream = await graphServiceClient.Me.Photo.Content.Request().GetAsync())
+            {
+                byte[] photoByte = ((System.IO.MemoryStream)photoStream).ToArray();
+                photo = Convert.ToBase64String(photoByte);
+                this.StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            photo = string.Empty;
+        }
+        return photo;
+    }
+
+    public void EditMode(Guid Id)
+    {
+        isEditMode = true;
+        NavigationManager.NavigateTo($"Collaborators/{Id}/{isEditMode}");
+    }
+}

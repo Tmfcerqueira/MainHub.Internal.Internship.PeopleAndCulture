@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Acesso Negado</value>
+  </data>
+  <data name="AccessDeniedButton" xml:space="preserve">
+    <value>Trocar Conta</value>
+  </data>
+  <data name="AccessDeniedText" xml:space="preserve">
+    <value>Não tem acesso a este conteúdo.</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Ação</value>
+  </data>
+  <data name="AddCollaboratorButton2" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="AddObservation" xml:space="preserve">
+    <value>Adicionar Observação</value>
+  </data>
+  <data name="AddObservationButton" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Morada</value>
+  </data>
+  <data name="Anniverseries" xml:space="preserve">
+    <value>Aniversários</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Bem-Vindo ao PeopleManagement</value>
+  </data>
+  <data name="AzureAlertAll" xml:space="preserve">
+    <value>Irá Importar todos os colaboradores do Azure AD. Quer continuar?</value>
+  </data>
+  <data name="AzureCancelImport" xml:space="preserve">
+    <value>Importação Cancelada.</value>
+  </data>
+  <data name="AzureFail" xml:space="preserve">
+    <value>Falha ao importar</value>
+  </data>
+  <data name="AzureHomeButton" xml:space="preserve">
+    <value>Ver Azure</value>
+  </data>
+  <data name="AzureImportAButton" xml:space="preserve">
+    <value>Importar Todos</value>
+  </data>
+  <data name="AzureImporting" xml:space="preserve">
+    <value>Irá importar</value>
+  </data>
+  <data name="AzureImports" xml:space="preserve">
+    <value>Importações Azure</value>
+  </data>
+  <data name="AzureImportSButton" xml:space="preserve">
+    <value>Importar Selecionados</value>
+  </data>
+  <data name="AzureImportSelected" xml:space="preserve">
+    <value>Irá importar os colaboradores selecionados. Quer continuar?</value>
+  </data>
+  <data name="AzureImportSuccessfull" xml:space="preserve">
+    <value>Importado com sucesso!</value>
+  </data>
+  <data name="AzureList" xml:space="preserve">
+    <value>Lista Azure</value>
+  </data>
+  <data name="AzurePending" xml:space="preserve">
+    <value>Importações Azure Pendentes</value>
+  </data>
+  <data name="AzureSure" xml:space="preserve">
+    <value>Tem a certeza?</value>
+  </data>
+  <data name="AzureTitle" xml:space="preserve">
+    <value>Imporar Azure</value>
+  </data>
+  <data name="AzureValidation" xml:space="preserve">
+    <value>É preciso um Email, para importar.</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Data de Nascimento</value>
+  </data>
+  <data name="BirthdaysHomeButton" xml:space="preserve">
+    <value>Ver Aniversários</value>
+  </data>
+  <data name="BirthdaysTitle" xml:space="preserve">
+    <value>Próximos Aniversários</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="CCNumber" xml:space="preserve">
+    <value>Número CC</value>
+  </data>
+  <data name="CCValid" xml:space="preserve">
+    <value>Validade CC</value>
+  </data>
+  <data name="ChangeDate" xml:space="preserve">
+    <value>Data de Alteração</value>
+  </data>
+  <data name="ChangedBy" xml:space="preserve">
+    <value>Alterado por</value>
+  </data>
+  <data name="CivilStatus" xml:space="preserve">
+    <value>Estado Civil</value>
+  </data>
+  <data name="Collaborator" xml:space="preserve">
+    <value>Colaborador</value>
+  </data>
+  <data name="CollaboratorAddButtonHome" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="CollaboratorHistoryTitle" xml:space="preserve">
+    <value>Historico do Colaborador</value>
+  </data>
+  <data name="CollaboratorsList" xml:space="preserve">
+    <value>Lista de Colaboradores</value>
+  </data>
+  <data name="CollaboratorsName" xml:space="preserve">
+    <value>Colaboradores</value>
+  </data>
+  <data name="CollaboratorViewButtonHome" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contacto</value>
+  </data>
+  <data name="ContractType" xml:space="preserve">
+    <value>Tipo de Contrato</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Criado por</value>
+  </data>
+  <data name="CreatedSuccess" xml:space="preserve">
+    <value>Observação criada com sucesso.</value>
+  </data>
+  <data name="CreatedSuccessfull" xml:space="preserve">
+    <value>Criado com sucesso!</value>
+  </data>
+  <data name="CreatedTitle" xml:space="preserve">
+    <value>Criar Colaborador</value>
+  </data>
+  <data name="CreatedUnsuccessfull" xml:space="preserve">
+    <value>Falha ao criar.</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Data de Criação</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="DeleteConfirm" xml:space="preserve">
+    <value>Tem a certeza que quer excluir</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Apagar</value>
+  </data>
+  <data name="DeletedBy" xml:space="preserve">
+    <value>Excluido por</value>
+  </data>
+  <data name="DeletedDate" xml:space="preserve">
+    <value>Excluido dia</value>
+  </data>
+  <data name="DeleteFail" xml:space="preserve">
+    <value>Falha ao excluir</value>
+  </data>
+  <data name="DeleteObservationButton" xml:space="preserve">
+    <value>Excluir Observação</value>
+  </data>
+  <data name="DeleteSuccess" xml:space="preserve">
+    <value>Excluido com sucesso</value>
+  </data>
+  <data name="DeleteTitle" xml:space="preserve">
+    <value>Excluir Colaborador</value>
+  </data>
+  <data name="DependentNum" xml:space="preserve">
+    <value>Num de Dependentes</value>
+  </data>
+  <data name="EContact" xml:space="preserve">
+    <value>Contacto de Emergência</value>
+  </data>
+  <data name="EditButton" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmployeeDates" xml:space="preserve">
+    <value>Datas do Colaborador</value>
+  </data>
+  <data name="EmployeeTitle" xml:space="preserve">
+    <value>Informação do Colaborador</value>
+  </data>
+  <data name="EntryDate" xml:space="preserve">
+    <value>Data de Entrada</value>
+  </data>
+  <data name="ExitDate" xml:space="preserve">
+    <value>Data de Saída</value>
+  </data>
+  <data name="ExitDateButton" xml:space="preserve">
+    <value>Adicionar Data de Saida</value>
+  </data>
+  <data name="FailedAction" xml:space="preserve">
+    <value>Ação falhada</value>
+  </data>
+  <data name="FiscalInformation" xml:space="preserve">
+    <value>Informação Fiscal</value>
+  </data>
+  <data name="F_Name" xml:space="preserve">
+    <value>Primeiro Nome</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Histórico</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Página Principal</value>
+  </data>
+  <data name="ImportCollaborator" xml:space="preserve">
+    <value>Importar Collaborador</value>
+  </data>
+  <data name="IsDeleted" xml:space="preserve">
+    <value>Excluido ?</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>A carregar ...</value>
+  </data>
+  <data name="LoadingAD" xml:space="preserve">
+    <value>A carregar Azure ...</value>
+  </data>
+  <data name="LoadingBirthdays" xml:space="preserve">
+    <value>A carregar aniversários ...</value>
+  </data>
+  <data name="LoadingCollaborators" xml:space="preserve">
+    <value>A carregar colaboradores ...</value>
+  </data>
+  <data name="Locality" xml:space="preserve">
+    <value>Localidade</value>
+  </data>
+  <data name="L_Name" xml:space="preserve">
+    <value>Apelido</value>
+  </data>
+  <data name="MainPage" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="MyID" xml:space="preserve">
+    <value>Meu ID</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NoAnniverseries" xml:space="preserve">
+    <value>Não existem aniversários nos próximos 7 dias</value>
+  </data>
+  <data name="NoContact" xml:space="preserve">
+    <value>Contacto Desconhecido</value>
+  </data>
+  <data name="NoDate" xml:space="preserve">
+    <value>Data Desconhecida</value>
+  </data>
+  <data name="NoHistory" xml:space="preserve">
+    <value>não tem histórico</value>
+  </data>
+  <data name="NoHistoryTitle" xml:space="preserve">
+    <value>Não existe histórico</value>
+  </data>
+  <data name="NoInfo" xml:space="preserve">
+    <value>Não existe informação acerca deste colaborador</value>
+  </data>
+  <data name="NoInfoTitle" xml:space="preserve">
+    <value>Não existe informação</value>
+  </data>
+  <data name="NoObservation" xml:space="preserve">
+    <value>Não existem observações acerca deste colaborador. Quer adicionar uma observação?</value>
+  </data>
+  <data name="NoObservationTitle" xml:space="preserve">
+    <value>Não existem observações</value>
+  </data>
+  <data name="ObservationDeleted" xml:space="preserve">
+    <value>Observação apagada com sucesso.</value>
+  </data>
+  <data name="ObservationsButton" xml:space="preserve">
+    <value>Observações</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Código Postal</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="ProfileInformation" xml:space="preserve">
+    <value>Informação do Perfil</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="SaveObservationButton" xml:space="preserve">
+    <value>Salvar Observação</value>
+  </data>
+  <data name="SearchPlaceHolder" xml:space="preserve">
+    <value>Procurar Colaborador</value>
+  </data>
+  <data name="SeeActiveButton" xml:space="preserve">
+    <value>Ver Ativos</value>
+  </data>
+  <data name="SeeAllButton" xml:space="preserve">
+    <value>Ver Todos</value>
+  </data>
+  <data name="SeeInactiveButton" xml:space="preserve">
+    <value>Ver Inativos</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Selecionar</value>
+  </data>
+  <data name="SignOutButton" xml:space="preserve">
+    <value>Terminar Sessão</value>
+  </data>
+  <data name="SSNumber" xml:space="preserve">
+    <value>Número SS</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Rua</value>
+  </data>
+  <data name="SubmitButton" xml:space="preserve">
+    <value>Submeter</value>
+  </data>
+  <data name="TableDays" xml:space="preserve">
+    <value>Hoje!</value>
+  </data>
+  <data name="TableDaysUntil" xml:space="preserve">
+    <value>Dias até</value>
+  </data>
+  <data name="TableName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="TaxNumber" xml:space="preserve">
+    <value>NIF</value>
+  </data>
+  <data name="Tooltip" xml:space="preserve">
+    <value>Duplo Clique sob o colaborador para ver os seus detalhes.</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Por favor tente mais tarde</value>
+  </data>
+  <data name="UpdateFail" xml:space="preserve">
+    <value>Falha ao atualizar</value>
+  </data>
+  <data name="UpdateSuccess" xml:space="preserve">
+    <value>Atualizado com sucesso</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID do Utilizador</value>
+  </data>
+  <data name="ValidationAlert" xml:space="preserve">
+    <value>Primeiro Nome, Apelido e Email são obrigatórios para criar um colaborador.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+</root>

@@ -1,0 +1,15 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+@using MainHub.Internal.PeopleAndCulture.AbsentManagement.Pages;
+@using MainHub.Internal.PeopleAndCulture.AbsentManagement.Shared.Private;
+@using MainHub.Internal.PeopleAndCulture.AbsentManagement.Shared.Public;
+
+<AuthorizeView>
+    <Authorized>
+        <PrivateMainLayout/>
+    </Authorized>
+    <NotAuthorized>
+        <Index/>
+    </NotAuthorized>
+</AuthorizeView>

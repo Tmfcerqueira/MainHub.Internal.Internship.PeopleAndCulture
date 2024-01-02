@@ -1,0 +1,296 @@
+﻿@page "/collaborators/add"
+@using Radzen
+@using Microsoft.JSInterop;
+@using global::App.Models;
+@using global::App.Repository;
+@inject PeopleAppRepository peopleAppRepository
+@inject IJSRuntime JsRuntime
+@inject Microsoft.Identity.Web.ITokenAcquisition TokenAcquisitionService
+@inject GraphServiceClient _graphServiceClient
+@inject MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler
+@inject DialogService dialogService
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<Resource> Loc
+@layout PrivateMainLayout
+@attribute [Authorize(Policy = "Supervisor")]
+
+<RadzenBreadCrumb>
+    <RadzenBreadCrumbItem Path="/Home" Text="@Loc["Home"]" />
+    <RadzenBreadCrumbItem Path="/Collaborators" Text="@Loc["CollaboratorsList"]" />
+    <RadzenBreadCrumbItem Path="/Collaborators/Add" Text="@Loc["AddCollaboratorButton2"]" />
+</RadzenBreadCrumb>
+<RadzenCard Class="rz-my-4 rz-mx-auto" Style="max-height: 800px !important; max-width:1200px; margin-top:1rem;">
+    <RadzenRow Gap="0">
+            <RadzenButton Variant="Variant.Text" Click="() => GoBack()"><i class="fas fa-solid fa-arrow-left" style="justify-content:start; display:grid;"></i> </RadzenButton>
+    </RadzenRow>
+    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Class="rz-px-4">
+        <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong> @Loc["EmployeeTitle"] </strong></RadzenText>
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["F_Name"]</RadzenText>
+                    <RadzenTextBox @bind-Value="collaborator.FirstName" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["L_Name"]</RadzenText>
+                    <RadzenTextBox @bind-Value="collaborator.LastName" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Email"]</RadzenText>
+                    <RadzenTextBox @bind-Value="collaborator.Email" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["BirthDate"]</RadzenText>
+                <RadzenDatePicker Style="width:241px;" @bind-Value="collaborator.BirthDate" DateFormat="yyyy-MM-dd" />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Class="rz-px-4">
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["DependentNum"]</RadzenText>
+                <RadzenNumeric @bind-Value="collaborator.DependentNum" Style="width:82%;" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CivilStatus"]</RadzenText>
+                <RadzenDropDown @bind-Value="collaborator.CivilState" Data="@civilStatus" Style="width:82%;" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ContractType"]</RadzenText>
+                <RadzenDropDown @bind-Value="contractTypeSelected" Data="@contractType" Style="width:41%;" />
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Contact"]</RadzenText>
+                <RadzenTextBox Placeholder="+351 912345678" @bind-Value="collaborator.Contact" Style="width:82%;" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="3">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["EContact"]</RadzenText>
+                <RadzenTextBox Placeholder="+351 912345678" @bind-Value="collaborator.EmergencyContact" Style="width:82%;" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Observations"]</RadzenText>
+                <RadzenTextArea Placeholder="Write an observation for this user." @bind-Value="collaborator.Observations" Style="height:2.5rem; width:93%" />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+    <RadzenStack JustifyContent="JustifyContent.Center" Gap="0" Class="rz-px-4">
+        <RadzenRow RowGap="0">
+            <RadzenColumn SizeSM="6">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Street"]</RadzenText>
+                <RadzenTextBox @bind-Value="collaborator.Adress" Style="width:91%;" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="2">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["PostalCode"]</RadzenText>
+                    <RadzenTextBox @bind-Value="collaborator.Postal" Style="width:80%;"/>
+            </RadzenColumn>
+            <RadzenColumn SizeSM="2">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Locality"]</RadzenText>
+                <RadzenTextBox @bind-Value="collaborator.Locality" Style="width:80%;" />
+            </RadzenColumn>
+            <RadzenColumn SizeSM="2">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Country"]</RadzenText>
+                <RadzenTextBox @bind-Value="collaborator.Country" Style="width:80%;" />
+            </RadzenColumn>
+            </RadzenRow>
+    </RadzenStack>
+    <RadzenCard class="rz-background-color-primary-lighter rz-shadow-0 rz-border-radius-0 rz-px-8" style="margin: 1rem calc(-1 * var(--rz-card-padding));">
+        <RadzenRow>
+            <RadzenColumn>
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["FiscalInformation"]</strong></RadzenText>
+                <RadzenRow>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["Iban"]</RadzenText>
+                        <RadzenTextBox @bind-Value="collaborator.Iban" Style="width:93%" />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["TaxNumber"]</RadzenText>
+                        <RadzenNumeric @bind-Value="collaborator.TaxNumber" Style="width:77%"/>
+                    </RadzenColumn>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["SSNumber"]</RadzenText>
+                        <RadzenNumeric @bind-Value="collaborator.SSNumber" Style="width:77%"/>
+                    </RadzenColumn>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CCNumber"]</RadzenText>
+                        <RadzenNumeric @bind-Value="collaborator.CCNumber" Style="width:77%" />
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenColumn>
+            <RadzenColumn>
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-primary-light"><strong>@Loc["EmployeeDates"]</strong></RadzenText>
+                <RadzenRow>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["EntryDate"]</RadzenText>
+                        <RadzenDatePicker @bind-Value="collaborator.EntryDate " DateFormat="yyyy-MM-dd" />
+                    </RadzenColumn>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["ExitDate"]</RadzenText>
+                        @if (hasExitDate == true)
+                        {
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenDatePicker @bind-Value="collaborator.EntryDate " DateFormat="yyyy-MM-dd" Style="width:150px"/>
+                                </RadzenColumn>
+                                <RadzenColumn>
+                                    <RadzenButton Click="() => AddExitDate()">
+                                    <i class="fas fa-solid fa-minus"></i>
+                                </RadzenButton>
+                                </RadzenColumn>
+                            </RadzenRow>
+                            
+                        }
+                        else
+                        {
+                            <RadzenColumn SizeSM="2">
+                                <RadzenButton Click="() => AddExitDate()">
+                                    <i class="fas fa-solid fa-plus"></i> @Loc["ExitDateButton"]
+                                </RadzenButton>
+                            </RadzenColumn>
+                        }
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow>
+                    <RadzenColumn>
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-2 rz-mb-0">@Loc["CCValid"]</RadzenText>
+                        <RadzenDatePicker @bind-Value="collaborator.CCVal" DateFormat="yyyy-MM-dd" />
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenCard>
+    <RadzenRow JustifyContent="JustifyContent.End" Gap="0">
+        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Text="@Loc["Cancel"]" Click="() => GoBack()" />
+        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Text="@Loc["SubmitButton"]" Click="() => HandleValidSubmit()" />
+    </RadzenRow>
+</RadzenCard>
+
+@code {
+
+    private PeopleModel collaborator = new PeopleModel();
+    User? _user;
+    private bool hasExitDate = false;
+    public string contractTypeSelected = "No Term";
+
+    private List<string> contractType = new List<string>
+{
+    "Certain Term",
+    "Uncertain  Term",
+    "No Term",
+    "Short Term",
+    "Partial Term"
+};
+
+    private List<string> civilStatus = new List<string>
+{
+    "Single",
+    "Married",
+    "Divorced",
+    "Widowed"
+};
+    private List<string> status = new List<string>
+{
+    "Active",
+    "Inactive",
+};
+
+    private async Task HandleValidSubmit()
+    {
+
+        if(collaborator.FirstName == "" || collaborator.LastName == "" || collaborator.Email == "")
+        {
+            await dialogService.Alert($"{Loc["ValidationAlert"]}", "Create Collaborator", new AlertOptions() { OkButtonText = "Ok" });
+        }
+        else
+        {
+            try
+            {
+                switch (contractTypeSelected)
+                {
+                    case "Certain Term":
+                        collaborator.ContractType = PeopleModel.Contract.Certo;
+                        break;
+                    case "Uncertain Term":
+                        collaborator.ContractType = PeopleModel.Contract.Incerto;
+                        break;
+                    case "No Term":
+                        collaborator.ContractType = PeopleModel.Contract.NoTerm;
+                        break;
+                    case "Short Term":
+                        collaborator.ContractType = PeopleModel.Contract.Curta;
+                        break;
+                    case "Partial Term":
+                        collaborator.ContractType = PeopleModel.Contract.Parcial;
+                        break;
+
+                }
+                if (collaborator.ExitDate.ToString("yyyy-MM-dd") == "1900-01-01")
+                {
+                    collaborator.ExitDate = DateTime.Parse("2999-12-31");
+                }
+                collaborator.ChangedBy = _user.DisplayName;
+                collaborator.CreatedBy = _user.DisplayName;
+                var userId = _user.Id;
+                var result = await peopleAppRepository.CreateCollaboratorAsync(collaborator);
+
+
+                if (result != null)
+                {
+                    await dialogService.Alert($"{collaborator.FirstName} {Loc["CreatedSuccessfull"]}", $"{Loc["CreatedTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                    NavigationManager.NavigateTo("Collaborators/");
+                }
+                else
+                {
+                    await dialogService.Alert($"{collaborator.FirstName} {Loc["CreatedUnsuccessfull"]}", $"{Loc["CreatedTitle"]}", new AlertOptions() { OkButtonText = "Ok" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Data);
+                await JsRuntime.InvokeVoidAsync("alert", $"Error: {ex}"); // Alert
+            }
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            _user = await _graphServiceClient.Me.Request().GetAsync();
+            collaborator.BirthDate = new DateTime(1900, 01, 01);
+            collaborator.CCVal = new DateTime(1900, 01, 01);
+            collaborator.EntryDate = new DateTime(1900, 01, 01);
+            collaborator.ExitDate = new DateTime(1900, 01, 01);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            ConsentHandler?.HandleException(ex);
+        }
+    }
+
+    void AddExitDate()
+    {
+        if (hasExitDate == true)
+        {
+            hasExitDate = false;
+        }
+        else if(hasExitDate == false)
+        {
+            hasExitDate = true;
+        }
+        else
+        {
+            hasExitDate = false;
+        }
+
+    }
+
+    private async void GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
+    }
+}
+

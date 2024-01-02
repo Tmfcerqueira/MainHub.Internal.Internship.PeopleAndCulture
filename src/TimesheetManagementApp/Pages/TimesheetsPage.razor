@@ -1,0 +1,97 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Shared.Private
+@using Radzen.Blazor
+@using Radzen;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> _localizer;
+@page "/timesheets"
+@attribute [Authorize(Roles = "SkillHub.User")]
+@layout PrivateMainLayout
+
+<PageTitle>@_localizer["Timesheets"]</PageTitle>
+
+@if (IsLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">Loading...</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" alt="Loading..." class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+    <div class="rz-link-text mt-3">
+        <RadzenBreadCrumb>
+            <RadzenBreadCrumbItem Path="/dashboard" Text="@_localizer["Dashboard"]"/>
+            <RadzenBreadCrumbItem Path="/timesheets" Text="@_localizer["Timesheets"]" />
+        </RadzenBreadCrumb>
+    </div>
+    <RadzenIcon Icon="help_outline" class="text-dark" Text="?" ButtonStyle="ButtonStyle.Light" Style="margin-left: 220px" MouseEnter="(args => ShowHelpTooltip(args,new TooltipOptions(){ Duration = 3000 }) ) " />
+    <div style="display: flex; justify-content: center;">
+        <h2 style="position: absolute; top: -25px; left: 0; right: 0; text-align: center; font-size: 25px; background-color: #fff; padding: 0px 10px; margin-top: 35px;">
+            <span style="padding: 0 10px;">@_localizer["Timesheets"]</span>
+        </h2>
+        <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; padding-top: 50px; max-width: 560px; text-align: center; margin: 0px 40px 10px 40px; position: relative;">
+            <div style="position: absolute; top: 0px; left: 20px; display: flex; align-items: center;">
+                <button onclick="@(() => { _showForm = !_showForm; })" style="background-color: #007bff; color: #fff; border: none; border-radius: 20%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; margin: 8px 5px 5px 5px;">
+                    <span style="font-size: 24px; line-height: 1; margin-top: -3px;">+</span>
+                </button>
+                @if (!_showForm)
+                {
+                    <span style="margin-left: 5px;">@_localizer["CreateTimesheet"]</span>
+                }
+            </div>
+            @if (_showForm)
+            {
+                <div class="container form-container" style="position: absolute; top: 0; right: -70px; margin-top: -10px;">
+                    <RadzenTemplateForm Context="TimesheetForm" TItem="TimesheetModel" Data="@_timesheetModel" Submit=@OnCreate style="display: flex;">
+                        <div class="form-group" style="display: flex; align-items: center; margin-right: 10px;">
+                            <label for="year" style="font-size: 14px; margin-right: 5px; margin-top: 18px;">@_localizer["Year"]:</label>
+                            <select @bind=@_timesheetModel.Year class="form-control" id="year" name="year" disabled style="width: 80px; font-size: 14px; margin-top: 18px;">
+                                <option value="@_currentYear">@_currentYear</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center; margin-right: 10px;">
+                            <label for="month" style="font-size: 14px; margin-right: 5px; margin-top: 18px;">@_localizer["Month"]:</label>
+                            <select @bind=_timesheetModel.Month class="form-control" id="month" name="month" disabled style="width: 80px; font-size: 14px; margin-top: 18px;">
+                                <option value="@_currentMonth">@_currentMonthName</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3" style="font-size: 14px; align-self: flex-end;">@_localizer["Create"]</button>
+                    </RadzenTemplateForm>
+                </div>
+            }
+            @if (_timesheets.timesheets.Count() == 0)
+            {
+                <div class="fs-4 p-2">@_localizer["NoTimesheets"]</div>
+            }
+            else
+            {
+                <RadzenDataGrid AllowFiltering="true" IsLoading="@IsLoading" AllowColumnResize="false" AllowAlternatingRows="false" FilterMode="FilterMode.Simple" AllowSorting="true" PageSize="4" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                        Data="@_timesheets.timesheets" TItem="TimesheetModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowDoubleClick="(args) => OnRowDoubleClick(args.Data.TimesheetGUID, args.Data.PersonGUID)">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="TimesheetModel" Property="Year" Title="@_localizer["Year"]" FilterValue="_currentYear" SortOrder="SortOrder.Descending" Frozen="true" Width="120px" TextAlign="TextAlign.Center">
+                            <Template Context="data">
+                                <div style="padding-right: 5px; text-align: center;">@data.Year</div>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="TimesheetModel" Property="Month" Title="@_localizer["Month"]" FilterValue="1" SortOrder="SortOrder.Descending" Frozen="true" Width="120px" TextAlign="TextAlign.Center">
+                            <Template Context="data">
+                                <div style="padding-right: 5px; text-align: center;">@data.Month</div>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="TimesheetModel" Property="ApprovalStatus" Title="@_localizer["StatusTable"]" Frozen="true" Width="200px" TextAlign="TextAlign.Center">
+                            <Template Context="data">
+                                <div style="padding-right: 5px; text-align: center;">@data.ApprovalStatus</div>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            }
+        </div>
+    </div>
+}

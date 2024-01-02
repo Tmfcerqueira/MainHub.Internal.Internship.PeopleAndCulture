@@ -1,0 +1,46 @@
+﻿@page "/approved"
+@attribute [Authorize(Roles = "SkillHub.Supervisor")]
+@using MainHub.Internal.PeopleAndCulture.Common;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Shared.Private;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> _localizer;
+@layout PrivateMainLayout
+<PageTitle>@_localizer["ApprovedTimesheets"]</PageTitle>
+
+<div class="rz-link-text mt-3">
+    <RadzenBreadCrumb>
+        <RadzenBreadCrumbItem Path="/admindashboard" Text="@_localizer["AdminDashboard"]" />
+        <RadzenBreadCrumbItem Path="/approved" Text="@_localizer["Approved"]" />
+    </RadzenBreadCrumb>
+</div>
+<div class="container" style="margin-top: -20px">
+    <h2 class="text-center my-1">@_localizer["ApprovedTimesheets"]</h2>
+    <RadzenIcon Icon="help_outline" class="text-dark" Text="?" ButtonStyle="ButtonStyle.Light" MouseEnter="(args => ShowHelpTooltip(args,new TooltipOptions(){ Duration = 3000 }) ) " />
+    <RadzenDataGrid AllowPaging="true"
+                    LoadData="@LoadData"
+                    AllowFiltering="true"
+                    AllowColumnResize="true"
+                    AllowAlternatingRows="false"
+                    FilterMode="FilterMode.Simple"
+                    AllowSorting="true"
+                    PagerHorizontalAlign="HorizontalAlign.Justify"
+                    ShowPagingSummary="true"
+                    Data="@_timesheets.timesheets"
+                    TItem="TimesheetModel"
+                    ColumnWidth="300px"
+                    Count=@Count
+                    PageSize=@PageSize
+                    IsLoading="@_isLoading"
+                    RowDoubleClick="(args) => OnRowDoubleClick(args.Data.TimesheetGUID, args.Data.PersonGUID)">
+        <Columns>
+            <RadzenDataGridColumn TItem="TimesheetModel" Property="PersonName" Title="@_localizer["Name"]" Width="150px" Resizable="false" Frozen="true" Filterable="false" />
+            <RadzenDataGridColumn TItem="TimesheetModel" Property="Year" Title="@_localizer["Year"]" Width="90px" Resizable="false" Filterable="false" />
+            <RadzenDataGridColumn TItem="TimesheetModel" Property="Month" Title="@_localizer["Month"]" Width="90px" Resizable="false" Filterable="false" />
+            <RadzenDataGridColumn TItem="TimesheetModel" Property="ApprovalStatus" Title="@_localizer["StatusTable"]" Resizable="false" Filterable="false" FormatString="{0:d}" Width="110px" />
+            <RadzenDataGridColumn TItem="TimesheetModel" Property="DateOfSubmission" Title="@_localizer["SubmissionDateTable"]" Resizable="false" Filterable="false" FormatString="{0:d}" Width="130px" />
+            <RadzenDataGridColumn TItem="TimesheetModel" Property="DateOfApproval" Title="@_localizer["ApprovalDateTable"]" Resizable="false" Filterable="false" FormatString="{0:d}" Width="130px" />
+        </Columns>
+    </RadzenDataGrid>
+
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Authors>Main Hub</Authors>
+        <PackageIcon>icon.64.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryBranch>main</RepositoryBranch>
+		<RootNamespace>MainHub.Internal.PeopleAndCulture</RootNamespace>
+	</PropertyGroup>
+</Project>

@@ -1,0 +1,38 @@
+﻿@attribute [Authorize(Policy = "Supervisor")]
+
+@if (FormPicker == 2)
+{
+    <RadzenCard Class="rz-my-12 rz-mx-auto" Style="max-width: 420px; height:550px;">
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
+            <RadzenText TextStyle="TextStyle.H6" class="rz-color-on-primary-light" Style="width:300px;"><strong>Personal Information</strong> 
+            </RadzenText>
+            <RadzenStack Gap="0">
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Name</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@(ContactArgs.Data.Name)</b></RadzenText>
+                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">Email</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1"><b>@(ContactArgs.Data.Email)</b></RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+        <RadzenCard class="rz-background-color-primary-light rz-shadow-0 rz-border-radius-0 rz-p-8" style="margin: 1rem calc(-1 * var(--rz-card-padding));">
+            <RadzenText TextStyle="TextStyle.H6" class="rz-color-on-primary-light"><strong>Contact Information</strong></RadzenText>
+            <RadzenRow RowGap="0">
+                <RadzenColumn SizeSM="4">
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Phone Number</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(ContactArgs.Data.PhoneNumber)</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Department</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(ContactArgs.Data.Department)</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-on-primary-light rz-display-flex rz-mt-4 rz-mb-0">Role</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" class="rz-color-on-primary-light"><b>@(ContactArgs.Data.Role)</b></RadzenText>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0">
+            <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" Text="Cancel" Click="() => Cancel()" />
+            <RadzenButton Variant="Variant.Text" Text="Delete" />
+        </RadzenStack>
+    </RadzenCard>
+}
+
+@code {
+
+}

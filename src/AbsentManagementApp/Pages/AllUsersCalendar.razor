@@ -1,0 +1,47 @@
+﻿@page "/alluserscalendar"
+@using MainHub.Internal.PeopleAndCulture.App.Models;
+@using PeopleAndCulture.App.Repository
+@using Common;
+@using System.Globalization
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+
+@attribute [Authorize(Roles = "SkillHub.Supervisor")]
+<PageTitle>@localizer["AllUsersCalendar"]</PageTitle>
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-4 text-center">
+            <img src="assets/img/mainhub__logo_yellow_grey_trans.png" alt="MainHub logo" class="img-fluid" />
+            <p class="loading-text">@localizer["Loading..."]</p>
+        </div>
+        <div class="col-6 text-center">
+            <img src="assets/img/loadingMan.gif" class="img-fluid" style="border: none;" />
+        </div>
+    </div>
+}
+else
+{
+    <RadzenRow style="display: flex; align-items: center;">
+        <RadzenBreadCrumb>
+            <RadzenBreadCrumbItem Path="/admindashboard" Text="@localizer["AdminDashboard"]" />
+            <RadzenBreadCrumbItem Path="/alluserscalendar" Text="@localizer["AllUsersCalendar"]" />
+        </RadzenBreadCrumb>
+        <RadzenIcon Icon="help_outline" class="text-dark" Text="?" ButtonStyle="ButtonStyle.Light" MouseEnter="(args => ShowHelpTooltip(args,new TooltipOptions(){ Duration = 6500 }) ) " />
+    </RadzenRow>
+    <RadzenScheduler @ref=@_scheduler SlotRender=@OnSlotRender Style="height: calc(100vh - 200px);z-index:0 !important; position: relative " TItem="AbsenceModel"
+    Data=@_absences.absences StartProperty="AbsenceStart" EndProperty="AbsenceEnd"
+                 TextProperty="PersonName" SelectedIndex="3" LoadData="@LoadData"
+                  AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender Culture=@_culture>
+        <RadzenWeekView />
+        <RadzenMonthView />
+        <RadzenYearTimelineView />
+        <RadzenYearPlannerView />
+        <div class="d-flex justify-content-end">
+            <span class="info-text me-2">@localizer["ClickDetails"]</span>
+            <span> 🟢@localizer["Approved"] </span>
+        </div>
+    </RadzenScheduler>
+}

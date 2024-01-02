@@ -1,0 +1,65 @@
+﻿@page "/ShowPartnerData"
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Shared.Private;
+@using Radzen.Blazor
+@using Radzen;
+@using Radzen.Blazor.Rendering;
+@using global::PartnerManagement.App.Models;
+@using MainHub.Internal.PeopleAndCulture.PartnerManagement.Resources;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Resource> Localization
+@layout PrivateLayout
+@attribute [Authorize(Policy = "Supervisor")]
+@if (IsLoading)
+{
+    <p>@Localization["LoadingPartner"]</p>
+    <div class="rz-m-12">
+        <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    </div>
+}
+else
+{
+    <h8>
+        <a href="ShowPartnerData" style="color:#6e40d2;font-size:14px" @onclick="RedirectToPartners">@Localization["PartnersList"]</a>
+    </h8>
+
+    <RadzenRow Style="margin-top:3%">
+        <RadzenIcon Icon="help_outline" Style="padding-top:1%;" MouseEnter="@(args => ShowTooltip(args) )" />
+        <RadzenTextBox Style="width:350px;" Placeholder="@Localization["PartnersListSearch"]" @bind-Value="FilterSearch" class="w-35" />
+
+        @if (IsSearching)
+        {
+            <RadzenButton Variant="Variant.Text" Text="❌" class="rz-text-secondary-color" Click="ClearSearch" MouseEnter="@(args => ShowTooltip3(args) )"></RadzenButton>
+        }
+        else
+        {
+            <RadzenButton Variant="Variant.Text" Text="🔍" class="rz-text-secondary-color" Click="Search" MouseEnter="@(args => ShowTooltip2(args) )"></RadzenButton>
+        }
+        <RadzenButton Variant="Variant.Text" class="rz-text-secondary-color" MouseEnter="@(args => ShowTooltip4(args) )" Style="padding-top:1%;justify-content:right;" Click="@(args => RedirectToCreatePartners())"><i class="fa-solid fa-user-plus"></i></RadzenButton>
+    </RadzenRow>
+    <RadzenDataGrid 
+       AllowPaging="true"
+       LoadData="@LoadData"
+       AllowFiltering="false" 
+       AllowColumnResize="true" 
+       AllowAlternatingRows="false" 
+       FilterMode="FilterMode.SimpleWithMenu"
+       AllowSorting="false" 
+       PagerHorizontalAlign="HorizontalAlign.Justify" 
+       ShowPagingSummary="true"
+       Data="@_partnerModel_Data.partners"
+       TItem="PartnerModel"
+       ColumnWidth="300px"
+       LogicalFilterOperator="LogicalFilterOperator.Or"
+       Count=@Count
+       PageSize=@_partnerApiPagination.PageSize
+       IsLoading="@IsLoading"
+       RowDoubleClick="(args) => RedirectToDialogCardPage(args.Data.PartnerGUID)"
+       Style="margin-top:1.5%;">
+        <Columns>
+            <RadzenDataGridColumn TItem="PartnerModel" Property="Name" Title="@Localization["PartnersListName"]" Width="140px" Frozen="true" Filterable="false"  />
+            <RadzenDataGridColumn TItem="PartnerModel" Property="Country" Title="@Localization["PartnersListCountry"]" Width="100px" Frozen="true" Filterable="false"/>
+            <RadzenDataGridColumn TItem="PartnerModel" Property="Address" Title="@Localization["PartnersListAddress"]" Width="150px" Frozen="true" Filterable="false" />
+            <RadzenDataGridColumn TItem="PartnerModel" Property="ServiceDescription" Title="@Localization["PartnersListServiceDescription"]" Width="220px" Frozen="true" Filterable="false" />
+        </Columns>
+    </RadzenDataGrid>
+}

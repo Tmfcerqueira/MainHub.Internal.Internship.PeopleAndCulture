@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TimesheetManagement.Api.Proxy.Client" Version="1.0.0-20230630.2" />
+    <PackageReference Include="bunit" Version="1.18.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.16" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="Shouldly" Version="4.1.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Common\Common.csproj" />
+    <ProjectReference Include="..\..\src\TimesheetManagement.DataBase\TimesheetManagement.DataBase.csproj" />
+    <ProjectReference Include="..\..\src\TimesheetManagement.Repository.Models\TimesheetManagement.Repository.Models.csproj" />
+    <ProjectReference Include="..\..\src\TimesheetManagement.Repository\TimesheetManagement.Repository.csproj" />
+    <ProjectReference Include="..\..\src\TimesheetManagementApi.Models\TimesheetManagementApi.Models.csproj" />
+    <ProjectReference Include="..\..\src\TimesheetManagementApi\TimesheetManagementApi.WebApi\TimesheetManagementApi.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\TimesheetManagementApp\TimesheetManagementApp.csproj" />
+  </ItemGroup>
+
+</Project>

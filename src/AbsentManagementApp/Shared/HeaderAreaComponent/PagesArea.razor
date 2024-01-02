@@ -1,0 +1,77 @@
+﻿@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<AbsentManagement.Resources.Resource> localizer
+
+
+<div style="height:100%" id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-solid fa-male"></i></div>
+                    &nbsp Absence+ &nbsp
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <AuthorizeView Roles="SkillHub.Supervisor">
+                            <Authorized>
+                                <div class="nav-item px-3">
+                                    <h6>@localizer["AdminMenu"]</h6>
+                                </div>
+
+                               
+                                    <NavLink class="nav-link" href="admindashboard">
+                                    <span aria-hidden="true"><i class="fa-solid fa-screwdriver-wrench me-1"></i></span>@localizer["AdminBoard"]
+                                    </NavLink>
+                               
+                                
+                                    <NavLink class="nav-link" href="alluserscalendar">
+                                    <span aria-hidden="true"><i class="fa-regular fa-calendar me-1"></i> </span> @localizer["GlobalCalendar"]
+                                    </NavLink>
+                                
+                               
+                                    <NavLink class="nav-link" href="approval">
+                                    <span aria-hidden="true"><i class="fa-solid fa-square-check me-1"></i> </span> @localizer["Approval"]
+                                    </NavLink>
+                                
+
+
+                                    <NavLink class="nav-link" href="people">
+                                    <span aria-hidden="true"><i class="fa-solid fa-person me-1"></i> </span> @localizer["People"]
+                                    </NavLink>
+                               
+                                <div class="nav-item px-3 mt-1">
+                                    <h6>@localizer["UserMenu"]</h6>
+                                </div>
+                            </Authorized>
+                        </AuthorizeView>
+
+
+                        <AuthorizeView Roles="SkillHub.User">
+                            <Authorized>
+                                    <NavLink class="nav-link" href="dashboard">
+                                    <span aria-hidden="true"><i class="fa-solid fa-screwdriver-wrench me-1"></i></span> @localizer["DashBoard"]
+                                    </NavLink>
+                                
+
+                                    <NavLink class="nav-link" href="calendar">
+                                    <span aria-hidden="true"><i class="fa-regular fa-calendar me-1"></i> </span> @localizer["MyCalendar"]
+                                    </NavLink>
+                                
+
+                                    <NavLink class="nav-link" href="request">
+                                    <span aria-hidden="true"><i class="fa-solid fa-plus fa-beat me-1"></i> </span> @localizer["Request"]
+                                    </NavLink>
+                                
+
+                                    <NavLink class="nav-link" href="absences">
+                                    <span aria-hidden="true"><i class="fa-solid fa-list-ul me-1"></i> </span> @localizer["MyAbsencesList"]
+                                    </NavLink>
+                            </Authorized>
+                        </AuthorizeView>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

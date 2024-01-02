@@ -1,0 +1,47 @@
+﻿@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Components.HeaderComponent;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Components.SideBarComponent;
+@using MainHub.Internal.PeopleAndCulture.TimesheetManagement.Components.FooterComponent;
+@using Radzen;
+@using Radzen.Blazor;
+@inherits LayoutComponentBase
+
+<AuthorizeView Roles="SkillHub.User, SkillHub.Supervisor">
+    <Authorized>
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark text-white">
+    <!-- Sidebar Toggle-->
+    <SideBarToggleArea />
+	<!-- Navbar Brand-->
+	<NavBarBrand />
+            <div class="d-none d-md-inline-block ms-auto me-0 me-md-3 my-2 my-md-0" />
+	<!--Profile Area-->
+	<ProfileArea />
+	<!-- Navbar-->
+</nav>
+<RadzenDialog />
+<div id="layoutSidenav">
+	<div id="layoutSidenav_nav">
+		<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+			<div class="sb-sidenav-menu">
+				<div class="nav">
+					<SideBar />
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div id="layoutSidenav_content">
+		<main>
+			<article class="content px-4">
+				@Body
+                    <div class="d-flex justify-content-center">
+                        <RadzenTooltip />
+                    </div>
+			</article>
+		</main>
+        <Footer/>
+	</div>
+</div>
+</Authorized>
+    <NotAuthorized>
+        <Restricted/>
+    </NotAuthorized>
+</AuthorizeView>

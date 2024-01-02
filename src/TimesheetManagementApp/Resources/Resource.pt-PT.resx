@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Acesso Negado</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Ação</value>
+  </data>
+  <data name="ActionBy" xml:space="preserve">
+    <value>Ação por</value>
+  </data>
+  <data name="ActionDate" xml:space="preserve">
+    <value>Data de Ação</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Activities" xml:space="preserve">
+    <value>Atividades</value>
+  </data>
+  <data name="ActivitiesAdded" xml:space="preserve">
+    <value>Atividades da folha de horas adicionadas com sucesso!</value>
+  </data>
+  <data name="ActivitiesUpdated" xml:space="preserve">
+    <value>Atividades da folha de horas atualizadas com sucesso!</value>
+  </data>
+  <data name="AddActivity" xml:space="preserve">
+    <value>Adicionar atividade</value>
+  </data>
+  <data name="AdminDashboard" xml:space="preserve">
+    <value>Painel de Administrador</value>
+  </data>
+  <data name="AdminMenu" xml:space="preserve">
+    <value>Menu de Administrador</value>
+  </data>
+  <data name="AllTimesheets" xml:space="preserve">
+    <value>Todas as folhas de horas</value>
+  </data>
+  <data name="Approval" xml:space="preserve">
+    <value>Aprovação</value>
+  </data>
+  <data name="ApprovalDate" xml:space="preserve">
+    <value>Data de Aprovação:</value>
+  </data>
+  <data name="ApprovalDateTable" xml:space="preserve">
+    <value>Data de Aprovação</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Aprovar</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approvadas</value>
+  </data>
+  <data name="ApprovedTimesheets" xml:space="preserve">
+    <value>Folhas de horas aprovadas</value>
+  </data>
+  <data name="ApproveTimesheet" xml:space="preserve">
+    <value>Aprovar folha de horas</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Tem a certeza?</value>
+  </data>
+  <data name="ChangeAccount" xml:space="preserve">
+    <value>Alterar Conta</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="CreateActivities" xml:space="preserve">
+    <value>Criar Atividades</value>
+  </data>
+  <data name="CreateTimesheet" xml:space="preserve">
+    <value>Criar Folha de horas</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Painel</value>
+  </data>
+  <data name="DayHours" xml:space="preserve">
+    <value>As horas de um dia devem ser entre 0 e 24.</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>Faça duplo clique numa folha de horas para ver detalhes</value>
+  </data>
+  <data name="Drafts" xml:space="preserve">
+    <value>Rascunhos</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="ErrorApprovingTimesheet" xml:space="preserve">
+    <value>Houve um erro ao aprovar a folha de horas!</value>
+  </data>
+  <data name="ErrorRejectingTimesheet" xml:space="preserve">
+    <value>Houve um erro ao rejeitar a folha de horas!</value>
+  </data>
+  <data name="ErrorSubmittingTimesheet" xml:space="preserve">
+    <value>Houve um erro ao submeter a folha de horas!</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>🕝 Histórico</value>
+  </data>
+  <data name="InvalidRequest" xml:space="preserve">
+    <value>O pedido foi inválido</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mês</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NoActivities" xml:space="preserve">
+    <value>Ainda não existem atividades nesta folha de horas</value>
+  </data>
+  <data name="NoActivitiesData" xml:space="preserve">
+    <value>Sem dados das atividades</value>
+  </data>
+  <data name="NoApprovalAction" xml:space="preserve">
+    <value>Data de Aprovação/Rejeição: Sem ações ainda</value>
+  </data>
+  <data name="NoContentAccess" xml:space="preserve">
+    <value>Não tens acesso a este conteúdo.</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>Dados não encontrados</value>
+  </data>
+  <data name="NoRecentActions" xml:space="preserve">
+    <value>Sem ações recentes</value>
+  </data>
+  <data name="NotAuthorizedResource" xml:space="preserve">
+    <value>Não estás autorizado para aceder a este recurso</value>
+  </data>
+  <data name="NoTimesheetData" xml:space="preserve">
+    <value>Sem dados da folha de horas</value>
+  </data>
+  <data name="NoTimesheets" xml:space="preserve">
+    <value>Ainda não tens folhas de horas.</value>
+  </data>
+  <data name="PossiblyNoDrafts" xml:space="preserve">
+    <value>Possivelmente não existem rascunhos. Por favor tenta adicionar alguns</value>
+  </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>Apoiado por</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="ProfileInformation" xml:space="preserve">
+    <value>Informação de perfil</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Rejeitar</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejeitadas</value>
+  </data>
+  <data name="RejectTimesheet" xml:space="preserve">
+    <value>Rejeitar folha de horas</value>
+  </data>
+  <data name="SelectActivities" xml:space="preserve">
+    <value>Por favor seleciona um Projecto, uma Atividade, um Tipo, e pelo menos um dia.</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Estado:</value>
+  </data>
+  <data name="StatusTable" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="SubmissionDate" xml:space="preserve">
+    <value>Data de submissão:</value>
+  </data>
+  <data name="SubmissionDateTable" xml:space="preserve">
+    <value>Data de Submissão</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submeter</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Submetidas</value>
+  </data>
+  <data name="SubmittedTimesheets" xml:space="preserve">
+    <value>Folhas de horas submetidas</value>
+  </data>
+  <data name="SubmitTheTimesheet" xml:space="preserve">
+    <value>Queres submeter a folha de horas?</value>
+  </data>
+  <data name="SubmitTimesheet" xml:space="preserve">
+    <value>Submeter folha de horas</value>
+  </data>
+  <data name="Surname" xml:space="preserve">
+    <value>Apelido:</value>
+  </data>
+  <data name="Timesheet" xml:space="preserve">
+    <value>Folha de horas</value>
+  </data>
+  <data name="TimesheetActivities" xml:space="preserve">
+    <value>Atividades da Folha de horas</value>
+  </data>
+  <data name="TimesheetAlreadyExists" xml:space="preserve">
+    <value>Já existe uma folha de horas para o mês e ano atuais.</value>
+  </data>
+  <data name="TimesheetApproved" xml:space="preserve">
+    <value>Folha de horas aprovada!</value>
+  </data>
+  <data name="TimesheetCreated" xml:space="preserve">
+    <value>A folha de horas foi criada.</value>
+  </data>
+  <data name="TimesheetRejected" xml:space="preserve">
+    <value>Folha de horas rejeitada!</value>
+  </data>
+  <data name="Timesheets" xml:space="preserve">
+    <value>Folhas de horas</value>
+  </data>
+  <data name="TimesheetsList" xml:space="preserve">
+    <value>Lista de Folhas de Horas</value>
+  </data>
+  <data name="TimesheetSubmitted" xml:space="preserve">
+    <value>Folha de horas submetida!</value>
+  </data>
+  <data name="ToolTip" xml:space="preserve">
+    <value>Faça duplo clique numa folha de horas para detalhes</value>
+  </data>
+  <data name="UpdateActivities" xml:space="preserve">
+    <value>Atualizar Atividades</value>
+  </data>
+  <data name="UserGuid" xml:space="preserve">
+    <value>Guid de utilizador:</value>
+  </data>
+  <data name="UserMenu" xml:space="preserve">
+    <value>Menu de utilizador</value>
+  </data>
+  <data name="UserPrincipalName" xml:space="preserve">
+    <value>Nome principal do utilizador:</value>
+  </data>
+  <data name="UserProfile" xml:space="preserve">
+    <value>Perfil de utilizador</value>
+  </data>
+  <data name="ViewHistory" xml:space="preserve">
+    <value>Ver Histórico</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+</root>

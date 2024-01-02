@@ -1,0 +1,14 @@
+﻿@inject IStringLocalizer<Resource> Loc
+
+<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="text-center">
+        <h3>@Loc["AccessDenied"]</h3>
+        <p>@Loc["AccessDeniedText"]</p>
+        <form action="MicrosoftIdentity/Account/SignOut">
+            <div class="mb-3">
+                <button type="submit" id="let_sign_out_submit" class="btn btn-primary">@Loc["AccessDeniedButton"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+

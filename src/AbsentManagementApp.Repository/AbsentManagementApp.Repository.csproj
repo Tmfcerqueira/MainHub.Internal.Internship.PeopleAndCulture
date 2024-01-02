@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AbsentManagement.Api.Proxy.Client" Version="1.0.0-20230628.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.9.0" />
+    <PackageReference Include="PeopleManagement.Api.Proxy.Client" Version="1.0.0-20230630.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbsentManagementApp.Models\AbsentManagementApp.Models.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\PeopleAppRepoModel\App.Repository.csproj" />
+    <ProjectReference Include="..\PeopleManagemnet.App.Models\App.Models.csproj" />
+  </ItemGroup>
+
+</Project>
