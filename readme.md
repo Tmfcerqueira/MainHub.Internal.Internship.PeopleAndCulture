@@ -21,7 +21,7 @@ It's crucial to note that at each stage of communication (e.g., from AppReposito
 
 ### Main Hub - Innovation, Incubation & Development, lda
 
-Main Hub is a Portuguese IT services and consulting company with over 9 years of experience. Specializing in Cloud Computing, Internet of Things, Big Data, and Machine Learning, they provide custom and high-quality solutions in development, outsourcing, and training. Main Hub also acts as an incubator for small businesses, assisting them in expanding their operations.
+Main Hub is a Portuguese IT services and consulting company with over 10 years of experience. Specializing in Cloud Computing, Internet of Things, Big Data, and Machine Learning, they provide custom and high-quality solutions in development, outsourcing, and training. Main Hub also acts as an incubator for small businesses, assisting them in expanding their operations.
 
 ## Development Team
 
